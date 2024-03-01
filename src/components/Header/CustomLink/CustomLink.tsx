@@ -24,7 +24,7 @@ interface Props {
     children: ReactNode;
 }
 
-export const Castomlink = ({children, to}: Props) => {
+export const Customlink = ({children, to}: Props) => {
 
     const [theme, setTheme] = useToggleTheme()
 

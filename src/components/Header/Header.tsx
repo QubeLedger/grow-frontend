@@ -1,6 +1,6 @@
 import styled from "styled-components";
 import QubeLogo from '../../assets/svg/QubeLogo.webp'
-import { Castomlink } from "./CastomLink/CastomLink";
+import { Customlink } from "./CustomLink/CustomLink";
 import { ConnectButton } from "../Buttton/ConnectButton/CoonectButton";
 import { DefoultLinkBlock, MobileLinkBlock } from "./VariablesLink/BlockLink";
 import { useMediaQuery } from 'react-responsive'
@@ -56,9 +56,9 @@ export const Header = () => {
             
             <MainHeader headerColor={theme.headerColor}>
                 <HeaderLogoBlock>
-                    <Castomlink to="/">
+                    <Customlink to="/">
                         <HeaderLogoQUBE style={{marginTop: "-5px"}} src={QubeLogo}></HeaderLogoQUBE>
-                    </Castomlink>
+                    </Customlink>
                 </HeaderLogoBlock>
                 <LinkButton></LinkButton>
                     {isDes && <DefoultLinkBlock/>}
