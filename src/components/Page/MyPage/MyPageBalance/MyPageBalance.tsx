@@ -4,7 +4,6 @@ import { TokenFieldBalanceDesktop, TokenFieldBalanceMobile } from "./TokenFieldB
 import { useToggleTheme } from "../../../../hooks/useToggleTheme";
 import { useBalancesStore } from "../../../../hooks/useBalanceStore";
 import { useConnectKeplrWalletStore } from "../../../../hooks/useConnectKeplrWalletStore";
-import { ContainerBlock, ContainerBlockH } from "../../Earn/EarnPage/EarnContainer/EarnContainer";
 
 const BalanceBlock = styled.div`
     width: 100%;
@@ -15,7 +14,7 @@ const BalanceBlock = styled.div`
 const InfoBlock = styled.div`
     display: flex;
     align-items: center;
-    
+    justify-content: space-between;
 `
 
 const AssetsBlock = styled.div`
@@ -38,6 +37,22 @@ const AmountBlock = styled.div`
     @media (max-width: 500px) {
         margin-left: auto;
     }
+`
+
+const ContainerBlock = styled.div`
+    height: 100%;
+    display: flex;
+    margin-left: 20px;
+    margin-right: 20px;
+    padding-bottom: 20px;
+    flex-direction: column;
+    align-items: center;
+`
+
+const ContainerBlockH = styled.div <{TextColor: string}>`
+    width: 100%;
+    text-align: center;
+    color: ${props => props.TextColor};
 `
 
 
@@ -68,8 +83,6 @@ export const MyPageBalance = () => {
     } else {
         BalancesComponent = <><InfoBlock>
             <AssetsBlock> <Text>Assets</Text> </AssetsBlock>
-            {isDes && <PriceBlock> <Text>Price(USQ)</Text> </PriceBlock>}
-            {isMob && <></>}
             <AmountBlock> <Text>Amount</Text> </AmountBlock>
         </InfoBlock>
         {isDes && <TokenFieldBalanceDesktop/>}

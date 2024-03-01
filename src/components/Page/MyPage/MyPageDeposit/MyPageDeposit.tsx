@@ -3,7 +3,6 @@ import { TokenFieldDeposit } from "./TokenFieldDeposit/TokenFieldDeposit";
 import { useMediaQuery } from "react-responsive";
 import { useBalancesStore } from "../../../../hooks/useBalanceStore";
 import { useConnectKeplrWalletStore } from "../../../../hooks/useConnectKeplrWalletStore";
-import { ContainerBlock, ContainerBlockH } from "../../Earn/EarnPage/EarnContainer/EarnContainer";
 import { useToggleTheme } from "../../../../hooks/useToggleTheme";
 
 const DepositBlock = styled.div`
@@ -32,8 +31,20 @@ const PriceBlock = styled.div`
     margin-right: 15px;
 `
 
-const AmountBlock = styled.div`
+const ContainerBlock = styled.div`
+    height: 100%;
+    display: flex;
+    margin-left: 20px;
     margin-right: 20px;
+    padding-bottom: 20px;
+    flex-direction: column;
+    align-items: center;
+`
+
+const ContainerBlockH = styled.div <{TextColor: string}>`
+    width: 100%;
+    text-align: center;
+    color: ${props => props.TextColor};
 `
 
 
