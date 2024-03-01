@@ -19,7 +19,7 @@ const AccrordionImg = styled.svg <{icon: string}>`
     width: 25px;
     height: 25px;
     margin-left: auto;
-    background: url(${props => props.icon});
+    background: url(${props => props.icon}) 0% 0% / contain no-repeat;
 `
 
 const ButtonBlock = styled.div`
