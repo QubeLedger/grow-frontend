@@ -1,7 +1,11 @@
 import styled from "styled-components";
-import { Castomlink } from "../CastomLink/CastomLink";
+import { Customlink } from "../CustomLink/CustomLink";
 import { useAccordionStore } from "../../../hooks/useAccordionStore";
 import { useToggleTheme } from "../../../hooks/useToggleTheme";
+import { useAssetStore } from "../../../hooks/useAssetStore";
+import { UpdateAssets } from "../../../connection/assets";
+import { UpdateParams } from "../../../connection/params";
+import { useParamsStore } from "../../../hooks/useParamsStore";
 
 
 const BlockLink = styled.nav`
@@ -67,19 +71,34 @@ const LinkMobBlock = styled.div`
 
 
 export const DefoultLinkBlock = () => {
+
+    const [_, setAssets] = useAssetStore()
+    const [params, setParams] = useParamsStore()
+
+    let SetAssets = async () => {
+        let assets = await UpdateAssets()
+        setAssets(assets)
+
+        let params = await UpdateParams()
+        setParams(params)
+
+    }
+
+
+
     return(
             <BlockLink>
                 <LinkBlock>
-                    <Castomlink to="/my">My</Castomlink>
+                    <Customlink to="/my">My</Customlink>
+                </LinkBlock>
+                <LinkBlock onClick={SetAssets}>
+                    <Customlink to="/earn">Earn</Customlink>
+                </LinkBlock>
+                <LinkBlock onClick={SetAssets}>
+                    <Customlink to="/borrow">Borrow</Customlink>
                 </LinkBlock>
                 <LinkBlock>
-                    <Castomlink to="/earn">Earn</Castomlink>
-                </LinkBlock>
-                <LinkBlock>
-                    <Castomlink to="/borrow">Borrow</Castomlink>
-                </LinkBlock>
-                <LinkBlock>
-                    <Castomlink to="/liquidation">Liquidation</Castomlink>
+                    <Customlink to="/liquidation">Liquidation</Customlink>
                 </LinkBlock>
             </BlockLink>
     )
@@ -89,22 +108,28 @@ export const MobileLinkBlock = () => {
 
     const [accordion, setAccordion] = useAccordionStore()
     const [theme, setTheme] = useToggleTheme()
+    const [_, setAssets] = useAssetStore()
+
+    let SetAssets = async () => {
+        let assets = await UpdateAssets()
+        setAssets(assets)
+    }
 
     return(
         <LinkMobBlock>
            <NavBlock navBlockBg={theme.navBlockBg} padding={accordion.active == true ? '20px' : '0px'}>
                 <MobBlockLink  height={accordion.height}>
                     <MobLinkBlock style={{marginTop: "-5px"}} modalBgColor={theme.modalBgColor}>
-                        <Castomlink to="/my">My</Castomlink>
+                        <Customlink to="/my">My</Customlink>
+                    </MobLinkBlock>
+                    <MobLinkBlock onClick={SetAssets} modalBgColor={theme.modalBgColor}>
+                        <Customlink to="/earn">Earn</Customlink>
                     </MobLinkBlock>
                     <MobLinkBlock modalBgColor={theme.modalBgColor}>
-                        <Castomlink to="/borrow">Borrow</Castomlink>
+                        <Customlink to="/borrow">Borrow</Customlink>
                     </MobLinkBlock>
                     <MobLinkBlock modalBgColor={theme.modalBgColor}>
-                        <Castomlink to="/earn">Earn</Castomlink>
-                    </MobLinkBlock>
-                    <MobLinkBlock modalBgColor={theme.modalBgColor}>
-                        <Castomlink to="/liquidation">Liquidation</Castomlink>
+                        <Customlink to="/liquidation">Liquidation</Customlink>
                     </MobLinkBlock>
                 </MobBlockLink>
             </NavBlock>

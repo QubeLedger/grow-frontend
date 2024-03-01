@@ -89,7 +89,6 @@ export const MyPageBalance = () => {
         {isMob && <TokenFieldBalanceMobile/>}</>
     }
 
-    console.log(balances)
 
     return(
         <BalanceBlock>

@@ -1,6 +1,6 @@
 import styled from "styled-components";
 import { InfoField } from "./InfoField/InfoField";
-import { USQField } from "./TokenField/TokenField";
+import { VaultField } from "./TokenField/TokenField";
 
 const FieldsBlock = styled.div`
     width: 100%;
@@ -17,7 +17,7 @@ export const EarnFields = () => {
     return(
         <FieldsBlock>
             <InfoField/>
-            <USQField/>
+            <VaultField/>
         </FieldsBlock>
     )
 }

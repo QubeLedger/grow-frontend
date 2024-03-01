@@ -1,6 +1,6 @@
 import styled from "styled-components";
 
-const ARPBlock = styled.div`
+export const ARPBlock = styled.div`
     max-width: 100%;
     height: 100%;
     margin-right: 15px;
@@ -8,7 +8,7 @@ const ARPBlock = styled.div`
     align-items: center;
 `
 
-const ARPText = styled.a`
+export const ARPText = styled.a`
     font-size: 20px;
     font-weight: 700;
     color: #44A884;
