@@ -122,11 +122,11 @@ export const MobileLinkBlock = () => {
                     <MobLinkBlock style={{marginTop: "-5px"}} modalBgColor={theme.modalBgColor}>
                         <Customlink to="/my">My</Customlink>
                     </MobLinkBlock>
-                    <MobLinkBlock modalBgColor={theme.modalBgColor}>
-                        <Customlink to="/borrow">Borrow</Customlink>
-                    </MobLinkBlock>
                     <MobLinkBlock onClick={SetAssets} modalBgColor={theme.modalBgColor}>
                         <Customlink to="/earn">Earn</Customlink>
+                    </MobLinkBlock>
+                    <MobLinkBlock modalBgColor={theme.modalBgColor}>
+                        <Customlink to="/borrow">Borrow</Customlink>
                     </MobLinkBlock>
                     <MobLinkBlock modalBgColor={theme.modalBgColor}>
                         <Customlink to="/liquidation">Liquidation</Customlink>
