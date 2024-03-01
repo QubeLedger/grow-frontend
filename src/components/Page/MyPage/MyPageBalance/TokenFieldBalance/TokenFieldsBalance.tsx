@@ -1,8 +1,4 @@
 import styled from "styled-components";
-import USQLogo from '../../../../../assets/svg/USQLogo.webp'
-import ATOMLogo from '../../../../../assets/svg/AtomLogo.webp'
-import WBTCLogo from '../../../../../assets/svg/WBTCLogo.webp'
-import GUSQLogo from '../../../../../assets/svg/GUSQLogo.webp'
 import { useToggleTheme } from "../../../../../hooks/useToggleTheme";
 import { useBalancesStore } from "../../../../../hooks/useBalanceStore";
 import { TOKEN_INFO } from "../../../../../constants/tokens";
@@ -13,14 +9,6 @@ export interface TokenBalance {
     Amount: number,
     Price: number,
 }
-
-const FieldArrS = styled.div`
-    overflow: auto;
-    overflow-x: visible;
-    height: 400px;
-    scrollbar-color: rgba(87, 187, 242, 1) transparent;
-    scrollbar-width: thin;
-`
 
 const FieldArr = styled.div`
     overflow: visible;
@@ -36,6 +24,7 @@ const FieldBlock = styled.div <{BorderField: string}>`
     border: ${props => props.BorderField};
     display: flex;
     align-items: center;
+    justify-content: space-between;
 `
 
 const TokenImg = styled.img`
@@ -43,20 +32,9 @@ const TokenImg = styled.img`
     margin-left: 15px;
 `
 
-const PriceBlock = styled.div <{TextColor: string}>`
-    margin-left: auto;
-    margin-right: auto;
-    text-align: left;
-    width: 100px;
-    white-space: nowrap;
-    text-align: left;
-    color: ${props => props.TextColor};
-`
-
-const PriceText = styled.a`
-    font-size: 20px;
-    font-weight: 700;
-    text-align: left;
+const TokenNameBlock = styled.div`
+    display: flex;
+    align-items: center;
 `
 
 const TokenName = styled.a <{TextColor: string}>`
@@ -112,11 +90,10 @@ export const TokenFieldBalanceDesktop = () => {
 
     const Balances = temp_balance.map((balance) => 
         <FieldBlock BorderField={theme.BorderField}>
-            <TokenImg src={balance.Logo}></TokenImg>
-            <TokenName TextColor={theme.TextColor}>{balance.Display}</TokenName>
-            <PriceBlock TextColor={theme.TextColor}>
-                <PriceText>{balance.Price} USQ</PriceText>
-            </PriceBlock>
+            <TokenNameBlock>
+                <TokenImg src={balance.Logo}></TokenImg>
+                <TokenName TextColor={theme.TextColor}>{balance.Display}</TokenName>
+            </TokenNameBlock>
             <AmountBlock TextColor={theme.TextColor}>
                 <MainAmountText>{balance.Amount.toFixed(1)} {balance.Display}</MainAmountText>
                 <SecondAmountText>{(balance.Amount * balance.Price).toFixed(1)} USQ</SecondAmountText>

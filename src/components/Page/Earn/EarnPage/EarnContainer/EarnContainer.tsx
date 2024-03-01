@@ -4,7 +4,7 @@ import { EarnSerach } from "../EarnSearch/EarnSearch";
 import { EarnFields } from "../EarnFields/EarnFields";
 import { useToggleTheme } from "../../../../../hooks/useToggleTheme";
 
-export const ContainerBlock = styled.div`
+const ContainerBlock = styled.div`
     width: 500px;
     height: 100%;
     display: flex;
@@ -15,7 +15,7 @@ export const ContainerBlock = styled.div`
     align-items: center;
 `
 
-export const ContainerBlockH = styled.div <{TextColor: string}>`
+const ContainerBlockH = styled.div <{TextColor: string}>`
     width: 100%;
     text-align: center;
     color: ${props => props.TextColor};
