@@ -36,8 +36,8 @@ function App() {
 			<AppPage>
 				<Header />
 				<Routes>
-					<Route path="/deposit" element={<EarnDeposit />} />
-					<Route path="/withdrawal" element={<EarnWithdrawal />} />
+					<Route path="/deposit/:denom" element={<EarnDeposit />} />
+					<Route path="/withdrawal/:denom" element={<EarnWithdrawal />} />
 					<Route path="/" element={<HomePage />} />
 					<Route path="/homepage" element={<HomePage />} />
 					<Route path="/my" element={<MyPage />} />

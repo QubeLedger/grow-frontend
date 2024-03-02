@@ -1,7 +1,9 @@
 import styled from "styled-components";
-import { EarnCastomLink } from "../../EarnCastomLink/EarnCastomLink";
+import { EarnCustomLink } from "../../EarnCustomLink/EarnCustomLink";
 import ArrowEarn from '../../../../../assets/svg/ArrowEarn.webp'
 import { useToggleTheme } from "../../../../../hooks/useToggleTheme";
+import { TOKEN_INFO } from "../../../../../constants";
+import { useParams } from "react-router";
 
 const HeaderBlock = styled.div`
     width: 80%;
@@ -32,16 +34,17 @@ const ArrowLogo = styled.img`
 
 
 export const EarnDepositHeader = () => {
+    let { denom } = useParams()  
 
     const [theme, setTheme] = useToggleTheme()
 
     return(
         <HeaderBlock>
-            <EarnCastomLink to="/earn">
+            <EarnCustomLink to="/earn">
             <ArrowLogo src={ArrowEarn}></ArrowLogo>
                 <ButtonBack>Back</ButtonBack>
-            </EarnCastomLink>
-            <HeaderText TextColor={theme.TextColor}>Deposit USQ</HeaderText>
+            </EarnCustomLink>
+            <HeaderText TextColor={theme.TextColor}>Deposit {denom}</HeaderText>
         </HeaderBlock>
     )
 }

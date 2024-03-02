@@ -2,6 +2,7 @@ import USQLogo from "../assets/svg/USQLogo.webp";
 import ATOMLogo from "../assets/svg/AtomLogo.webp";
 import QubeLogo from "../assets/svg/Qube Logo Circle.webp";
 import WBTCLogo from "../assets/svg/WBTCLogo.webp"
+import USDCLogo from "../assets/svg/USDC Logo.webp"
 
 
 interface TokenInfo {
@@ -32,6 +33,13 @@ export const TOKEN_INFO: TokenInfo[] = [
                 Base: "BTC",
                 Network: "Bitcoin",
                 Logo: WBTCLogo,
+                Decimals: 6
+        },
+        {
+                Denom: "factory/qube1t2ydw7r4asmk74ymuvykjshdzun8dxye0az5wz/uusdc",
+                Base: "USDC",
+                Network: "USDC",
+                Logo: USDCLogo,
                 Decimals: 6
         },
         {

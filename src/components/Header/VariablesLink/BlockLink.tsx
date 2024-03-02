@@ -2,10 +2,6 @@ import styled from "styled-components";
 import { Customlink } from "../CustomLink/CustomLink";
 import { useAccordionStore } from "../../../hooks/useAccordionStore";
 import { useToggleTheme } from "../../../hooks/useToggleTheme";
-import { useAssetStore } from "../../../hooks/useAssetStore";
-import { UpdateAssets } from "../../../connection/assets";
-import { UpdateParams } from "../../../connection/params";
-import { useParamsStore } from "../../../hooks/useParamsStore";
 
 
 const BlockLink = styled.nav`
@@ -71,30 +67,15 @@ const LinkMobBlock = styled.div`
 
 
 export const DefoultLinkBlock = () => {
-
-    const [_, setAssets] = useAssetStore()
-    const [params, setParams] = useParamsStore()
-
-    let SetAssets = async () => {
-        let assets = await UpdateAssets()
-        setAssets(assets)
-
-        let params = await UpdateParams()
-        setParams(params)
-
-    }
-
-
-
     return(
             <BlockLink>
                 <LinkBlock>
                     <Customlink to="/my">My</Customlink>
                 </LinkBlock>
-                <LinkBlock onClick={SetAssets}>
+                <LinkBlock>
                     <Customlink to="/earn">Earn</Customlink>
                 </LinkBlock>
-                <LinkBlock onClick={SetAssets}>
+                <LinkBlock>
                     <Customlink to="/borrow">Borrow</Customlink>
                 </LinkBlock>
                 <LinkBlock>
@@ -108,12 +89,6 @@ export const MobileLinkBlock = () => {
 
     const [accordion, setAccordion] = useAccordionStore()
     const [theme, setTheme] = useToggleTheme()
-    const [_, setAssets] = useAssetStore()
-
-    let SetAssets = async () => {
-        let assets = await UpdateAssets()
-        setAssets(assets)
-    }
 
     return(
         <LinkMobBlock>
@@ -122,7 +97,7 @@ export const MobileLinkBlock = () => {
                     <MobLinkBlock style={{marginTop: "-5px"}} modalBgColor={theme.modalBgColor}>
                         <Customlink to="/my">My</Customlink>
                     </MobLinkBlock>
-                    <MobLinkBlock onClick={SetAssets} modalBgColor={theme.modalBgColor}>
+                    <MobLinkBlock modalBgColor={theme.modalBgColor}>
                         <Customlink to="/earn">Earn</Customlink>
                     </MobLinkBlock>
                     <MobLinkBlock modalBgColor={theme.modalBgColor}>

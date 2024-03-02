@@ -22,7 +22,7 @@ interface Props {
     children: ReactNode;
 }
 
-export const EarnCastomLink = ({children, to}: Props) => {
+export const EarnCustomLink = ({children, to}: Props) => {
 
     const match = useMatch(to)
 

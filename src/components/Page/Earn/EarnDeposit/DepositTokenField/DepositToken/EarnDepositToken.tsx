@@ -1,5 +1,11 @@
 import styled from "styled-components";
 import USQLogo from '../../../../../../assets/svg/USQLogo.webp'
+import { useParams } from "react-router";
+import { useAssetStore } from "../../../../../../hooks/useAssetStore";
+import { Vault } from "../../../EarnPage/EarnFields/TokenField/TokenField";
+import { TOKEN_INFO } from "../../../../../../constants";
+import { useParamsStore } from "../../../../../../hooks/useParamsStore";
+
 
 const TokenBlock = styled.div`
     max-width: 30%;
@@ -26,9 +32,19 @@ const TokenName = styled.a`
 
 
 export const EarnDepositToken = () => {
+    let { denom } = useParams()    
+
+    let temp_logo = ""
+
+    TOKEN_INFO.map((token) => {
+        if(token.Base == denom) {
+            temp_logo = token.Logo
+        }
+    })
+
     return(
         <TokenBlock>
-            <TokenImg src={USQLogo}></TokenImg>
+            <TokenImg src={temp_logo}></TokenImg>
         </TokenBlock>
     )
 }

@@ -1,5 +1,5 @@
 import styled from "styled-components";
-import { CastomButtonlink } from "../../CastomButtonLink/CastomButtonLink";
+import { CastomButtonlink } from "../../CustomButtonLink/CustomButtonLink";
 
 const Button = styled.button`
     width: 175px;

@@ -1,7 +1,6 @@
 import styled from "styled-components";
-import { ARPBlock, ARPText, USQAPR } from "./APR/ARP";
 import { useAccordionEarn } from '../../../../../../hooks/useAccordionEarn';
-import { EarnCastomLink } from "../../../EarnCastomLink/EarnCastomLink";
+import { EarnCustomLink } from "../../../EarnCustomLink/EarnCustomLink";
 import { useToggleTheme } from "../../../../../../hooks/useToggleTheme";
 import { useAssetStore } from "../../../../../../hooks/useAssetStore";
 import { TOKEN_INFO } from "../../../../../../constants";
@@ -124,6 +123,20 @@ const LendProto = styled.div`
     align-items: center;
 `
 
+export const ARPBlock = styled.div`
+    max-width: 100%;
+    height: 100%;
+    margin-right: 15px;
+    display: flex;
+    align-items: center;
+`
+
+export const ARPText = styled.a`
+    font-size: 20px;
+    font-weight: 700;
+    color: #44A884;
+`
+
 export const VaultField = () => {
 
     const [eAccordion, setEAccordion] = useAccordionEarn();
@@ -191,19 +204,19 @@ export const VaultField = () => {
                 <TokensBlock>
                     <TokensImg src={vault.Logo}></TokensImg>
                     <TokensName TextColor={theme.TextColor}>{vault.Display}</TokensName>
-                    {vault.type == "lend" ? <LendProto><TokensProtoText>Lend</TokensProtoText></LendProto> : <></>}
+                    {vault.type == "lend" ? <LendProto><TokensProtoText>Lend</TokensProtoText></LendProto> : <GrowProto><TokensProtoText>Grow</TokensProtoText></GrowProto>}
                 </TokensBlock>
                 <ARPBlock>
                     <ARPText>{vault.apr.toFixed(1)}%</ARPText>
                 </ARPBlock>
             </TokenFieldBlock>
             <ButtonsBlock >
-                <EarnCastomLink to="/deposit">
+                <EarnCustomLink to={`/deposit/${vault.Display}`}>
                     <EarnDepositButton>Deposit</EarnDepositButton>
-                </EarnCastomLink>
-                <EarnCastomLink to="/withdrawal">
+                </EarnCustomLink>
+                <EarnCustomLink to={`/withdrawal/${vault.Display}`}>
                     <EarnWithdrawalButton>Withdrawal</EarnWithdrawalButton>
-                </EarnCastomLink>
+                </EarnCustomLink>
             </ButtonsBlock>
         </AccordionBlock>
     )

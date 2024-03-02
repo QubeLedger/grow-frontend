@@ -3,7 +3,7 @@ import USQLogo from '../../../../../assets/svg/USQLogo.webp'
 import ATOMLogo from '../../../../../assets/svg/AtomLogo.webp'
 import WBTCLogo from '../../../../../assets/svg/WBTCLogo.webp'
 import GUSQLogo from '../../../../../assets/svg/GUSQLogo.webp'
-import { EarnCastomLink } from "../../../Earn/EarnCastomLink/EarnCastomLink";
+import { EarnCustomLink } from "../../../Earn/EarnCustomLink/EarnCustomLink";
 import { useMediaQuery } from "react-responsive";
 import { useToggleTheme } from "../../../../../hooks/useToggleTheme";
 
@@ -109,12 +109,12 @@ export const TokenFieldDeposit = () => {
     });
 
     var button = <ButtonsBlock>
-                    <EarnCastomLink to="/deposit">
+                    <EarnCustomLink to="/deposit">
                         <EarnDepositButton>Deposit</EarnDepositButton>
-                    </EarnCastomLink>
-                    <EarnCastomLink to="/withdrawal">
+                    </EarnCustomLink>
+                    <EarnCustomLink to="/withdrawal">
                         <EarnWithdrawalButton>Withdrawal</EarnWithdrawalButton>
-                    </EarnCastomLink>
+                    </EarnCustomLink>
                 </ButtonsBlock>
 
     return (

@@ -52,7 +52,7 @@ interface ChainConnectInfo {
 
 export const QUBE_TESTNET_INFO: ChainConnectInfo = {
         chainId: "qube-2",
-        chainName: "Qube Testnet",
+        chainName: "Qube Private Testnet",
         rpc: "https://api-rpc.qubedao.com/api",
         rest: "https://api-rest.qubedao.com/api",
         chainSymbolImageUrl: "https://apricot-grubby-booby-751.mypinata.cloud/ipfs/QmfJEqcjheC56qrs9cpW86RaGUW2xsJrB1suGWoZJScbXc",
@@ -91,6 +91,18 @@ export const QUBE_TESTNET_INFO: ChainConnectInfo = {
                         coinMinimalDenom: "ibc/27394FB092D2ECCD56123C74F36E4C1F926001CEADA9CA97EA622B25F41E5EB2",
                         coinDecimals: 6,
                         coinImageUrl: "https://cryptologos.cc/logos/cosmos-atom-logo.png",
+                },
+                {
+                        coinDenom: "BTC",
+                        coinMinimalDenom: "factory/qube1t2ydw7r4asmk74ymuvykjshdzun8dxye0az5wz/wbtc",
+                        coinDecimals: 6,
+                        coinImageUrl: "https://altcoinsbox.com/wp-content/uploads/2023/01/wbtc-wrapped-bitcoin-logo.png",
+                },
+                {
+                        coinDenom: "USDC",
+                        coinMinimalDenom: "factory/qube1t2ydw7r4asmk74ymuvykjshdzun8dxye0az5wz/uusdc",
+                        coinDecimals: 6,
+                        coinImageUrl: "https://altcoinsbox.com/wp-content/uploads/2023/01/usd-coin-usdc-logo.png",
                 },
         ],
         feeCurrencies: [
