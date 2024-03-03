@@ -55,9 +55,12 @@ function App() {
 		}
 
 		async function update() {
-			if (localStorage.getItem('Wallet') != "" || localStorage.getItem('Wallet') !== null) { 
-				let blns = await UpdateBalances(w, balances);
-				setBalances(blns)
+			if (localStorage.getItem('Wallet') != "" ) { 
+				let wallet = JSON.parse(String(localStorage.getItem('Wallet')))
+				if (wallet.wallet !== null) {
+					let blns = await UpdateBalances(w, balances);
+					setBalances(blns)
+				}
 			}	
 		}
 		update()
