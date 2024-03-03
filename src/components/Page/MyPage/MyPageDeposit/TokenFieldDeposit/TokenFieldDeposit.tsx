@@ -1,11 +1,10 @@
 import styled from "styled-components";
-import USQLogo from '../../../../../assets/svg/USQLogo.webp'
-import ATOMLogo from '../../../../../assets/svg/AtomLogo.webp'
-import WBTCLogo from '../../../../../assets/svg/WBTCLogo.webp'
-import GUSQLogo from '../../../../../assets/svg/GUSQLogo.webp'
 import { EarnCustomLink } from "../../../Earn/EarnCustomLink/EarnCustomLink";
 import { useMediaQuery } from "react-responsive";
 import { useToggleTheme } from "../../../../../hooks/useToggleTheme";
+import { useLendStore } from "../../../../../hooks/usePositionStore";
+import { TOKEN_INFO } from "../../../../../constants";
+import { TokenBalance } from "../../MyPageBalance/TokenFieldBalance/TokenFieldsBalance";
 
 const FieldArrS = styled.div`
     overflow: auto;
@@ -99,7 +98,10 @@ const EarnWithdrawalButton = styled.button`
 
 export const TokenFieldDeposit = () => {
 
-    const [theme, setTheme] = useToggleTheme()
+    const [ theme, setTheme ] = useToggleTheme()
+    const [ lend, setLend ] = useLendStore();
+
+    let temp_lend: TokenBalance[] = []
 
     const isDes = useMediaQuery({
         query: "(min-device-width: 570px)",
@@ -108,25 +110,50 @@ export const TokenFieldDeposit = () => {
         query: "(max-device-width: 570px)",
     });
 
-    var button = <ButtonsBlock>
-                    <EarnCustomLink to="/deposit">
-                        <EarnDepositButton>Deposit</EarnDepositButton>
-                    </EarnCustomLink>
-                    <EarnCustomLink to="/withdrawal">
-                        <EarnWithdrawalButton>Withdrawal</EarnWithdrawalButton>
-                    </EarnCustomLink>
-                </ButtonsBlock>
+    let lends
 
-    return (
-        <FieldArr>
+        lend.map((lend) => {
+            TOKEN_INFO.map((token) => {
+                if(lend.amountIn_denom == token.Denom) {
+                    temp_lend.push({
+                        Display: token.Base,
+                        Amount: (Number(lend.amountIn_amount) / 10 ** Number(token.Decimals)),
+                        Logo: token.Logo,
+                        Price: 0
+                    })
+                }
+            })
+        })
+
+        temp_lend.sort(function(a, b) {
+            return b.Amount - a.Amount
+        });
+        
+
+        var button = <ButtonsBlock>
+            <EarnCustomLink to="/deposit">
+                <EarnDepositButton>Deposit</EarnDepositButton>
+            </EarnCustomLink>
+            <EarnCustomLink to="/withdrawal">
+                <EarnWithdrawalButton>Withdrawal</EarnWithdrawalButton>
+            </EarnCustomLink>
+        </ButtonsBlock>
+
+        lends = temp_lend.map((lend) => 
             <FieldBlock BorderField={theme.BorderField}>
-                <TokenImg src={USQLogo}></TokenImg>
-                <TokenName TextColor={theme.TextColor}>USQ</TokenName>
-                {isDes && <PriceBlock TextColor={theme.TextColor} style={{marginRight: "auto"}}> <PriceText>1 USQ</PriceText> </PriceBlock>}
-                {isMob && <PriceBlock TextColor={theme.TextColor} style={{marginRight: "15px"}}> <PriceText>1 USQ</PriceText> </PriceBlock>}
+                <TokenImg src={lend.Logo}></TokenImg>
+                <TokenName TextColor={theme.TextColor}>{lend.Display}</TokenName>
+                {isDes && <PriceBlock TextColor={theme.TextColor} style={{marginRight: "auto"}}> <PriceText>{lend.Amount} {lend.Display}</PriceText> </PriceBlock>}
+                {isMob && <PriceBlock TextColor={theme.TextColor} style={{marginRight: "15px"}}> <PriceText>{lend.Amount} {lend.Display}</PriceText> </PriceBlock>}
                 {isDes && button}
                 {isMob && <></>}
             </FieldBlock>
+        )
+    
+
+    return (
+        <FieldArr>
+            {lends}
         </FieldArr>
     )
 }

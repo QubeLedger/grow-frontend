@@ -39,7 +39,7 @@ const AmountBlock = styled.div`
     }
 `
 
-const ContainerBlock = styled.div`
+export const ContainerBlock = styled.div`
     height: 100%;
     display: flex;
     margin-left: 20px;
@@ -49,7 +49,7 @@ const ContainerBlock = styled.div`
     align-items: center;
 `
 
-const ContainerBlockH = styled.div <{TextColor: string}>`
+export const ContainerBlockH = styled.div <{TextColor: string}>`
     width: 100%;
     text-align: center;
     color: ${props => props.TextColor};

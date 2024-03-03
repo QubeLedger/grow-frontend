@@ -42,7 +42,6 @@ export const ChangeTheme = () => {
             localStorage.setItem('Theme', 'white')
             setTheme(ThemeWhiteState)
         }
-        console.log(theme)
     }
 
     

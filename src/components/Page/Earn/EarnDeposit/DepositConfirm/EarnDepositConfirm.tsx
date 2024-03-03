@@ -4,6 +4,8 @@ import { useWallet } from "../../../../../hooks/useWallet";
 import { useShowWalletModal } from "../../../../../hooks/useShowModal";
 import { Coin, useBalancesStore } from "../../../../../hooks/useBalanceStore";
 import { TOKEN_INFO } from "../../../../../constants";
+import { CreateLend } from "../../../../../functions/lend";
+import { useClient } from "../../../../../hooks/useClient";
 
 const ConfirmButton = styled.button`
     width: 260px;
@@ -54,6 +56,7 @@ export const EarnDepositConfirm = () => {
     const [amtIn, setAmountDepositEarnStore] = useAmountDepositEarnStore()
     const [walletModalStatus, setWalletModalStatus] = useShowWalletModal();
     const [balances, setBalances] = useBalancesStore();
+    const [client, setClient] = useClient();
         
     let Button;
 
@@ -75,7 +78,7 @@ export const EarnDepositConfirm = () => {
             </ButtonBlock>
         } else {
             Button = <ButtonBlock>
-                <ConfirmButton>Confirm</ConfirmButton>
+                <ConfirmButton onClick={() => {CreateLend(amtIn, wallet, client)}}>Confirm</ConfirmButton>
             </ButtonBlock>
         }
     }

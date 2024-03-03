@@ -2,6 +2,10 @@ import styled from "styled-components";
 import { EarnDepositInput } from "./DepositInput/EarnDepositInput";
 import { EarnDepositToken } from "./DepositToken/EarnDepositToken";
 import { useToggleTheme } from "../../../../../hooks/useToggleTheme";
+import { useAmountDepositEarnStore } from "../../../../../hooks/useAmountInStore";
+import { Coin, useBalancesStore } from "../../../../../hooks/useBalanceStore";
+import { TOKEN_INFO } from "../../../../../constants";
+import { useWallet } from "../../../../../hooks/useWallet";
 
 const FieldBlock = styled.div`
     width: 100%;
@@ -39,10 +43,35 @@ const AmountButton = styled.button`
     font-weight: 700;
 `
 
+const getBalance = (balances: Array<Coin>, denom: string) => {
+    let res: string = "0";
+    balances.map((coin) => {
+        if(coin.denom == denom) {
+            res = coin.amt;
+        }
+    })
+    return (Number(res) / 10 ** 6).toFixed(3) == "0.000" ? "0" : (Number(res) / 10 ** 6).toFixed(3)
+}
 
 export const EarnDepositTokenField = () => {
-
+    const [wallet, _ ] = useWallet();
     const [theme, setTheme] = useToggleTheme()
+    const [amtIn, setAmountDepositEarnStore] = useAmountDepositEarnStore()
+    const [balances, setBalances] = useBalancesStore();
+
+    let temp_token = TOKEN_INFO.find((token) => token.Base == amtIn.base )
+    let balance = getBalance(balances, String(temp_token?.Denom))
+
+    const SetMaxValue = async () => {
+        if (wallet.init != false) {
+            setAmountDepositEarnStore(
+                {
+                    amt: balance,
+                    base: amtIn.base,
+                }
+            );
+        }
+    }
 
     return(
         <FieldBlock>
@@ -50,7 +79,7 @@ export const EarnDepositTokenField = () => {
             <TokenBlock BorderField={theme.BorderField}>
                 <EarnDepositToken/>
                 <EarnDepositInput/>
-                <AmountButton>MAX</AmountButton>
+                <AmountButton onClick={SetMaxValue}>MAX</AmountButton>
             </TokenBlock>
         </FieldBlock>
     )

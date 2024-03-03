@@ -4,6 +4,7 @@ import { useMediaQuery } from "react-responsive";
 import { useBalancesStore } from "../../../../hooks/useBalanceStore";
 import { useConnectKeplrWalletStore } from "../../../../hooks/useConnectKeplrWalletStore";
 import { useToggleTheme } from "../../../../hooks/useToggleTheme";
+import { useLendStore } from "../../../../hooks/usePositionStore";
 
 const DepositBlock = styled.div`
     width: 100%;
@@ -59,16 +60,16 @@ export const MyPageDeposit = () => {
         query: "(max-device-width: 570px)",
     });
 
-    const [ balances, setBalances ] = useBalancesStore();
+    const [ lend, setLend ] = useLendStore();
     const [ connectWallet, setConnectWallet ] = useConnectKeplrWalletStore();
 
     let BalancesComponent
 
-    if(!connectWallet.connected || balances.length == 0) {
+    if(!connectWallet.connected || lend.length == 0) {
         BalancesComponent = <ContainerBlock >
             <ContainerBlockH TextColor={theme.TextColor}>
-            <h1 style={{fontSize: "27px"}}>No tokens</h1>
-            <h3 style={{marginTop: "-15px"}}>Looks like you dont have any tokens yet.</h3>
+            <h1 style={{fontSize: "27px"}}>No deposits</h1>
+            <h3 style={{marginTop: "-15px"}}>Looks like you dont have any deposits yet.</h3>
             </ContainerBlockH>
         </ContainerBlock>
     } else {

@@ -14,6 +14,12 @@ import { Wallet, useWallet } from './hooks/useWallet';
 import { useConnectKeplrWalletStore } from './hooks/useConnectKeplrWalletStore';
 import { useBalancesStore } from './hooks/useBalanceStore';
 import { UpdateBalances } from './connection/balances';
+import { useClient } from './hooks/useClient';
+import { InitSigner } from './connection/stargate';
+import { Lend, Loan, useLendStore, useLoanStore, usePositionStore } from './hooks/usePositionStore';
+import { UpdatePosition } from './connection/position';
+import { GetLendById } from './connection/lend';
+import { GetLoanById } from './connection/loan';
 
 
 const AppPage = styled.div`
@@ -28,6 +34,11 @@ function App() {
 	const [theme, setTheme] = useToggleTheme();
 	const [ connectWallet, setConnectWallet ] = useConnectKeplrWalletStore();
 	const [ w, setWallet ] = useWallet();
+	const [ client, setClient ] = useClient();
+	const [ balances, setBalances ] = useBalancesStore();
+	const [ p, setPosition ] = usePositionStore();
+	const [ lend, setLend ] = useLendStore();
+	const [ loan, setLoan ] = useLoanStore()
 
 	useEffect(() => {
 		if (localStorage.getItem('Theme') != "") {
@@ -51,7 +62,45 @@ function App() {
 				setConnectWallet({connected: true})
 			}
 			setWallet(wallet)
+
 		}
+	}, [])
+
+	useEffect(() => {
+		async function update() {
+			if (localStorage.getItem('Wallet') != "" ) { 
+				let wallet = JSON.parse(String(localStorage.getItem('Wallet')))
+				if (wallet.wallet !== null) {
+					let blns = await UpdateBalances(wallet, balances);
+					setBalances(blns)
+
+					let client = await InitSigner();
+					setClient(client)
+
+					let position = await UpdatePosition(wallet.wallet.bech32Address)
+					setPosition(position)
+
+
+					console.log(position)
+
+					let temp_lend: Lend[] = []
+					position.lend_id.map(async(lend_id) => {
+						let lend = await GetLendById(lend_id)
+						temp_lend.push(lend)
+					})
+
+					let temp_loan: Loan[] = []
+					position.loan_id.map(async(loan_id) => {
+						let loan = await GetLoanById(loan_id)
+						temp_loan.push(loan)
+					})
+
+					setLend(temp_lend)
+					setLoan(temp_loan)
+				}
+			}	
+		}
+		update()
 	}, [])
 
 	return (
