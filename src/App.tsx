@@ -31,12 +31,12 @@ function App() {
 	const [ balances, setBalances ] = useBalancesStore();
 
 	useEffect(() => {
+		if (localStorage.getItem('Theme') != "") {
+			setTheme(localStorage.getItem('Theme') == 'white' ? ThemeWhiteState : ThemeBlackState)
+		} else {
+			setTheme(ThemeWhiteState)
+		}
 		async function update() {
-			if (localStorage.getItem('Theme') != "") {
-				setTheme(localStorage.getItem('Theme') == 'white' ? ThemeWhiteState : ThemeBlackState)
-			} else {
-				setTheme(ThemeWhiteState)
-			}
 	
 			if (localStorage.getItem('Wallet') != "" ) { 
 				let wallet = JSON.parse(String(localStorage.getItem('Wallet')))
