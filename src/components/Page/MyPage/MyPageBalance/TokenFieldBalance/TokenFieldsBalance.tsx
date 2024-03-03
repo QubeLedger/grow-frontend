@@ -86,7 +86,11 @@ export const TokenFieldBalanceDesktop = () => {
         })
     })
 
-    temp_balance.sort((a, b) => b.Price - a.Price)
+
+    temp_balance.sort(function(a, b) {
+        return b.Amount - a.Amount
+    });
+
 
     const Balances = temp_balance.map((balance) => 
         <FieldBlock BorderField={theme.BorderField}>
@@ -128,16 +132,13 @@ export const TokenFieldBalanceMobile = () => {
     })
 
     temp_balance.sort(function(a, b) {
-        return b.Price - a.Price
+        return b.Amount - a.Amount
     });
 
     const Balances = temp_balance.map((balance) => 
         <FieldBlock BorderField={theme.BorderField}>
             <TokenImg src={balance.Logo}></TokenImg>
             <TokenName TextColor={theme.TextColor}>{balance.Display}</TokenName>
-            {/*<PriceBlock TextColor={theme.TextColor}>
-                <PriceText>{balance.Price} USQ</PriceText>
-            </PriceBlock>*/}
             <AmountBlock TextColor={theme.TextColor} style={{marginLeft: "auto"}}>
                 <MainAmountText>{balance.Amount.toFixed(1)} {balance.Display}</MainAmountText>
                 <SecondAmountText>{balance.Price.toFixed(1)} USQ</SecondAmountText>

@@ -141,6 +141,8 @@ export const ConnectWallets = () => {
             let wallet = {init: true, wallet: walletKeplr, type: "keplr"};
             setConnectWallet({connected})
             setWallet(wallet)
+
+            localStorage.setItem('Wallet', JSON.stringify(wallet))
             
             let client = await InitSigner();
             setClient(client)
