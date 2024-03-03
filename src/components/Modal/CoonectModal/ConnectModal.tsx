@@ -160,11 +160,14 @@ export const ConnectModal = () => {
             connected: false
         })
         close()
-        localStorage.setItem('Wallet', "")
+        localStorage.setItem('Wallet', JSON.stringify({
+            init: false,
+            wallet: null,
+            type: ""
+        }))
     }
 
-    
-    if(wallet.type == "keplr") {
+    if(wallet?.type == "keplr") {
         walletAddr =  'qube...' + String(wallet.wallet.bech32Address).slice(38,43);
     } 
     

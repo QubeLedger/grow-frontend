@@ -37,15 +37,25 @@ function App() {
 			setTheme(ThemeWhiteState)
 		}
 
-		if (localStorage.getItem('Wallet') != "" ) { 
+		if (!localStorage.hasOwnProperty('Wallet')) {
+			localStorage.setItem('Wallet', JSON.stringify({
+				init: false,
+				wallet: null,
+				type: ""
+			}))
+		} else {
+			//if (localStorage.getItem('Wallet') != "") { 
 			let wallet = JSON.parse(String(localStorage.getItem('Wallet')))
-
-			setConnectWallet({connected: true})
+			if (wallet.wallet === null) {
+				setConnectWallet({connected: false})
+			} else {
+				setConnectWallet({connected: true})
+			}
 			setWallet(wallet)
 		}
 
 		async function update() {
-			if (localStorage.getItem('Wallet') != "" ) { 
+			if (localStorage.getItem('Wallet') != "" || localStorage.getItem('Wallet') !== null) { 
 				let blns = await UpdateBalances(w, balances);
 				setBalances(blns)
 			}	

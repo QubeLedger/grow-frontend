@@ -6,6 +6,6 @@ export interface Wallet {
         type: string;
 }
 
-const defaultState: Wallet = { init: false, wallet: null, type: "" };
+export const defaultStateWallet: Wallet = { init: false, wallet: null, type: "" };
 
-export const [useWallet] = createStore(defaultState);
+export const [useWallet] = createStore(defaultStateWallet);
