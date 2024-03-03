@@ -6,6 +6,9 @@ import { useBalancesStore } from "../../../hooks/useBalanceStore";
 import { useConnectKeplrWalletStore } from "../../../hooks/useConnectKeplrWalletStore";
 import { TokenBalance } from "./MyPageBalance/TokenFieldBalance/TokenFieldsBalance";
 import { TOKEN_INFO } from "../../../constants";
+import { useEffect } from "react";
+import { UpdateBalances } from "../../../connection/balances";
+import { useWallet } from "../../../hooks/useWallet";
 
 const MyPageBlock = styled.div`
     width: 100%;
@@ -71,9 +74,22 @@ const ContainerBlock = styled.div`
 export const MyPage = () => {
 
     const [theme, setTheme] = useToggleTheme()
-
-    const [ balances, setBalances ] = useBalancesStore();
+    const [ wallet, setWallet ] = useWallet();
     const [ connectWallet, setConnectWallet ] = useConnectKeplrWalletStore();
+    const [ balances, setBalances ] = useBalancesStore();
+
+    useEffect(() => {
+        async function update() {
+			if (localStorage.getItem('Wallet') != "" ) { 
+				let wallet = JSON.parse(String(localStorage.getItem('Wallet')))
+				if (wallet.wallet !== null) {
+					let blns = await UpdateBalances(wallet, balances);
+					setBalances(blns)
+				}
+			}	
+		}
+		update()
+    }, [])
 
     let BalancesAmount
 

@@ -28,7 +28,6 @@ function App() {
 	const [theme, setTheme] = useToggleTheme();
 	const [ connectWallet, setConnectWallet ] = useConnectKeplrWalletStore();
 	const [ w, setWallet ] = useWallet();
-	const [ balances, setBalances ] = useBalancesStore();
 
 	useEffect(() => {
 		if (localStorage.getItem('Theme') != "") {
@@ -53,17 +52,6 @@ function App() {
 			}
 			setWallet(wallet)
 		}
-
-		async function update() {
-			if (localStorage.getItem('Wallet') != "" ) { 
-				let wallet = JSON.parse(String(localStorage.getItem('Wallet')))
-				if (wallet.wallet !== null) {
-					let blns = await UpdateBalances(w, balances);
-					setBalances(blns)
-				}
-			}	
-		}
-		update()
 	}, [])
 
 	return (
