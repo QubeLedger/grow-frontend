@@ -160,6 +160,7 @@ export const ConnectModal = () => {
             connected: false
         })
         close()
+        localStorage.setItem('Wallet', "")
     }
 
     
