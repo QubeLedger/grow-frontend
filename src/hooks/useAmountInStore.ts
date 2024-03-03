@@ -3,8 +3,13 @@ import { createStore } from './store';
 
 export interface AmountIn {
         amt: string;
+        base: string;
 }
 
-const defaultState: AmountIn = { amt: "" };
+const defaultState: AmountIn = { 
+        amt: "", 
+        base: ""
+};
 
-export const [useAmountInStore] = createStore(defaultState);
+export const [useAmountDepositEarnStore] = createStore(defaultState);
+export const [useAmountWithdrawalEarnStore] = createStore(defaultState);

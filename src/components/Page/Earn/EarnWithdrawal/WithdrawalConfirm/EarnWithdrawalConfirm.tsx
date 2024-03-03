@@ -1,4 +1,9 @@
 import styled from "styled-components";
+import { Coin, useBalancesStore } from "../../../../../hooks/useBalanceStore";
+import { useWallet } from "../../../../../hooks/useWallet";
+import { useAmountDepositEarnStore, useAmountWithdrawalEarnStore } from "../../../../../hooks/useAmountInStore";
+import { useShowWalletModal } from "../../../../../hooks/useShowModal";
+import { TOKEN_INFO } from "../../../../../constants";
 
 const ConfirmButton = styled.button`
     width: 260px;
@@ -13,6 +18,19 @@ const ConfirmButton = styled.button`
     color: black;
 `
 
+const InsufficientConfirmButton = styled.button`
+    width: 260px;
+    height: 37px;
+    font-size: 17px;
+    font-weight: 700;
+    background: #757575;
+    border: none;
+    margin: 0 auto;
+    border-radius: 12px;
+    cursor: pointer;
+    color: black;
+`
+
 const ButtonBlock = styled.div`
     width: 100%;
     display: flex;
@@ -20,11 +38,49 @@ const ButtonBlock = styled.div`
     margin-top: 35px;
 `
 
+const getBalance = (balances: Array<Coin>, denom: string) => {
+    let res: string = "0";
+    balances.map((coin) => {
+        if(coin.denom == denom) {
+            res = coin.amt;
+        }
+    })
+    return (Number(res) / 10 ** 6).toFixed(3) == "0.000" ? "0" : (Number(res) / 10 ** 6).toFixed(3)
+}
 
 export const EarnWithdrawalConfirm = () => {
+
+    const [wallet, _ ] = useWallet();
+    const [amtIn, setAmountWithdrawalEarnStore] = useAmountWithdrawalEarnStore()
+    const [walletModalStatus, setWalletModalStatus] = useShowWalletModal();
+    const [balances, setBalances] = useBalancesStore();
+        
+    let Button;
+
+    let temp_token = TOKEN_INFO.find((token) => token.Base == amtIn.base )
+    let balance = getBalance(balances, String(temp_token?.Denom))
+
+    if (wallet.init == false) {
+        Button = <ButtonBlock onClick={() => {setWalletModalStatus({b: true})}}>
+                <ConfirmButton>Connect wallet</ConfirmButton>
+            </ButtonBlock>
+    } else {
+        if (amtIn.amt == '' || amtIn.amt == '0') {
+            Button = <ButtonBlock>
+                <ConfirmButton>Enter {amtIn.base} amount</ConfirmButton>
+            </ButtonBlock>
+        } else if (Number(amtIn.amt) > Number(balance)) {
+            Button = <ButtonBlock>
+                <InsufficientConfirmButton>Insufficient {amtIn.base} balance</InsufficientConfirmButton>
+            </ButtonBlock>
+        } else {
+            Button = <ButtonBlock>
+                <ConfirmButton>Confirm</ConfirmButton>
+            </ButtonBlock>
+        }
+    }
+
     return(
-        <ButtonBlock>
-            <ConfirmButton>Confirm</ConfirmButton>
-        </ButtonBlock>
+        <>{Button}</>
     )
 }
