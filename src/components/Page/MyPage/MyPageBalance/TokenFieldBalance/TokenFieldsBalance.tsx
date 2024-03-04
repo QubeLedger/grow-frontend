@@ -64,8 +64,6 @@ const SecondAmountText = styled.a`
     color: rgba(192, 192, 192, 1);
 `
 
-
-
 export const TokenFieldBalanceDesktop = () => {
 
     const [theme, setTheme] = useToggleTheme();
@@ -99,8 +97,8 @@ export const TokenFieldBalanceDesktop = () => {
                 <TokenName TextColor={theme.TextColor}>{balance.Display}</TokenName>
             </TokenNameBlock>
             <AmountBlock TextColor={theme.TextColor}>
-                <MainAmountText>{balance.Amount.toFixed(1)} {balance.Display}</MainAmountText>
-                <SecondAmountText>{(balance.Amount * balance.Price).toFixed(1)} USQ</SecondAmountText>
+                <MainAmountText>{Math.trunc(balance.Amount*100)/100} {balance.Display}</MainAmountText>
+                <SecondAmountText>{Math.trunc((balance.Amount * balance.Price) * 100)/100} USQ</SecondAmountText>
             </AmountBlock>
         </FieldBlock>
     )
@@ -111,6 +109,7 @@ export const TokenFieldBalanceDesktop = () => {
         </FieldArr>
     )
 }
+
 
 export const TokenFieldBalanceMobile = () => {
 
@@ -140,8 +139,8 @@ export const TokenFieldBalanceMobile = () => {
             <TokenImg src={balance.Logo}></TokenImg>
             <TokenName TextColor={theme.TextColor}>{balance.Display}</TokenName>
             <AmountBlock TextColor={theme.TextColor} style={{marginLeft: "auto"}}>
-                <MainAmountText>{balance.Amount.toFixed(1)} {balance.Display}</MainAmountText>
-                <SecondAmountText>{balance.Price.toFixed(1)} USQ</SecondAmountText>
+                <MainAmountText>{Math.trunc(balance.Amount*100)/100}{balance.Display}</MainAmountText>
+                <SecondAmountText>{Math.trunc((balance.Price) * 100)/100} USQ</SecondAmountText>
             </AmountBlock>
         </FieldBlock>
     )

@@ -80,9 +80,6 @@ function App() {
 					let position = await UpdatePosition(wallet.wallet.bech32Address)
 					setPosition(position)
 
-
-					console.log(position)
-
 					let temp_lend: Lend[] = []
 					position.lend_id.map(async(lend_id) => {
 						let lend = await GetLendById(lend_id)

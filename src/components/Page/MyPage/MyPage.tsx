@@ -9,6 +9,10 @@ import { TOKEN_INFO } from "../../../constants";
 import { useEffect } from "react";
 import { UpdateBalances } from "../../../connection/balances";
 import { useWallet } from "../../../hooks/useWallet";
+import { UpdatePosition } from "../../../connection/position";
+import { Lend, Loan, useLendStore, useLoanStore, usePositionStore } from "../../../hooks/usePositionStore";
+import { GetLendById } from "../../../connection/lend";
+import { GetLoanById } from "../../../connection/loan";
 
 const MyPageBlock = styled.div`
     width: 100%;
@@ -77,6 +81,9 @@ export const MyPage = () => {
     const [ wallet, setWallet ] = useWallet();
     const [ connectWallet, setConnectWallet ] = useConnectKeplrWalletStore();
     const [ balances, setBalances ] = useBalancesStore();
+    const [ p, setPosition ] = usePositionStore();
+	const [ lend, setLend ] = useLendStore();
+	const [ loan, setLoan ] = useLoanStore()
 
     useEffect(() => {
         async function update() {
@@ -85,6 +92,24 @@ export const MyPage = () => {
 				if (wallet.wallet !== null) {
 					let blns = await UpdateBalances(wallet, balances);
 					setBalances(blns)
+
+                    let position = await UpdatePosition(wallet.wallet.bech32Address)
+					setPosition(position)
+
+					let temp_lend: Lend[] = []
+					position.lend_id.map(async(lend_id) => {
+						let lend = await GetLendById(lend_id)
+						temp_lend.push(lend)
+					})
+
+					let temp_loan: Loan[] = []
+					position.loan_id.map(async(loan_id) => {
+						let loan = await GetLoanById(loan_id)
+						temp_loan.push(loan)
+					})
+
+					setLend(temp_lend)
+					setLoan(temp_loan)
 				}
 			}	
 		}

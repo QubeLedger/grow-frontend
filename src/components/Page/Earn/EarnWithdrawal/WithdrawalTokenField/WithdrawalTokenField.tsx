@@ -2,6 +2,10 @@ import styled from "styled-components";
 import { EarnWithdrawalInput } from "./WithdrawalInput/EarnWithdrawalInput";
 import { EarnWithdrawalToken } from "./WithdrawalToken/EarnWithdrawalToken";
 import { useToggleTheme } from "../../../../../hooks/useToggleTheme";
+import { TOKEN_INFO } from "../../../../../constants";
+import { useAmountWithdrawalEarnStore } from "../../../../../hooks/useAmountInStore";
+import { useLendStore } from "../../../../../hooks/usePositionStore";
+import { useWallet } from "../../../../../hooks/useWallet";
 
 const FieldBlock = styled.div`
     width: 100%;
@@ -39,10 +43,26 @@ const AmountButton = styled.button`
     font-weight: 700;
 `
 
-
 export const EarnWithdrawalTokenField = () => {
     
-    const [theme, setTheme] = useToggleTheme()
+    const [ theme, setTheme ] = useToggleTheme()
+    const [ amtIn, setAmountWithdrawalEarnStore ] = useAmountWithdrawalEarnStore()
+    const [ lends, setLends ] = useLendStore()
+    const [ wallet, setWallet ] = useWallet();
+
+    let temp_token = TOKEN_INFO.find((token) => token.Base == amtIn.base )
+    let temp_lend = lends.find((lend) => lend.amountIn_denom == temp_token?.Denom)
+
+    const SetMaxValue = async () => {
+        if (wallet.init != false) {
+            setAmountWithdrawalEarnStore(
+                {
+                    amt: (Number(temp_lend?.amountIn_amount) / 10 ** 6).toFixed(3) == "0.000" ? "0" : (Number(temp_lend?.amountIn_amount) / 10 ** 6).toFixed(3),
+                    base: amtIn.base,
+                }
+            );
+        }
+    }
 
     return(
         <FieldBlock>
@@ -50,7 +70,7 @@ export const EarnWithdrawalTokenField = () => {
             <TokenBlock BorderField={theme.BorderField}>
                 <EarnWithdrawalToken/>
                 <EarnWithdrawalInput/>
-                <AmountButton>MAX</AmountButton>
+                <AmountButton onClick={SetMaxValue}>MAX</AmountButton>
             </TokenBlock>
         </FieldBlock>
     )

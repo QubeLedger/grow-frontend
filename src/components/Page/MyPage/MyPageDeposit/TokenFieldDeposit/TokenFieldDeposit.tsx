@@ -112,44 +112,43 @@ export const TokenFieldDeposit = () => {
 
     let lends
 
-        lend.map((lend) => {
-            TOKEN_INFO.map((token) => {
-                if(lend.amountIn_denom == token.Denom) {
-                    temp_lend.push({
-                        Display: token.Base,
-                        Amount: (Number(lend.amountIn_amount) / 10 ** Number(token.Decimals)),
-                        Logo: token.Logo,
-                        Price: 0
-                    })
-                }
-            })
+    lend.map((lend) => {
+        TOKEN_INFO.map((token) => {
+            if(lend.amountIn_denom == token.Denom) {
+                temp_lend.push({
+                    Display: token.Base,
+                    Amount: (Number(lend.amountIn_amount) / 10 ** Number(token.Decimals)),
+                    Logo: token.Logo,
+                    Price: 0
+                })
+            }
         })
+    })
 
-        temp_lend.sort(function(a, b) {
-            return b.Amount - a.Amount
-        });
-        
-
-        var button = <ButtonsBlock>
-            <EarnCustomLink to="/deposit">
-                <EarnDepositButton>Deposit</EarnDepositButton>
-            </EarnCustomLink>
-            <EarnCustomLink to="/withdrawal">
-                <EarnWithdrawalButton>Withdrawal</EarnWithdrawalButton>
-            </EarnCustomLink>
-        </ButtonsBlock>
-
-        lends = temp_lend.map((lend) => 
-            <FieldBlock BorderField={theme.BorderField}>
-                <TokenImg src={lend.Logo}></TokenImg>
-                <TokenName TextColor={theme.TextColor}>{lend.Display}</TokenName>
-                {isDes && <PriceBlock TextColor={theme.TextColor} style={{marginRight: "auto"}}> <PriceText>{lend.Amount} {lend.Display}</PriceText> </PriceBlock>}
-                {isMob && <PriceBlock TextColor={theme.TextColor} style={{marginRight: "15px"}}> <PriceText>{lend.Amount} {lend.Display}</PriceText> </PriceBlock>}
-                {isDes && button}
-                {isMob && <></>}
-            </FieldBlock>
-        )
+    temp_lend.sort(function(a, b) {
+        return b.Amount - a.Amount
+    });
     
+
+    lends = temp_lend.map((lend) => 
+        <FieldBlock BorderField={theme.BorderField}>
+            <TokenImg src={lend.Logo}></TokenImg>
+            <TokenName TextColor={theme.TextColor}>{lend.Display}</TokenName>
+            {isDes && <PriceBlock TextColor={theme.TextColor} style={{marginRight: "auto"}}> <PriceText>{lend.Amount} {lend.Display}</PriceText> </PriceBlock>}
+            {isMob && <PriceBlock TextColor={theme.TextColor} style={{marginRight: "15px"}}> <PriceText>{lend.Amount} {lend.Display}</PriceText> </PriceBlock>}
+            {isDes &&   
+                <ButtonsBlock>
+                    <EarnCustomLink to={`/deposit/${lend.Display}`}>
+                        <EarnDepositButton>Deposit</EarnDepositButton>
+                    </EarnCustomLink>
+                    <EarnCustomLink to={`/withdrawal/${lend.Display}`}>
+                        <EarnWithdrawalButton>Withdrawal</EarnWithdrawalButton>
+                    </EarnCustomLink>
+                </ButtonsBlock>
+            }
+            {isMob && <></>}
+        </FieldBlock>
+    )
 
     return (
         <FieldArr>

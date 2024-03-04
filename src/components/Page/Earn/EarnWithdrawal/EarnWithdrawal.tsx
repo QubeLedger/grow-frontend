@@ -2,6 +2,9 @@ import styled from "styled-components";
 import { EarnWithdrawalContainer } from "./WithdrawalContainer/EarnWithdrawalContainer";
 import { useAccordionStore } from "../../../../hooks/useAccordionStore";
 import { useToggleTheme } from "../../../../hooks/useToggleTheme";
+import { useAmountWithdrawalEarnStore } from "../../../../hooks/useAmountInStore";
+import { useEffect } from "react";
+import { useParams } from "react-router";
 
 const DepositBlock = styled.div <{margin: string}>`
     width: 100%;
@@ -22,6 +25,18 @@ export const EarnWithdrawal = () => {
 
     const [accordion, setAccordion] = useAccordionStore()
     const [theme, setTheme] = useToggleTheme()
+
+    const [amtIn, setAmountWithdrawalEarnStore] = useAmountWithdrawalEarnStore()
+    let { denom } = useParams()  
+
+    useEffect(() => {
+        setAmountWithdrawalEarnStore(
+            {
+                amt: "0",
+                base: String(denom),
+            }
+        );
+    }, [])
 
     return(
         <Block backgroundColor={theme.backgroundColor}>
