@@ -139,7 +139,7 @@ export const TokenFieldBalanceMobile = () => {
             <TokenImg src={balance.Logo}></TokenImg>
             <TokenName TextColor={theme.TextColor}>{balance.Display}</TokenName>
             <AmountBlock TextColor={theme.TextColor} style={{marginLeft: "auto"}}>
-                <MainAmountText>{Math.trunc(balance.Amount*100)/100}{balance.Display}</MainAmountText>
+                <MainAmountText>{Math.trunc(balance.Amount*100)/100} {balance.Display}</MainAmountText>
                 <SecondAmountText>{Math.trunc((balance.Price) * 100)/100} USQ</SecondAmountText>
             </AmountBlock>
         </FieldBlock>
