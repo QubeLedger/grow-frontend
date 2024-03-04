@@ -1,5 +1,5 @@
 import styled from "styled-components";
-import { WontTo } from "./WontTo/WontTo";
+import { WantTo } from "./WantTo/WantTo";
 import { Collateral } from "./Collateral/Collateral";
 
 const Fields = styled.div`
@@ -13,7 +13,7 @@ const Fields = styled.div`
 export const BorrowFields = () => {
     return(
         <Fields>
-            <WontTo></WontTo>
+            <WantTo></WantTo>
             <Collateral></Collateral>
         </Fields>
     ) 

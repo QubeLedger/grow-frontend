@@ -53,11 +53,13 @@ export const EarnWithdrawalTokenField = () => {
     let temp_token = TOKEN_INFO.find((token) => token.Base == amtIn.base )
     let temp_lend = lends.find((lend) => lend.amountIn_denom == temp_token?.Denom)
 
+    let amount = isNaN((Number(temp_lend?.amountIn_amount) / 10 ** 6)) ? 0 : (Number(temp_lend?.amountIn_amount) / 10 ** 6)
+
     const SetMaxValue = async () => {
         if (wallet.init != false) {
             setAmountWithdrawalEarnStore(
                 {
-                    amt: (Number(temp_lend?.amountIn_amount) / 10 ** 6).toFixed(3) == "0.000" ? "0" : (Number(temp_lend?.amountIn_amount) / 10 ** 6).toFixed(3),
+                    amt: amount.toFixed(3) == "0.000" ? "0" : amount.toFixed(3),
                     base: amtIn.base,
                 }
             );

@@ -4,6 +4,9 @@ import { useWallet } from "../../../../../hooks/useWallet";
 import { useAmountDepositEarnStore, useAmountWithdrawalEarnStore } from "../../../../../hooks/useAmountInStore";
 import { useShowWalletModal } from "../../../../../hooks/useShowModal";
 import { TOKEN_INFO } from "../../../../../constants";
+import { WithdrawalLend } from "../../../../../functions/lend";
+import { useClient } from "../../../../../hooks/useClient";
+import { useLendStore } from "../../../../../hooks/usePositionStore";
 
 const ConfirmButton = styled.button`
     width: 260px;
@@ -54,11 +57,13 @@ export const EarnWithdrawalConfirm = () => {
     const [amtIn, setAmountWithdrawalEarnStore] = useAmountWithdrawalEarnStore()
     const [walletModalStatus, setWalletModalStatus] = useShowWalletModal();
     const [balances, setBalances] = useBalancesStore();
-        
-    let Button;
+    const [client, setClient] = useClient();
+    const [ lends, setLends ] = useLendStore()
 
     let temp_token = TOKEN_INFO.find((token) => token.Base == amtIn.base )
-    let balance = getBalance(balances, String(temp_token?.Denom))
+    let temp_lend = lends.find((lend) => lend.amountIn_denom == temp_token?.Denom)
+        
+    let Button;
 
     if (wallet.init == false) {
         Button = <ButtonBlock onClick={() => {setWalletModalStatus({b: true})}}>
@@ -69,13 +74,13 @@ export const EarnWithdrawalConfirm = () => {
             Button = <ButtonBlock>
                 <ConfirmButton>Enter {amtIn.base} amount</ConfirmButton>
             </ButtonBlock>
-        } else if (Number(amtIn.amt) > Number(balance)) {
+        } else if (Number(amtIn.amt) > (Number(temp_lend?.amountIn_amount) / 10**6)) {
             Button = <ButtonBlock>
                 <InsufficientConfirmButton>Insufficient {amtIn.base} balance</InsufficientConfirmButton>
             </ButtonBlock>
         } else {
             Button = <ButtonBlock>
-                <ConfirmButton>Confirm</ConfirmButton>
+                <ConfirmButton onClick={() => {WithdrawalLend(amtIn, wallet, client)}}>Confirm</ConfirmButton>
             </ButtonBlock>
         }
     }

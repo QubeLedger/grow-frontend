@@ -31,17 +31,14 @@ export function MakeCreateLendMsg(amtIn: AmountIn, wallet: Wallet): Msg {
         return msg
 }
 
-export function MakeDeleteLendMsg(): Msg {
-        const [amtIn, _] = useAmountWithdrawalEarnStore()
-        const [wallet, setWallet] = useWallet()
-        
+export function MakeWithdrawalLendMsg(amtIn: AmountIn, wallet: Wallet): Msg {        
         let denom = TOKEN_INFO.find((token) => token.Base == amtIn.base)
 
 
         let Msg: MsgWithdrawalLend = {
-                depositor: wallet.init == true && wallet.type == "keplr"? wallet.wallet.bech32.bech32Address : "",
-                amountIn: amtIn.amt + String(denom),
-                denomOut: String(denom)
+                depositor: wallet.init == true && wallet.type == "keplr"? wallet.wallet.bech32Address : "",
+                amountIn: (Number(amtIn.amt) * 10 ** Number(denom?.Decimals)).toFixed(0) + String(denom?.Denom),
+                denomOut: String(denom?.Denom)
         };
 
         let msg: Msg = {

@@ -140,7 +140,7 @@ const StyledDialogContent = styled(ModalDialogContent) <{modalBgColor: string, m
 `
 
 
-export const ModalWont = () => {
+export const ModalWant = () => {
 
     const [ walletModalStatus, setWalletModalStatus ] = useShowModalFrom();
     const [theme, setTheme] = useToggleTheme()

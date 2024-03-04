@@ -1,6 +1,6 @@
 import styled from "styled-components";
 import { Input } from "../Input/Input";
-import { ModalWont } from "../../../../Modal/BorrowModal/ModalWont/ModalWont";
+import { ModalWant } from "../../../../Modal/BorrowModal/ModalWant/ModalWant";
 import { useToggleTheme } from "../../../../../hooks/useToggleTheme";
 
 const Wont = styled.div`
@@ -31,7 +31,7 @@ const TokenBlock = styled.div`
     align-items: center;
 `
 
-export const WontTo = () => {
+export const WantTo = () => {
     
     const [theme, setTheme] = useToggleTheme()
 
@@ -40,7 +40,7 @@ export const WontTo = () => {
             <TextWont>I wont to borrow</TextWont>
             <FieldWont BorderField={theme.BorderField}>
                 <TokenBlock>
-                    <ModalWont/>
+                    <ModalWant/>
                 </TokenBlock>
                 <Input></Input>
             </FieldWont>
