@@ -7,6 +7,11 @@ import ArrowWhite from '../../../../assets/svg/ArrowWhite.webp'
 import loop from '../../../../assets/svg/loop.svg'
 import { useShowModalTo } from "../../../../hooks/useShowModal";
 import { useToggleTheme } from "../../../../hooks/useToggleTheme";
+import { useLendStore } from "../../../../hooks/usePositionStore";
+import { useAssetStore } from "../../../../hooks/useAssetStore";
+import { BorrowCollateralTokenInfo } from "../ModalWant/ModalWant";
+import { TOKEN_INFO } from "../../../../constants";
+import { useAmountCollateralStore } from "../../../../hooks/useAmountInStore";
 
 const ModalDialogOverlay = animated(DialogOverlay);
 const StyledDialogOvelay = styled(ModalDialogOverlay) `
@@ -229,16 +234,59 @@ const StyledDialogContent = styled(ModalDialogContent) <{modalBgColor: string, m
 export const ModalColl = () => {
 
     const [ walletModalStatus, setWalletModalStatus ] = useShowModalTo();
-    const [theme, setTheme] = useToggleTheme()
+    const [ theme, setTheme] = useToggleTheme()
+    const [ assets, setAssets ] = useAssetStore();
+    const [ lends, setLend] = useLendStore();
+    const [ amountCollateral, setAmountCollateral ] = useAmountCollateralStore();
+
 
     const open = () => {setWalletModalStatus({b: true})};
     const close = () => {setWalletModalStatus({b: false})};
 
+    let temp_tokens_info: BorrowCollateralTokenInfo[] = []
+
+    assets.map((asset) => {
+        TOKEN_INFO.map((token) => {
+            if(asset.denom == token.Denom) {
+                let temp_lend = lends.find((lend) => lend.amountIn_denom == token?.Denom)
+                temp_tokens_info.push({
+                    Display: token.Base,
+                    Logo: token.Logo,
+                    Network: token.Network,
+                    Balance: temp_lend === undefined ? "0" : (temp_lend?.amountIn_amount / 10**6).toFixed(2),
+                    Denom: token.Denom,
+                })
+            }
+        })
+    })
+
+    let tokens = temp_tokens_info.map((token_info) =>  
+        <FirstField ModalHoverColor={theme.ModalHoverColor} TextColor={theme.TextColor} onClick={() => {
+            setAmountCollateral({
+                logo: token_info.Logo,
+                base: token_info.Display,
+                denom: token_info.Denom,
+            })
+            close()
+        }}>
+            <TokenFields TextColor={theme.TextColor}>
+                <FieldButtonImg src={token_info.Logo}></FieldButtonImg>
+                <TokensText >
+                    <TokensTextH3>{token_info.Display}</TokensTextH3>
+                    <TokensTextH5>{token_info.Network}</TokensTextH5>
+                </TokensText>
+                <TokensTextH2Number >{token_info.Balance}</TokensTextH2Number>
+            </TokenFields>
+        </FirstField>
+    )
+
+    let temp_logo = amountCollateral.base == "Select Token" ? <></> : <Logo src={amountCollateral.logo}></Logo>
+
     return (
       <ModalBlock>
         <OpenButton TextColor={theme.TextColor} onClick={open}>
-        <Logo src={QubeLogo}></Logo>
-           QUBE
+        {temp_logo}
+            {amountCollateral.base}          
         <Arrow ArrrowColor={theme.active == true ? ArrowWhite : ArrowBlack}></Arrow>
             </OpenButton>
         <StyledDialogOvelay isOpen={walletModalStatus.b}  onDismiss={close}>
@@ -259,16 +307,7 @@ export const ModalColl = () => {
                         <SearchToken placeholder='Search'></SearchToken>
                     </SearchDiv>
                 </SearchBorder>
-                <FirstField ModalHoverColor={theme.ModalHoverColor} TextColor={theme.TextColor}>
-                        <TokenFields TextColor={theme.TextColor}>
-                            <FieldButtonImg src={QubeLogo}></FieldButtonImg>
-                            <TokensText >
-                                <TokensTextH3>QUBE</TokensTextH3>
-                                <TokensTextH5>Qube testnet</TokensTextH5>
-                            </TokensText>
-                            <TokensTextH2Number >0</TokensTextH2Number>
-                        </TokenFields>
-                    </FirstField>
+                {tokens}
             </StyledDialogContent>
         </StyledDialogOvelay>
       </ModalBlock>

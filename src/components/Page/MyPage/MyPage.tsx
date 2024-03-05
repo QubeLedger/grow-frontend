@@ -147,7 +147,7 @@ export const MyPage = () => {
             <MyPageBlock>
                 <MyPageContainer>
                     <HeaderBlock TextColor={theme.TextColor}>
-                        <h1 style={{ fontSize: "30px", fontWeight: "600" }}>My Page</h1>
+                        <h1 style={{ fontSize: "30px", fontWeight: "600" }}>My Portfolio</h1>
                     </HeaderBlock>
                     <BalanceBlock>
                         <BalanceText TextColor={theme.TextColor}>{BalancesAmount}<BalanceImg src={USQBalance}></BalanceImg>

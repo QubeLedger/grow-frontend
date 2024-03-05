@@ -1,4 +1,5 @@
 import styled from "styled-components";
+import { usePositionStore } from "../../../../hooks/usePositionStore";
 
 const InfoBlock = styled.div`
     margin-top: 50px;
@@ -38,6 +39,11 @@ const BlockInfo = styled.div`
 `
 
 export const BorrowInfo = () => {
+    const [ position, setPosition ] = usePositionStore();
+    //console.log("qLabs: DEBUG: user position: ", position)
+
+    let risk_rate = ((position.borrowedAmountInUSD / position.lendAmountInUSD )* (1 / 60))
+
     return(
         <InfoBlock>
             <BlockInfo>
@@ -45,8 +51,8 @@ export const BorrowInfo = () => {
                 <LTVInfo>0%</LTVInfo>
             </BlockInfo>
             <LTVBlock>
-                <LTV>Max LTV</LTV>
-                <LTVInfo>0%</LTVInfo>
+                <LTV>Risk Rate</LTV>
+                <LTVInfo>{isNaN(risk_rate)? "0.0" : risk_rate.toFixed(1)}%</LTVInfo>
             </LTVBlock>
         </InfoBlock>
     )
