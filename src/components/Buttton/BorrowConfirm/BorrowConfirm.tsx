@@ -94,9 +94,13 @@ export const BorrowConfirm = () => {
                 <ConfirmButton>Connect wallet</ConfirmButton>
             </ButtonBlock>
     } else {
-        if (amtIn.amt == '' || amtIn.amt == '0') {
+        if (borrow_info.base == "Select Token") {
             Button = <ButtonBlock>
-                <ConfirmButton>Enter {borrow_info.base} amount</ConfirmButton>
+                <InsufficientConfirmButton>Select Token</InsufficientConfirmButton>
+            </ButtonBlock>
+        } else if (amtIn.amt == '' || amtIn.amt == '0') {
+            Button = <ButtonBlock>
+                <InsufficientConfirmButton>Enter {borrow_info.base} amount</InsufficientConfirmButton>
             </ButtonBlock>
         } else if (risk_rate > 95) {
             Button = <ButtonBlock>
