@@ -7,6 +7,7 @@ import { useMediaQuery } from 'react-responsive'
 import { LinkButton } from '../Buttton/LinkButton/LinkButton';
 import { ChangeTheme } from "../Buttton/ToggleTheme/ChangeTheme";
 import { useToggleTheme } from "../../hooks/useToggleTheme";
+import { HomePageLinkButton } from "./CustomLink/HomePageLinkButton";
 
 
 const MainHeader = styled.div <{headerColor: string}>`
@@ -29,9 +30,6 @@ const HeaderLogoQUBE = styled.img`
     @media (max-width: 500px) {
         width: 40px;
         height: 40px;
-    }
-    @media (min-width: 950px) {
-        margin-left: 40px;
     }
 `
 
@@ -56,9 +54,9 @@ export const Header = () => {
             
             <MainHeader headerColor={theme.headerColor}>
                 <HeaderLogoBlock>
-                    <Customlink to="/">
+                    <HomePageLinkButton to="/">
                         <HeaderLogoQUBE style={{marginTop: "-5px"}} src={QubeLogo}></HeaderLogoQUBE>
-                    </Customlink>
+                    </HomePageLinkButton>
                 </HeaderLogoBlock>
                 <LinkButton></LinkButton>
                     {isDes && <DefoultLinkBlock/>}
