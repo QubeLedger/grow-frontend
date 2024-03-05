@@ -33,7 +33,7 @@ const PriceBlock = styled.div`
 `
 
 const AmountBlock = styled.div`
-    margin-right: 20px;
+    margin-right: 15px;
     @media (max-width: 500px) {
         margin-left: auto;
     }

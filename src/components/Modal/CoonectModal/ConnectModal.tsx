@@ -2,7 +2,7 @@ import { DialogContent, DialogOverlay } from '@reach/dialog';
 import styled from 'styled-components';
 import KeplrLogo from '../../../assets/svg/Keplr.webp'
 import { animated } from '@react-spring/web';
-import { ConnectWallets } from '../../Wallets/ConnetsWallets/ConnectWallets';
+import { ConnectWallets } from '../../Wallets/ConnectWallets/ConnectWallets';
 import { useConnectKeplrWalletStore } from '../../../hooks/useConnectKeplrWalletStore';
 import { useWallet } from '../../../hooks/useWallet';
 import { useShowWalletModal } from '../../../hooks/useShowModal';

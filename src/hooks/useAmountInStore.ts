@@ -26,5 +26,7 @@ const defaultStateCollateralBorrow: AmountCollateralBorrow = {
 
 export const [useAmountDepositEarnStore] = createStore(defaultState);
 export const [useAmountWithdrawalEarnStore] = createStore(defaultState);
-export const [useAmountBorrowStore] = createStore(defaultStateCollateralBorrow)
-export const [useAmountCollateralStore] = createStore(defaultStateCollateralBorrow)
+export const [useAmountBorrowEarnStore] = createStore(defaultState);
+export const [useAmountCollateralEarnStore] = createStore(defaultState);
+export const [useAmountBorrowInfoStore] = createStore(defaultStateCollateralBorrow)
+export const [useAmountCollateralInfoStore] = createStore(defaultStateCollateralBorrow)

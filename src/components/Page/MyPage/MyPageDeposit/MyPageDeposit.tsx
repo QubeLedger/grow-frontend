@@ -75,8 +75,8 @@ export const MyPageDeposit = () => {
     } else {
         BalancesComponent = <><InfoBlock>
             <AssetsBlock> <Text>Assets</Text> </AssetsBlock>
-            {isMob && <PriceBlock> <Text>Amount(USQ)</Text> </PriceBlock>}
-            {isDes && <PriceBlock> <Text style={{marginLeft: "-27.5em"}}>Amount(USQ)</Text> </PriceBlock>}
+            {isMob && <PriceBlock> <Text>Amount</Text> </PriceBlock>}
+            {isDes && <PriceBlock> <Text style={{marginLeft: "-27.5em"}}>Amount</Text> </PriceBlock>}
         </InfoBlock>
         <TokenFieldDeposit/></>
     }

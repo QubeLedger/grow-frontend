@@ -10,7 +10,7 @@ import { useShowModalFrom } from "../../../../hooks/useShowModal";
 import { useAssetStore } from "../../../../hooks/useAssetStore";
 import { TOKEN_INFO } from "../../../../constants";
 import { useLoanStore } from "../../../../hooks/usePositionStore";
-import { useAmountBorrowStore } from "../../../../hooks/useAmountInStore";
+import { useAmountBorrowInfoStore } from "../../../../hooks/useAmountInStore";
 
 
 export interface BorrowCollateralTokenInfo {
@@ -244,7 +244,7 @@ export const ModalWant = () => {
     const [ theme, setTheme ] = useToggleTheme()
     const [ assets, setAssets ] = useAssetStore();
     const [ loans, setLoans ] = useLoanStore();
-    const [ amountWant, setAmountWant ] = useAmountBorrowStore();
+    const [ amountWant, setAmountWant ] = useAmountBorrowInfoStore();
 
     const open = () => {setWalletModalStatus({b: true})};
     const close = () => {setWalletModalStatus({b: false})};

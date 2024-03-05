@@ -11,7 +11,7 @@ import { useLendStore } from "../../../../hooks/usePositionStore";
 import { useAssetStore } from "../../../../hooks/useAssetStore";
 import { BorrowCollateralTokenInfo } from "../ModalWant/ModalWant";
 import { TOKEN_INFO } from "../../../../constants";
-import { useAmountCollateralStore } from "../../../../hooks/useAmountInStore";
+import { useAmountCollateralInfoStore } from "../../../../hooks/useAmountInStore";
 
 const ModalDialogOverlay = animated(DialogOverlay);
 const StyledDialogOvelay = styled(ModalDialogOverlay) `
@@ -237,7 +237,7 @@ export const ModalColl = () => {
     const [ theme, setTheme] = useToggleTheme()
     const [ assets, setAssets ] = useAssetStore();
     const [ lends, setLend] = useLendStore();
-    const [ amountCollateral, setAmountCollateral ] = useAmountCollateralStore();
+    const [ amountCollateral, setAmountCollateral ] = useAmountCollateralInfoStore();
 
 
     const open = () => {setWalletModalStatus({b: true})};

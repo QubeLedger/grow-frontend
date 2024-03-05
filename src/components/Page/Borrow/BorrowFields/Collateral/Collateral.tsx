@@ -1,7 +1,8 @@
 import styled from "styled-components";
-import { Input } from "../Input/Input";
 import { ModalColl } from "../../../../Modal/BorrowModal/ModalColl.tsx/ModalColl";
 import { useToggleTheme } from "../../../../../hooks/useToggleTheme";
+import { useAmountCollateralEarnStore, useAmountCollateralInfoStore } from "../../../../../hooks/useAmountInStore";
+import { FormEvent } from "react";
 
 const Coll = styled.div`
     width: 90%;
@@ -32,9 +33,45 @@ const TokenBlock = styled.div`
     align-items: center;
 `
 
+const InputBlock = styled.input`
+    width: 50%;
+    outline: none;
+    text-align: right;
+    font-size: 25px;
+    font-weight: 400;
+    color: #969696;
+    border: none;
+    border-radius: 20px;
+    padding-right: 10px;
+    margin-left: auto;
+    background: transparent;
+`
+
+
 export const Collateral = () => {
         
-    const [theme, setTheme] = useToggleTheme()
+    const [ theme, setTheme ] = useToggleTheme()
+    const [ collateral_info, setCollateralInfo ] = useAmountCollateralInfoStore()
+    const [ amtIn, setAmountCollateralEarnStore ] = useAmountCollateralEarnStore()
+
+    const HandleInputAmpunt = (e: FormEvent<HTMLInputElement>) => {
+        if (e.currentTarget.value == undefined) {
+            setAmountCollateralEarnStore(
+                {
+                    amt: "",
+                    base: collateral_info.denom == undefined? "" : collateral_info.denom,
+                }
+            );
+        } else {
+            setAmountCollateralEarnStore(
+                {
+                    amt: e.currentTarget.value,
+                    base: collateral_info.denom == undefined? "" : collateral_info.denom,
+                }
+            );
+        }
+    };
+    
     return(
         <Coll>
             <TextColl>Collateral</TextColl>
@@ -42,7 +79,7 @@ export const Collateral = () => {
                 <TokenBlock>
                     <ModalColl/>
                 </TokenBlock>
-                <Input></Input>
+                <InputBlock placeholder="0" onChange={HandleInputAmpunt} value={amtIn.amt}></InputBlock>  
             </FieldCool>
         </Coll>
     )

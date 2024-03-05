@@ -15,7 +15,7 @@ const FieldArr = styled.div`
 `
 
 const FieldBlock = styled.div <{BorderField: string}>`
-    width: 99%;
+    width: 100%;
     height: 60px;
     border: 2px solid red;
     border-radius: 17px;
