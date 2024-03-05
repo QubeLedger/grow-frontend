@@ -3,19 +3,19 @@ import { Input } from "../Input/Input";
 import { ModalWant } from "../../../../Modal/BorrowModal/ModalWant/ModalWant";
 import { useToggleTheme } from "../../../../../hooks/useToggleTheme";
 
-const Wont = styled.div`
+const Want = styled.div`
     width: 90%;
     height: 60px;
 `
 
-const TextWont = styled.div `
+const TextWant = styled.div `
     font-size: 15px;
     color: #BABABA;
     font-weight: 700;
     margin-bottom: 10px;
 `
 
-const FieldWont = styled.div <{BorderField: string}>`
+const FieldWant = styled.div <{BorderField: string}>`
     width: 100%;
     height: 100%;
     border: ${props => props.BorderField};
@@ -36,14 +36,14 @@ export const WantTo = () => {
     const [theme, setTheme] = useToggleTheme()
 
     return(
-        <Wont>
-            <TextWont>I wont to borrow</TextWont>
-            <FieldWont BorderField={theme.BorderField}>
+        <Want>
+            <TextWant>I want to borrow</TextWant>
+            <FieldWant BorderField={theme.BorderField}>
                 <TokenBlock>
                     <ModalWant/>
                 </TokenBlock>
                 <Input></Input>
-            </FieldWont>
-        </Wont>
+            </FieldWant>
+        </Want>
     )
 }

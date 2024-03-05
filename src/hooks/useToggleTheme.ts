@@ -13,11 +13,13 @@ interface Theme {
   modalBorder: string;
   searchBg: string;
   searchBorder: string;
+  inputBgColor: string;
   inputTextColor: string;
   connectModalContainer: string;
   walletBg: string;
   walletHover: string;
   navBlockBg: string;
+  ModalHoverColor: string;
 }
 
 export const ThemeWhiteState: Theme = { 
@@ -34,10 +36,12 @@ export const ThemeWhiteState: Theme = {
     searchBg: '#FAFAFA',
     searchBorder: '1px solid #e5e5e5',
     inputTextColor: '#333',
+    inputBgColor: '#ecebeb',
     connectModalContainer: '#F5F5F5',
     walletBg: '#D9D9D9',
     walletHover: '#ECECEC',
     navBlockBg: '#ECEBEB',
+    ModalHoverColor: '#ECECEC',
 };
 
 export const ThemeBlackState: Theme = { 
@@ -54,10 +58,12 @@ export const ThemeBlackState: Theme = {
   searchBg: '#222',
   searchBorder: '1px solid #444',
   inputTextColor: '#999',
+  inputBgColor: '#323232',
   connectModalContainer: '#323232',
   walletBg: '#5F5F5F',
   walletHover: '#333333',
   navBlockBg: '#202020',
+  ModalHoverColor: '#333333',
 };
 
 
