@@ -4,6 +4,7 @@ import { animated } from '@react-spring/web';
 import QubeLogo from '../../../../assets/svg/QubeLogo.webp'
 import ArrowBlack from '../../../../assets/svg/ArrowBlack.webp'
 import ArrowWhite from '../../../../assets/svg/ArrowWhite.webp'
+import loop from '../../../../assets/svg/loop.svg'
 import { useShowModalTo } from "../../../../hooks/useShowModal";
 import { useToggleTheme } from "../../../../hooks/useToggleTheme";
 
@@ -94,16 +95,6 @@ const CloseDiv = styled.div`
     font-family: 'Metropolis', sans-serif;
 `
 
-const ContentDiv = styled.div`
-    display: flex;
-    flex-direction: row;
-    align-items: center;
-    height: 100%;
-    @media (max-width: 500px) {
-        flex-direction: column;
-        }
-`
-
 const Arrow = styled.svg <{ArrrowColor: string}>`
     width: 13px;
     height: 13px;
@@ -115,24 +106,118 @@ const Arrow = styled.svg <{ArrrowColor: string}>`
 `
 
 
+const FirstField = styled.div <{ ModalHoverColor: string, TextColor: string }>`
+    width: 100%;
+    height: 60px;
+    color: ${props => props.TextColor};
+    transition: all .3s ease-in-out;
+    cursor: pointer;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    border-radius: 10px;
+    :hover{
+        background: ${props => props.ModalHoverColor};
+        transition: background .2s ease-in-out;
+    }
+`
+
+const TokenFields = styled.button <{ TextColor: string }>`
+    background-color: transparent;
+    border: none;
+    width: 85%;
+    margin-top: 20px;
+    border-radius: 20px;
+    display: flex;
+    flex-direction: row;
+    padding: 0 20px;
+    align-items: center;
+    font-family: 'Metropolis', sans-serif;
+    color: ${props => props.TextColor};
+    cursor: pointer;
+`
+
+const FieldButtonImg = styled.img`
+    width: 45px;
+    border-radius: 50px;
+`
+
+const TokensText = styled.div `
+    margin-left: 10px;
+    display: flex;
+    flex-direction: column;
+    align-items: flex-start;
+`
+
+const TokensTextH3 = styled.h3 `
+    margin-top: 15px;
+`
+
+const TokensTextH2Number = styled.h2 ` 
+    margin-left: auto;
+`
+
+const TokensTextH5 = styled.h5`
+   margin-top: -10px;
+    color: grey;
+`
+
+const SearchDiv = styled.div <{inputBgColor: string, modalBorder: string}>`
+    height: 50px;
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    background-color: ${props => props.inputBgColor};
+    border-radius: 5px;
+    margin-bottom: 10px;
+    border: ${props => props.modalBorder};
+    width: 85%;
+    
+`
+
+const SearchBorder = styled.div <{modalBorder: string}>`
+    border-bottom: ${props => props.modalBorder};
+    width: 100%;
+    display: flex;
+    justify-content: center;
+`
+
+const LoopImg = styled.img`
+    width: 25px;
+    height: 25px;
+    margin-left: 15px;
+`
+
+const SearchToken = styled.input `
+    width: 300px;
+    height: 30px;
+    background-color: transparent;
+    border: none;
+    border-radius: 5px;
+    margin-left: 5px;
+    outline: none;
+    font-size: 16px;
+    color: #5e5e5e;
+    font-weight: 600;
+    font-family: 'Metropolis', sans-serif;
+`
+
+
 const ModalDialogContent = animated(DialogContent);
-const StyledDialogContent = styled(ModalDialogContent) <{modalBgColor: string, modalBorder: string}>`
+const StyledDialogContent = styled(ModalDialogContent) <{modalBgColor: string, modalBorder: string}> `
     &[data-reach-dialog-content] {
         background-color: ${props => props.modalBgColor};
-        width: 400px;
-        height: 500px;
+        width: 380px;
+        height: 600px;
         display: flex;
         flex-direction: column;
-        border-radius: 20px;
+        align-items: center;
+        padding-bottom: 20px;
+        border-radius: 10px;
         border: ${props => props.modalBorder};
-        margin-top: -10px;
-        position: relative;
-        outline: none;
+        margin-top: 70px;
         @media (max-width: 500px) {
             width: 335px;
-            height: 600px;
-            margin-left: 10px;
-            margin-right: 10px;
         }
         @media (max-width: 330px) {
             width: 305px;
@@ -168,7 +253,22 @@ export const ModalColl = () => {
                         </CloseButton>
                     </CloseButtonBlock>
                 </CloseDiv>
-                <ContentDiv></ContentDiv>
+                <SearchBorder modalBorder={theme.modalBorder}>
+                    <SearchDiv inputBgColor={theme.inputBgColor} modalBorder={theme.modalBorder}>
+                        <LoopImg src={loop}></LoopImg>
+                        <SearchToken placeholder='Search'></SearchToken>
+                    </SearchDiv>
+                </SearchBorder>
+                <FirstField ModalHoverColor={theme.ModalHoverColor} TextColor={theme.TextColor}>
+                        <TokenFields TextColor={theme.TextColor}>
+                            <FieldButtonImg src={QubeLogo}></FieldButtonImg>
+                            <TokensText >
+                                <TokensTextH3>QUBE</TokensTextH3>
+                                <TokensTextH5>Qube testnet</TokensTextH5>
+                            </TokensText>
+                            <TokensTextH2Number >0</TokensTextH2Number>
+                        </TokenFields>
+                    </FirstField>
             </StyledDialogContent>
         </StyledDialogOvelay>
       </ModalBlock>
