@@ -130,7 +130,7 @@ const TokenFields = styled.button <{ TextColor: string }>`
     border-radius: 20px;
     display: flex;
     flex-direction: row;
-    padding: 0 20px;
+    padding: 0 10px;
     align-items: center;
     font-family: 'Metropolis', sans-serif;
     color: ${props => props.TextColor};
