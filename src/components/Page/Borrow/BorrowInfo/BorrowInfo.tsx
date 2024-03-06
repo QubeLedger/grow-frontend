@@ -5,6 +5,7 @@ import { useParamsStore } from "../../../../hooks/useParamsStore";
 import { QUBE_TESTNET_INFO, TOKEN_INFO } from "../../../../constants";
 import { useAmountBorrowEarnStore, useAmountBorrowInfoStore } from "../../../../hooks/useAmountInStore";
 import { useState } from "react";
+import { useConnectKeplrWalletStore } from "../../../../hooks/useConnectKeplrWalletStore";
 
 const InfoBlock = styled.div`
     margin-top: 50px;
@@ -57,6 +58,7 @@ export const BorrowInfo = () => {
     const [ borrow_info, setBorrowInfo ] = useAmountBorrowInfoStore()
     const [ amtIn, setAmountBorrowEarnStore ] = useAmountBorrowEarnStore()
     const [ price, setPrice ] = useState(0)
+    const [ connectWallet, setConnectWallet ] = useConnectKeplrWalletStore();
 
     let SetPriceByDenom = async(denom: string) => {
         let temp_price = await GetPriceByDenom(denom)
@@ -111,15 +113,24 @@ export const BorrowInfo = () => {
 
     let color = isNaN(risk_rate) || risk_rate == 0 ? "white" : "#44A884"
     
+    
     return(
         <InfoBlock>
+            <BlockInfo>
+                <InfoText>Total Deposit</InfoText>
+                <LTVInfo Color="white">{!connectWallet.connected ? 0 : (position.lendAmountInUSD / 10**6).toFixed(1)} USQ</LTVInfo>
+            </BlockInfo>
+            <BlockInfo>
+                <InfoText>Total Borrow</InfoText>
+                <LTVInfo Color="white">{connectWallet.connected ? 0 : (position.borrowedAmountInUSD / 10**6).toFixed(0)} USQ</LTVInfo>
+            </BlockInfo>
             <BlockInfo>
                 <InfoText>Borrow Interest Rate</InfoText>
                 <LTVInfo Color="#44A884">{isNaN(temp_apr)? "0.0" : temp_apr.toFixed(1)}%</LTVInfo>
             </BlockInfo>
             <LTVBlock>
                 <LTV>Risk Rate</LTV>
-                <LTVInfo Color={(risk_rate > 95) ? "red" : color}>{isNaN(risk_rate)? "0.0" : risk_rate.toFixed(1)}%</LTVInfo>
+                <LTVInfo Color={(risk_rate > 95) ? "red" : color}>{(isNaN(risk_rate)? "0.0" : risk_rate.toFixed(1)) == "Infinity" ? "999.9" : (isNaN(risk_rate)? "0.0" : risk_rate.toFixed(1))}%</LTVInfo>
             </LTVBlock>
         </InfoBlock>
     )

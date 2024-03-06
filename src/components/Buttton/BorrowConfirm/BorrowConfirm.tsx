@@ -29,6 +29,7 @@ const ConfirmButton = styled.button`
     border-radius: 12px;
     cursor: pointer;
     color: black;
+    margin-top: 20px;
 `
 
 const ButtonBlock = styled.div`

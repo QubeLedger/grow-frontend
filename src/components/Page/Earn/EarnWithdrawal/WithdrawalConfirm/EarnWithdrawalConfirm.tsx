@@ -72,7 +72,7 @@ export const EarnWithdrawalConfirm = () => {
     } else {
         if (amtIn.amt == '' || amtIn.amt == '0') {
             Button = <ButtonBlock>
-                <ConfirmButton>Enter {amtIn.base} amount</ConfirmButton>
+                <InsufficientConfirmButton>Enter {amtIn.base} amount</InsufficientConfirmButton>
             </ButtonBlock>
         } else if (Number(amtIn.amt) > (Number(temp_lend?.amountIn_amount) / 10**6)) {
             Button = <ButtonBlock>

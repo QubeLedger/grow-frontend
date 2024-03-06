@@ -40,7 +40,7 @@ const ButtonBlock = styled.div`
     margin-top: 15px;
 `
 
-const getBalance = (balances: Array<Coin>, denom: string) => {
+export const getBalance = (balances: Array<Coin>, denom: string) => {
     let res: string = "0";
     balances.map((coin) => {
         if(coin.denom == denom) {
@@ -70,7 +70,7 @@ export const EarnDepositConfirm = () => {
     } else {
         if (amtIn.amt == '' || amtIn.amt == '0') {
             Button = <ButtonBlock>
-                <ConfirmButton>Enter {amtIn.base} amount</ConfirmButton>
+                <InsufficientConfirmButton>Enter {amtIn.base} amount</InsufficientConfirmButton>
             </ButtonBlock>
         } else if (Number(amtIn.amt) > Number(balance)) {
             Button = <ButtonBlock>

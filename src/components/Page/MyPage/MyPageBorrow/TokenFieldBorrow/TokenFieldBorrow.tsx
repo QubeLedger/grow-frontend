@@ -6,6 +6,9 @@ import GUSQLogo from '../../../../../assets/svg/GUSQLogo.webp'
 import { EarnCustomLink } from "../../../Earn/EarnCustomLink/EarnCustomLink";
 import { useMediaQuery } from "react-responsive";
 import { useToggleTheme } from "../../../../../hooks/useToggleTheme";
+import { useLoanStore } from "../../../../../hooks/usePositionStore";
+import { TokenBalance } from "../../MyPageBalance/TokenFieldBalance/TokenFieldsBalance";
+import { TOKEN_INFO } from "../../../../../constants";
 
 const FieldArrS = styled.div`
     overflow: auto;
@@ -99,7 +102,10 @@ const EarnWithdrawalButton = styled.button`
 
 export const TokenFieldBorrow = () => {
 
-    const [theme, setTheme] = useToggleTheme()
+    const [ theme, setTheme] = useToggleTheme()
+    const [ loans, setLoan ] = useLoanStore();
+
+    let temp_loan: TokenBalance[] = []
 
     const isDes = useMediaQuery({
         query: "(min-device-width: 570px)",
@@ -108,22 +114,44 @@ export const TokenFieldBorrow = () => {
         query: "(max-device-width: 570px)",
     });
 
+    loans.map((loan) => {
+        TOKEN_INFO.map((token) => {
+            if(loan.amountOut_denom == token.Denom) {
+                temp_loan.push({
+                    Display: token.Base,
+                    Amount: (Number(loan.amountOut_amount) / 10 ** Number(token.Decimals)),
+                    Logo: token.Logo,
+                    Price: 0
+                })
+            }
+        })
+    })
+
+    temp_loan.sort(function(a, b) {
+        return b.Amount - a.Amount
+    });
+
     var button = <ButtonsBlock >
                     <EarnCustomLink to="/borrow">
                         <EarnDepositButton>Manage</EarnDepositButton>
                     </EarnCustomLink>
                 </ButtonsBlock>
 
-    return(
-        <FieldArr>
-            <FieldBlock BorderField={theme.BorderField}>
-            <TokenImg src={USQLogo}></TokenImg>
-            <TokenName TextColor={theme.TextColor}>USQ</TokenName>
-            {isDes && <PriceBlock TextColor={theme.TextColor} style={{marginRight: "auto"}}> <PriceText>1 USQ</PriceText> </PriceBlock>}
-            {isMob && <PriceBlock TextColor={theme.TextColor} style={{marginRight: "15px"}}> <PriceText>1 USQ</PriceText> </PriceBlock>}
+
+    let LoansComponent = temp_loan.map((loan) => 
+        <FieldBlock BorderField={theme.BorderField}>
+            <TokenImg src={loan.Logo}></TokenImg>
+            <TokenName TextColor={theme.TextColor}>{loan.Display}</TokenName>
+            {isDes && <PriceBlock TextColor={theme.TextColor} style={{marginRight: "auto"}}> <PriceText>{loan.Amount} {loan.Display}</PriceText> </PriceBlock>}
+            {isMob && <PriceBlock TextColor={theme.TextColor} style={{marginRight: "15px"}}> <PriceText>{loan.Amount} {loan.Display}</PriceText> </PriceBlock>}
             {isDes && button}
             {isMob && <></>}
-            </FieldBlock>
+        </FieldBlock>
+    ) 
+
+    return(
+        <FieldArr>
+            {LoansComponent}
         </FieldArr>
     )
 }

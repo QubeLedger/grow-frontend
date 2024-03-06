@@ -1,12 +1,14 @@
 import { useState } from "react";
 import styled from "styled-components";
-import { useAmountBorrowEarnStore, useAmountBorrowInfoStore } from "../../../hooks/useAmountInStore";
+import { useAmountBorrowInfoStore, useAmountBorrowRepayEarnStore } from "../../../hooks/useAmountInStore";
 import { QUBE_TESTNET_INFO, TOKEN_INFO } from "../../../constants";
-import { usePositionStore } from "../../../hooks/usePositionStore";
+import { useLoanStore, usePositionStore } from "../../../hooks/usePositionStore";
 import { useWallet } from "../../../hooks/useWallet";
 import { useShowWalletModal } from "../../../hooks/useShowModal";
-import { CreateBorrow } from "../../../functions/borrow";
+import { DeleteBorrow } from "../../../functions/borrow";
 import { useClient } from "../../../hooks/useClient";
+import { useBalancesStore } from "../../../hooks/useBalanceStore";
+import { getBalance } from "../../Page/Earn/EarnDeposit/DepositConfirm/EarnDepositConfirm";
 
 const Button = styled.button`
     width: 250px;
@@ -67,17 +69,23 @@ export const RepayConfirm = () => {
     const [ wallet, _ ] = useWallet();
     const [ position, setPosition ] = usePositionStore();
     const [ borrow_info, setBorrowInfo ] = useAmountBorrowInfoStore()
-    const [ amtIn, setAmountBorrowEarnStore ] = useAmountBorrowEarnStore()
+    const [ amtIn, setAmountBorrowRepayEarnStore ] = useAmountBorrowRepayEarnStore()
     const [ price, setPrice ] = useState(0)
     const [ walletModalStatus, setWalletModalStatus] = useShowWalletModal();
-    const [client, setClient] = useClient();
+    const [ client, setClient] = useClient();
+    const [ balances, setBalances] = useBalancesStore();
+    const [ loans, setLoans] = useLoanStore()
+
+    let risk_rate = 0
+    let Button: any;
+    let temp_token = TOKEN_INFO.find((token) => token.Denom == amtIn.base )
+    let temp_loan = loans.find((loan) => loan.amountOut_denom == temp_token?.Denom)
+    let balance = getBalance(balances, String(temp_token?.Denom))
 
     let SetPriceByDenom = async(denom: string) => {
         let temp_price = await GetPriceByDenom(denom)
         setPrice(temp_price)
     }
-
-    let risk_rate = 0
 
     if(Number(amtIn.amt) == 0 || borrow_info.base == "Select Token") {
         risk_rate = ((position.borrowedAmountInUSD / position.lendAmountInUSD )* (1 / 60)) * 10000
@@ -88,12 +96,9 @@ export const RepayConfirm = () => {
 
         let inc_amount = (Number(amtIn.amt) * 10 ** Number(denom?.Decimals)) * price
 
-        risk_rate = (((position.borrowedAmountInUSD + inc_amount) / position.lendAmountInUSD ) * (1 / 60)) * 10000
+        risk_rate = ((((position.borrowedAmountInUSD - inc_amount) < 0 ? 0 : (position.borrowedAmountInUSD - inc_amount)) / position.lendAmountInUSD ) * (1 / 60)) * 10000
     }
 
-    //console.log(amtIn)
-
-    let Button
 
     if (wallet.init == false) {
         Button = <ButtonBlock onClick={() => {setWalletModalStatus({b: true})}}>
@@ -108,13 +113,17 @@ export const RepayConfirm = () => {
             Button = <ButtonBlock>
                 <InsufficientConfirmButton>Enter {borrow_info.base} amount</InsufficientConfirmButton>
             </ButtonBlock>
-        } else if (risk_rate > 95) {
+        } else if (Number(amtIn.amt) > Number(balance)) {
             Button = <ButtonBlock>
-                <InsufficientConfirmButton>Big risk rate</InsufficientConfirmButton>
+                <InsufficientConfirmButton>Insufficient {temp_token?.Base} balance</InsufficientConfirmButton>
+            </ButtonBlock>
+        } else if (temp_loan === undefined) {
+            Button = <ButtonBlock>
+                <InsufficientConfirmButton>No {temp_token?.Base} loans</InsufficientConfirmButton>
             </ButtonBlock>
         } else {
             Button = <ButtonBlock>
-                <ConfirmButton onClick={() => {CreateBorrow(amtIn, wallet, client)}}>Confirm</ConfirmButton>
+                <ConfirmButton onClick={() => {DeleteBorrow(amtIn, wallet, client)}}>Confirm</ConfirmButton>
             </ButtonBlock>
         }
     }

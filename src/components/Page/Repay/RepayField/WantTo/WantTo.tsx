@@ -1,7 +1,7 @@
 import styled from "styled-components";
 import { ModalWant } from "../../../../Modal/BorrowModal/ModalWant/ModalWant";
 import { useToggleTheme } from "../../../../../hooks/useToggleTheme";
-import { useAmountBorrowEarnStore, useAmountBorrowInfoStore } from "../../../../../hooks/useAmountInStore";
+import { useAmountBorrowEarnStore, useAmountBorrowInfoStore, useAmountBorrowRepayEarnStore } from "../../../../../hooks/useAmountInStore";
 import { FormEvent } from "react";
 
 const Want = styled.div`
@@ -51,18 +51,18 @@ export const RepayWantTo = () => {
     
     const [theme, setTheme] = useToggleTheme();
     const [ borrow_info, setBorrowInfo ] = useAmountBorrowInfoStore()
-    const [ amtIn, setAmountBorrowEarnStore ] = useAmountBorrowEarnStore()
+    const [ amtIn, setAmountBorrowRepayEarnStore ] = useAmountBorrowRepayEarnStore()
 
     const HandleInputAmpunt = (e: FormEvent<HTMLInputElement>) => {
         if (e.currentTarget.value == undefined) {
-            setAmountBorrowEarnStore(
+            setAmountBorrowRepayEarnStore(
                 {
                     amt: "",
                     base: borrow_info.denom == undefined? "" : borrow_info.denom,
                 }
             );
         } else {
-            setAmountBorrowEarnStore(
+            setAmountBorrowRepayEarnStore(
                 {
                     amt: e.currentTarget.value,
                     base: borrow_info.denom == undefined? "" : borrow_info.denom,
@@ -73,7 +73,7 @@ export const RepayWantTo = () => {
 
     return(
         <Want>
-            <TextWant>I want to borrow</TextWant>
+            <TextWant>I want to repay</TextWant>
             <FieldWant BorderField={theme.BorderField}>
                 <TokenBlock>
                     <ModalWant/>

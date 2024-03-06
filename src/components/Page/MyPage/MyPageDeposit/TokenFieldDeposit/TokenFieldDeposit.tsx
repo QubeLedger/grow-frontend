@@ -5,6 +5,7 @@ import { useToggleTheme } from "../../../../../hooks/useToggleTheme";
 import { useLendStore } from "../../../../../hooks/usePositionStore";
 import { TOKEN_INFO } from "../../../../../constants";
 import { TokenBalance } from "../../MyPageBalance/TokenFieldBalance/TokenFieldsBalance";
+import { useAccordionEarn } from "../../../../../hooks/useAccordionEarn";
 
 const FieldArrS = styled.div`
     overflow: auto;
@@ -143,7 +144,7 @@ export const TokenFieldDeposit = () => {
             {isMob && <PriceBlock TextColor={theme.TextColor} style={{marginRight: "12px"}}> <PriceText>{lend.Amount} {lend.Display}</PriceText> </PriceBlock>}
             {isDes &&   
                 <ButtonsBlock>
-                    <EarnCustomLink to={`/earn/${lend.Display}`}>
+                    <EarnCustomLink to={`/earn`}>
                         <EarnDepositButton>Manage</EarnDepositButton>
                     </EarnCustomLink>
                     {/* <EarnCustomLink to={`/withdrawal/${lend.Display}`}>

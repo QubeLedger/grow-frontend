@@ -2,6 +2,11 @@ import styled from "styled-components";
 import { useAccordionStore } from "../../../hooks/useAccordionStore";
 import { useToggleTheme } from "../../../hooks/useToggleTheme";
 import { RepayContainer } from "./RepayContainer/RepayContainer";
+import { useAssetStore } from "../../../hooks/useAssetStore";
+import { useParamsStore } from "../../../hooks/useParamsStore";
+import { useEffect } from "react";
+import { UpdateAssets } from "../../../connection/assets";
+import { UpdateParams } from "../../../connection/params";
 
 const Container = styled.div <{ margin: string }>`
     max-width: 100%;
@@ -28,6 +33,18 @@ export const Repay = () => {
 
     const [accordion, setAccordion] = useAccordionStore()
     const [theme, setTheme] = useToggleTheme()
+    const [_, setAssets] = useAssetStore()
+    const [params, setParams] = useParamsStore()
+
+    useEffect(() => {
+        async function update() {
+            let assets = await UpdateAssets()
+            setAssets(assets)
+            let params = await UpdateParams()
+            setParams(params)
+        }
+        update();
+    }, [])
 
     return (
 
