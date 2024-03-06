@@ -79,21 +79,6 @@ function App() {
 
 					let position = await UpdatePosition(wallet.wallet.bech32Address)
 					setPosition(position)
-
-					let temp_lend: Lend[] = []
-					position.lend_id.map(async(lend_id) => {
-						let lend = await GetLendById(lend_id)
-						temp_lend.push(lend)
-					})
-
-					let temp_loan: Loan[] = []
-					position.loan_id.map(async(loan_id) => {
-						let loan = await GetLoanById(loan_id)
-						temp_loan.push(loan)
-					})
-
-					setLend(temp_lend)
-					setLoan(temp_loan)
 				}
 			}	
 		}

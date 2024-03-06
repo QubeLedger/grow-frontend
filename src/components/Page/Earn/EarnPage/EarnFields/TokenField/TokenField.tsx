@@ -27,7 +27,7 @@ const AccordionBlock = styled.div <{height: string, BorderField: string}>`
     overflow: hidden;
     padding-bottom: 10px;
     cursor: pointer;
-    margin-top: 12px;
+    margin-bottom: 12px;
 `
 
 const ButtonsBlock = styled.div`
