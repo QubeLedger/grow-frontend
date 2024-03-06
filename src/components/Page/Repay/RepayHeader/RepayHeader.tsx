@@ -1,6 +1,6 @@
 import styled from "styled-components";
 import { useToggleTheme } from "../../../../hooks/useToggleTheme";
-import { BorrowCustomLink } from "../BorrowCustomLink/BorrowCustomLink";
+import { BorrowCustomLink } from "../../Borrow/BorrowCustomLink/BorrowCustomLink";
 
 const Header = styled.div`
     width: 100%;
@@ -9,8 +9,12 @@ const Header = styled.div`
     margin-bottom: 20px;
 `
 
+const HeaderText = styled.h1`
+    font-size: 30px;
+    padding-left: 20px;
+`
 
-export const BorrowHeader = () => {
+export const RepayHeader = () => {
     
     const [theme, setTheme] = useToggleTheme()
 

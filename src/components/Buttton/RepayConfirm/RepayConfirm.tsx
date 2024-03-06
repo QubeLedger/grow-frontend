@@ -13,7 +13,7 @@ const Button = styled.button`
     height: 40px;
     background: linear-gradient(to left, #3B9CFC, #6CBBFF);
     border: none;
-    margin-top: 30px;
+    margin-top: 40px;
     border-radius: 10px;
     cursor: pointer;
 `
@@ -63,7 +63,7 @@ export async function GetPriceByDenom(denom: string): Promise<number> {
     return Number(pricejson.exchange_rate)
 } 
 
-export const BorrowConfirm = () => {
+export const RepayConfirm = () => {
     const [ wallet, _ ] = useWallet();
     const [ position, setPosition ] = usePositionStore();
     const [ borrow_info, setBorrowInfo ] = useAmountBorrowInfoStore()
