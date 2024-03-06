@@ -20,6 +20,7 @@ import { Lend, Loan, useLendStore, useLoanStore, usePositionStore } from './hook
 import { UpdatePosition } from './connection/position';
 import { GetLendById } from './connection/lend';
 import { GetLoanById } from './connection/loan';
+import { Repay } from './components/Page/Repay/Repay';
 
 
 const AppPage = styled.div`
@@ -98,6 +99,7 @@ function App() {
 					<Route path="/borrow" element={<Borrow />} />
 					<Route path="/earn" element={<Earn />} />
 					<Route path="/liquidation" element={<Liquidation />} />
+					<Route path="/repay" element={<Repay />} />
 				</Routes>
 			</AppPage>
 		</>

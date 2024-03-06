@@ -36,10 +36,14 @@ const TokenImg = styled.img`
 `
 
 const PriceBlock = styled.div <{TextColor: string}>`
-    margin-left: auto;
+    max-width: 100%;
+    margin-left: 40px;
     white-space: nowrap;
     text-align: left;
     color: ${props => props.TextColor};
+    @media (max-width: 570px) {
+        margin-left: auto;
+    }
 `
 
 const PriceText = styled.a`
@@ -61,6 +65,7 @@ const ButtonsBlock = styled.div`
     align-items: center;
     margin-top: -5px;
     margin-right: 15px;
+    margin-left: auto;
 `
 
 const EarnDepositButton = styled.button`
@@ -134,16 +139,16 @@ export const TokenFieldDeposit = () => {
         <FieldBlock BorderField={theme.BorderField}>
             <TokenImg src={lend.Logo}></TokenImg>
             <TokenName TextColor={theme.TextColor}>{lend.Display}</TokenName>
-            {isDes && <PriceBlock TextColor={theme.TextColor} style={{marginRight: "auto"}}> <PriceText>{lend.Amount} {lend.Display}</PriceText> </PriceBlock>}
-            {isMob && <PriceBlock TextColor={theme.TextColor} style={{marginRight: "15px"}}> <PriceText>{lend.Amount} {lend.Display}</PriceText> </PriceBlock>}
+            {isDes && <PriceBlock TextColor={theme.TextColor}> <PriceText>{lend.Amount} {lend.Display}</PriceText> </PriceBlock>}
+            {isMob && <PriceBlock TextColor={theme.TextColor} style={{marginRight: "12px"}}> <PriceText>{lend.Amount} {lend.Display}</PriceText> </PriceBlock>}
             {isDes &&   
                 <ButtonsBlock>
-                    <EarnCustomLink to={`/deposit/${lend.Display}`}>
-                        <EarnDepositButton>Deposit</EarnDepositButton>
+                    <EarnCustomLink to={`/earn/${lend.Display}`}>
+                        <EarnDepositButton>Manage</EarnDepositButton>
                     </EarnCustomLink>
-                    <EarnCustomLink to={`/withdrawal/${lend.Display}`}>
+                    {/* <EarnCustomLink to={`/withdrawal/${lend.Display}`}>
                         <EarnWithdrawalButton>Withdrawal</EarnWithdrawalButton>
-                    </EarnCustomLink>
+                    </EarnCustomLink> */}
                 </ButtonsBlock>
             }
             {isMob && <></>}
