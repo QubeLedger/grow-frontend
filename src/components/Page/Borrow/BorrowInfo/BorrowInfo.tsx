@@ -114,7 +114,7 @@ export const BorrowInfo = () => {
     return(
         <InfoBlock>
             <BlockInfo>
-                <InfoText>Interest Rate</InfoText>
+                <InfoText>Borrow Interest Rate</InfoText>
                 <LTVInfo Color="#44A884">{isNaN(temp_apr)? "0.0" : temp_apr.toFixed(1)}%</LTVInfo>
             </BlockInfo>
             <LTVBlock>

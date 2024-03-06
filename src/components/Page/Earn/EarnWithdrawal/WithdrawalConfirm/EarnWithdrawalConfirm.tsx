@@ -10,7 +10,7 @@ import { useLendStore } from "../../../../../hooks/usePositionStore";
 
 const ConfirmButton = styled.button`
     width: 260px;
-    height: 37px;
+    height: 40px;
     font-size: 17px;
     font-weight: 700;
     background: linear-gradient(to left, #3B9CFC, #6CBBFF);
@@ -23,7 +23,7 @@ const ConfirmButton = styled.button`
 
 const InsufficientConfirmButton = styled.button`
     width: 260px;
-    height: 37px;
+    height: 40px;
     font-size: 17px;
     font-weight: 700;
     background: #757575;

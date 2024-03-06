@@ -7,6 +7,7 @@ import { UpdateParams } from "../../../../connection/params";
 import { useAssetStore } from "../../../../hooks/useAssetStore";
 import { useParamsStore } from "../../../../hooks/useParamsStore";
 import { useEffect } from "react";
+import { useAccordionEarn } from "../../../../hooks/useAccordionEarn";
 
 const EarnBLock = styled.div <{margin: string}>`
     width: 100%;
@@ -26,11 +27,11 @@ const Block = styled.div <{backgroundColor: string}>`
 
 
 export const Earn = () => {
-
+    const [eAccordions, setEAccordion] = useAccordionEarn();
     const [accordion, setAccordion] = useAccordionStore()
     const [theme, setTheme] = useToggleTheme()
-    const [_, setAssets] = useAssetStore()
     const [params, setParams] = useParamsStore()
+    const [assets, setAssets] = useAssetStore()
 
     useEffect(() => {
         async function update() {
@@ -40,6 +41,15 @@ export const Earn = () => {
             setParams(params)
         }
         update();
+
+        assets.map((asset) => {
+            eAccordions.push({
+                base: asset.denom,
+                active: false,
+                height: '60px',
+            })
+        })
+        setEAccordion(eAccordions)
     }, [])
 
     return(

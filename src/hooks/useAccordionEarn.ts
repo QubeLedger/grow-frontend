@@ -1,10 +1,11 @@
 import { createStore } from './store';
 
-interface Accordion {
+export interface Accordion {
+  base: string;
   active: boolean;
   height: string;
 }
 
-const defaultState: Accordion = { active: false, height: '60px' };
+const defaultState: Accordion[] = []// { active: false, height: '60px' };
 
 export const [useAccordionEarn] = createStore(defaultState);

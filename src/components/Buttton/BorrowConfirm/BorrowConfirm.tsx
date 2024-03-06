@@ -5,6 +5,8 @@ import { QUBE_TESTNET_INFO, TOKEN_INFO } from "../../../constants";
 import { usePositionStore } from "../../../hooks/usePositionStore";
 import { useWallet } from "../../../hooks/useWallet";
 import { useShowWalletModal } from "../../../hooks/useShowModal";
+import { CreateBorrow } from "../../../functions/borrow";
+import { useClient } from "../../../hooks/useClient";
 
 const Button = styled.button`
     width: 250px;
@@ -18,7 +20,7 @@ const Button = styled.button`
 
 const ConfirmButton = styled.button`
     width: 260px;
-    height: 37px;
+    height: 40px;
     font-size: 17px;
     font-weight: 700;
     background: linear-gradient(to left, #3B9CFC, #6CBBFF);
@@ -43,7 +45,7 @@ const ButtonText = styled.a`
 
 const InsufficientConfirmButton = styled.button`
     width: 260px;
-    height: 37px;
+    height: 40px;
     font-size: 17px;
     font-weight: 700;
     background: #757575;
@@ -67,6 +69,7 @@ export const BorrowConfirm = () => {
     const [ amtIn, setAmountBorrowEarnStore ] = useAmountBorrowEarnStore()
     const [ price, setPrice ] = useState(0)
     const [ walletModalStatus, setWalletModalStatus] = useShowWalletModal();
+    const [client, setClient] = useClient();
 
     let SetPriceByDenom = async(denom: string) => {
         let temp_price = await GetPriceByDenom(denom)
@@ -86,6 +89,8 @@ export const BorrowConfirm = () => {
 
         risk_rate = (((position.borrowedAmountInUSD + inc_amount) / position.lendAmountInUSD ) * (1 / 60)) * 10000
     }
+
+    //console.log(amtIn)
 
     let Button
 
@@ -108,7 +113,7 @@ export const BorrowConfirm = () => {
             </ButtonBlock>
         } else {
             Button = <ButtonBlock>
-                <ConfirmButton>Confirm</ConfirmButton>
+                <ConfirmButton onClick={() => {CreateBorrow(amtIn, wallet, client)}}>Confirm</ConfirmButton>
             </ButtonBlock>
         }
     }

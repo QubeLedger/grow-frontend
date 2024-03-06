@@ -1,13 +1,15 @@
 import styled from "styled-components";
-import { useAccordionEarn } from '../../../../../../hooks/useAccordionEarn';
+import { Accordion, useAccordionEarn } from '../../../../../../hooks/useAccordionEarn';
 import { EarnCustomLink } from "../../../EarnCustomLink/EarnCustomLink";
 import { useToggleTheme } from "../../../../../../hooks/useToggleTheme";
 import { useAssetStore } from "../../../../../../hooks/useAssetStore";
 import { TOKEN_INFO } from "../../../../../../constants";
 import { useParamsStore } from "../../../../../../hooks/useParamsStore";
+import { useEffect } from "react";
 
 export interface Vault {
     Display: string,
+    Denom: string,
     Logo: string,
     apr: number,
     type: string,
@@ -140,24 +142,30 @@ export const ARPText = styled.a`
 
 export const VaultField = () => {
 
-    const [eAccordion, setEAccordion] = useAccordionEarn();
+    const [eAccordions, setEAccordion] = useAccordionEarn();
     const [theme, setTheme] = useToggleTheme()
     const [assets, setAssets] = useAssetStore()
     const [params, setParams] = useParamsStore()
 
     let temp_vault: Vault[] = []
 
-    function openAccordion () {
-        if(eAccordion.active == false) {
-            setEAccordion({
+    function openAccordion (base: string) {
+        let index_eAccordion = eAccordions.findIndex((acc) => acc.base == base)
+        let active = eAccordions[index_eAccordion] === undefined ? false : eAccordions[index_eAccordion].active
+        if(active == false) {
+            eAccordions[index_eAccordion] = {
+                base,
                 active: true,
                 height: '170px',
-            })
-        } else if (eAccordion.active == true) {
-            setEAccordion({
+            }
+            setEAccordion(eAccordions)
+        } else if (active == true) {
+            eAccordions[index_eAccordion] = {
+                base,
                 active: false,
                 height: '55px',
-            })
+            }
+            setEAccordion(eAccordions)
         }
     }
 
@@ -191,6 +199,7 @@ export const VaultField = () => {
 
                 temp_vault.push({
                     Display: token.Base,
+                    Denom: asset.denom,
                     Logo: token.Logo,
                     apr: isNaN(sir) ? 0 : sir,
                     type: "lend",
@@ -199,8 +208,8 @@ export const VaultField = () => {
         })
     })
 
-    const VaultsComponent = temp_vault.map((vault) => 
-        <AccordionBlock BorderField={theme.BorderField} height={eAccordion.height} onClick={openAccordion}>
+    const VaultsComponent = temp_vault.map((vault, i) => 
+        <AccordionBlock BorderField={theme.BorderField} height={eAccordions[i] === undefined ? "60px" : eAccordions[i].height} onClick={() => {openAccordion(vault.Denom)}}>
             <TokenFieldBlock>
                 <TokensBlock>
                     <TokensImg src={vault.Logo}></TokensImg>

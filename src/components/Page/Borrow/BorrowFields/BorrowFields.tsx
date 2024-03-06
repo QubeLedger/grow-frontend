@@ -14,7 +14,7 @@ export const BorrowFields = () => {
     return(
         <Fields>
             <WantTo></WantTo>
-            <Collateral></Collateral>
+            {/*<Collateral></Collateral>*/}
         </Fields>
     ) 
 } 
