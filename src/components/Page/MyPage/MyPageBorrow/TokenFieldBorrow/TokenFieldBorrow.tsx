@@ -142,8 +142,8 @@ export const TokenFieldBorrow = () => {
         <FieldBlock BorderField={theme.BorderField}>
             <TokenImg src={loan.Logo}></TokenImg>
             <TokenName TextColor={theme.TextColor}>{loan.Display}</TokenName>
-            {isDes && <PriceBlock TextColor={theme.TextColor} style={{marginRight: "auto"}}> <PriceText>{loan.Amount} {loan.Display}</PriceText> </PriceBlock>}
-            {isMob && <PriceBlock TextColor={theme.TextColor} style={{marginRight: "15px"}}> <PriceText>{loan.Amount} {loan.Display}</PriceText> </PriceBlock>}
+            {isDes && <PriceBlock TextColor={theme.TextColor} style={{marginRight: "auto"}}> <PriceText>{loan.Amount.toFixed(3)} {loan.Display}</PriceText> </PriceBlock>}
+            {isMob && <PriceBlock TextColor={theme.TextColor} style={{marginRight: "15px"}}> <PriceText>{loan.Amount.toFixed(3)} {loan.Display}</PriceText> </PriceBlock>}
             {isDes && button}
             {isMob && <></>}
         </FieldBlock>
