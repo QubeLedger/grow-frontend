@@ -4,6 +4,9 @@ import { TokenFieldBalanceDesktop, TokenFieldBalanceMobile } from "./TokenFieldB
 import { useToggleTheme } from "../../../../hooks/useToggleTheme";
 import { useBalancesStore } from "../../../../hooks/useBalanceStore";
 import { useConnectKeplrWalletStore } from "../../../../hooks/useConnectKeplrWalletStore";
+import { useWallet } from "../../../../hooks/useWallet";
+import { useEffect } from "react";
+import { UpdateBalances } from "../../../../connection/balances";
 
 const BalanceBlock = styled.div`
     width: 100%;
@@ -70,6 +73,17 @@ export const MyPageBalance = () => {
 
     const [ balances, setBalances ] = useBalancesStore();
     const [ connectWallet, setConnectWallet ] = useConnectKeplrWalletStore();
+    const [ wallet, setWallet ] = useWallet();
+
+    useEffect(() => {
+        async function update() {
+            if (wallet.init == true) {
+                let blns = await UpdateBalances(wallet, balances);
+                setBalances(blns)
+			}	
+		}
+		update()
+    }, [])
 
     let BalancesComponent
 

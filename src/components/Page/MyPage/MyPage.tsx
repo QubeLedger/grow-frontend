@@ -78,43 +78,8 @@ const ContainerBlock = styled.div`
 export const MyPage = () => {
 
     const [theme, setTheme] = useToggleTheme()
-    const [ wallet, setWallet ] = useWallet();
     const [ connectWallet, setConnectWallet ] = useConnectKeplrWalletStore();
     const [ balances, setBalances ] = useBalancesStore();
-    const [ p, setPosition ] = usePositionStore();
-	const [ lend, setLend ] = useLendStore();
-	const [ loan, setLoan ] = useLoanStore()
-
-    useEffect(() => {
-        async function update() {
-			if (localStorage.getItem('Wallet') != "" ) { 
-				let wallet = JSON.parse(String(localStorage.getItem('Wallet')))
-				if (wallet.wallet !== null) {
-					let blns = await UpdateBalances(wallet, balances);
-					setBalances(blns)
-
-                    let position = await UpdatePosition(wallet.wallet.bech32Address)
-					setPosition(position)
-
-					let temp_lend: Lend[] = []
-					position.lend_id.map(async(lend_id) => {
-						let lend = await GetLendById(lend_id)
-						temp_lend.push(lend)
-					})
-
-					let temp_loan: Loan[] = []
-					position.loan_id.map(async(loan_id) => {
-						let loan = await GetLoanById(loan_id)
-						temp_loan.push(loan)
-					})
-
-					setLend(temp_lend)
-					setLoan(temp_loan)
-				}
-			}	
-		}
-		update()
-    }, [])
 
     let BalancesAmount
 

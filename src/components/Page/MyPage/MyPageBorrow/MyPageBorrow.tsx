@@ -4,7 +4,11 @@ import { useMediaQuery } from "react-responsive";
 import { useBalancesStore } from "../../../../hooks/useBalanceStore";
 import { useConnectKeplrWalletStore } from "../../../../hooks/useConnectKeplrWalletStore";
 import { useToggleTheme } from "../../../../hooks/useToggleTheme";
-import { useLoanStore } from "../../../../hooks/usePositionStore";
+import { Loan, useLoanStore, usePositionStore } from "../../../../hooks/usePositionStore";
+import { UpdatePosition } from "../../../../connection/position";
+import { useWallet } from "../../../../hooks/useWallet";
+import { useEffect } from "react";
+import { GetLoanById } from "../../../../connection/loan";
 
 const DepositBlock = styled.div`
     width: 100%;
@@ -61,6 +65,21 @@ export const MyPageBorrow = () => {
     const [ theme, setTheme ] = useToggleTheme()
     const [ loan, setLoan ] = useLoanStore()
     const [ connectWallet, setConnectWallet ] = useConnectKeplrWalletStore();
+    const [ position, setPosition ] = usePositionStore();
+    const [ wallet, setWallet ] = useWallet();
+
+    useEffect(() => {
+        async function update() {
+            if (wallet.init == true) {
+                let temp_loans = await Promise.all(position.loan_id.map(async(loan_id) => {
+                    let temp_loan = await GetLoanById(loan_id)
+                    return temp_loan
+                }))
+                setLoan(temp_loans)
+			}	
+		}
+		update()
+    }, [])
 
     let BorrowComponent
 

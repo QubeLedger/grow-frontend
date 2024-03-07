@@ -1,10 +1,10 @@
 import styled from "styled-components";
-import { usePositionStore } from "../../../../hooks/usePositionStore";
+import { usePositionStore, useRiskRate } from "../../../../hooks/usePositionStore";
 import { useAssetStore } from "../../../../hooks/useAssetStore";
 import { useParamsStore } from "../../../../hooks/useParamsStore";
 import { QUBE_TESTNET_INFO, TOKEN_INFO } from "../../../../constants";
 import { useAmountBorrowEarnStore, useAmountBorrowInfoStore } from "../../../../hooks/useAmountInStore";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { useConnectKeplrWalletStore } from "../../../../hooks/useConnectKeplrWalletStore";
 import { myFixed } from "../../MyPage/MyPageDeposit/TokenFieldDeposit/TokenFieldDeposit";
 
@@ -58,12 +58,13 @@ export const BorrowInfo = () => {
     const [ params, setParams ] = useParamsStore();
     const [ borrow_info, setBorrowInfo ] = useAmountBorrowInfoStore()
     const [ amtIn, setAmountBorrowEarnStore ] = useAmountBorrowEarnStore()
-    const [ price, setPrice ] = useState(0)
+    const [ price, setPrice ] = useState("")
     const [ connectWallet, setConnectWallet ] = useConnectKeplrWalletStore();
+    const [ risk_rate, setRiskRate ] = useRiskRate()
 
     let SetPriceByDenom = async(denom: string) => {
         let temp_price = await GetPriceByDenom(denom)
-        setPrice(temp_price)
+        setPrice(temp_price.toFixed(6))
     }
 
     let temp_apr = 0
@@ -98,22 +99,23 @@ export const BorrowInfo = () => {
         })
     })
 
-    let risk_rate = 0
-
-    if(Number(amtIn.amt) == 0 || borrow_info.base == "Select Token") {
-        risk_rate = ((position.borrowedAmountInUSD / position.lendAmountInUSD )* (1 / 60)) * 10000
-    } else if(Number(amtIn.amt) > 0) {
-        SetPriceByDenom(borrow_info.base)
-
-        let denom = TOKEN_INFO.find((token) => token.Base == borrow_info.base)
-
-        let inc_amount = (Number(amtIn.amt) * 10 ** Number(denom?.Decimals)) * price
-
-        risk_rate = (((position.borrowedAmountInUSD + inc_amount) / position.lendAmountInUSD ) * (1 / 60)) * 10000
-    }
-
-    let color = isNaN(risk_rate) || risk_rate == 0 ? "white" : "#44A884"
+    useEffect(() => {
+        if(Number(amtIn.amt) == 0 || borrow_info.base == "Select Token") {
+            setRiskRate({
+                value: ((position.borrowedAmountInUSD / position.lendAmountInUSD )* (1 / 60)) * 10000
+            })
+        } else if(Number(amtIn.amt) > 0) {
+            SetPriceByDenom(borrow_info.base)
     
+            let denom = TOKEN_INFO.find((token) => token.Base == borrow_info.base)
+    
+            let inc_amount = (Number(amtIn.amt) * 10 ** Number(denom?.Decimals)) * Number(price)
+    
+            setRiskRate({
+                value: (((position.borrowedAmountInUSD + inc_amount) / position.lendAmountInUSD ) * (1 / 60)) * 10000
+            })
+        }
+    }, [position])
     
     return(
         <InfoBlock>
@@ -131,7 +133,7 @@ export const BorrowInfo = () => {
             </BlockInfo>
             <LTVBlock>
                 <LTV>Risk Rate</LTV>
-                <LTVInfo Color={(risk_rate > 95) ? "red" : color}>{(isNaN(risk_rate)? "0.0" : risk_rate.toFixed(1)) == "Infinity" ? "999.9" : (isNaN(risk_rate)? "0.0" : risk_rate.toFixed(1))}%</LTVInfo>
+                <LTVInfo Color={(risk_rate.value > 95) ? "red" : (isNaN(risk_rate.value) || risk_rate.value == 0) ? "white" : "#44A884"}>{(isNaN(risk_rate.value)? "0.0" : risk_rate.value.toFixed(1)) == "Infinity" ? "999.9" : (isNaN(risk_rate.value)? "0.0" : risk_rate.value.toFixed(1))}%</LTVInfo>
             </LTVBlock>
         </InfoBlock>
     )

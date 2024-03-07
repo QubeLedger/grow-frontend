@@ -42,3 +42,4 @@ const defaultLoanState: Loan[] = []
 export const [useLendStore] = createStore(defaultLendState)
 export const [useLoanStore] = createStore(defaultLoanState)
 export const [usePositionStore] = createStore(defaultState);
+export const [useRiskRate] = createStore({value: 0})

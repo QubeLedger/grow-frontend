@@ -6,15 +6,16 @@ export async function GetLoanById(id: string): Promise<Loan> {
 
         try {
                 let res = await fetch(QUBE_TESTNET_INFO.rest + `/core/grow/v1beta1/loan/${id}`)
-                let lendJson = await res.json()
+                console.log(QUBE_TESTNET_INFO.rest + `/core/grow/v1beta1/loan/${id}`)
+                let loanJson = await res.json()
                 return {
-                        loanId: lendJson.loan.loanId, 
-                        amountOut: lendJson.loan.amountOut, 
-                        amountOut_amount: Number(lendJson.loan.amountOut_amount),
-                        amountOut_denom: lendJson.loan.amountOut_denom,
-                        startTime: Number(lendJson.loan.startTime),
-                        oracleTicker: lendJson.loan.oracleTicker,
-                        borrowedAmountInUSD: Number(lendJson.loan.borrowedAmountInUSD),
+                        loanId: loanJson.loan.loanId, 
+                        amountOut: loanJson.loan.amountOut, 
+                        amountOut_amount: Number(loanJson.loan.amountOut_amount),
+                        amountOut_denom: loanJson.loan.amountOut_denom,
+                        startTime: Number(loanJson.loan.startTime),
+                        oracleTicker: loanJson.loan.oracleTicker,
+                        borrowedAmountInUSD: Number(loanJson.loan.borrowedAmountInUSD),
                 }
         } catch (e) {
                 return {

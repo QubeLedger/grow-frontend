@@ -2,6 +2,7 @@ import styled from "styled-components";
 import { useToggleTheme } from "../../../../../hooks/useToggleTheme";
 import { useBalancesStore } from "../../../../../hooks/useBalanceStore";
 import { TOKEN_INFO } from "../../../../../constants/tokens";
+import { myFixed } from "../../MyPageDeposit/TokenFieldDeposit/TokenFieldDeposit";
 
 export interface TokenBalance {
     Display: string,
@@ -97,8 +98,8 @@ export const TokenFieldBalanceDesktop = () => {
                 <TokenName TextColor={theme.TextColor}>{balance.Display}</TokenName>
             </TokenNameBlock>
             <AmountBlock TextColor={theme.TextColor}>
-                <MainAmountText>{Math.trunc(balance.Amount*100)/100} {balance.Display}</MainAmountText>
-                <SecondAmountText>{Math.trunc((balance.Amount * balance.Price) * 100)/100} USQ</SecondAmountText>
+                <MainAmountText>{myFixed(balance.Amount , 2)} {balance.Display}</MainAmountText>
+                <SecondAmountText>{myFixed(balance.Amount * balance.Price, 2)} USQ</SecondAmountText>
             </AmountBlock>
         </FieldBlock>
     )

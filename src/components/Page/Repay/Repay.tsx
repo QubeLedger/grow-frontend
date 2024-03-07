@@ -7,6 +7,11 @@ import { useParamsStore } from "../../../hooks/useParamsStore";
 import { useEffect } from "react";
 import { UpdateAssets } from "../../../connection/assets";
 import { UpdateParams } from "../../../connection/params";
+import { Lend, Loan, useLendStore, useLoanStore, usePositionStore } from "../../../hooks/usePositionStore";
+import { UpdatePosition } from "../../../connection/position";
+import { useWallet } from "../../../hooks/useWallet";
+import { GetLoanById } from "../../../connection/loan";
+import { GetLendById } from "../../../connection/lend";
 
 const Container = styled.div <{ margin: string }>`
     max-width: 100%;
@@ -31,15 +36,41 @@ const RepayBlock = styled.div <{ backgroundColor: string }>`
 
 export const Repay = () => {
 
-    const [accordion, setAccordion] = useAccordionStore()
-    const [theme, setTheme] = useToggleTheme()
-    const [_, setAssets] = useAssetStore()
-    const [params, setParams] = useParamsStore()
+    const [ accordion, setAccordion] = useAccordionStore()
+    const [ theme, setTheme] = useToggleTheme()
+    const [ _, setAssets] = useAssetStore()
+    const [ params, setParams] = useParamsStore()
+    const [ position, setPosition ] = usePositionStore();
+    const [ wallet, setWallet ] = useWallet();
+    const [ lend, setLend ] = useLendStore();
+	const [ loan, setLoan ] = useLoanStore()
 
     useEffect(() => {
         async function update() {
+
+            if (wallet.init == true) {
+                let position = await UpdatePosition(wallet.wallet.bech32Address)
+			    setPosition(position)
+
+                let temp_lend: Lend[] = []
+                position.lend_id.map(async(lend_id) => {
+                    let lend = await GetLendById(lend_id)
+                    temp_lend.push(lend)
+                })
+
+                let temp_loan: Loan[] = []
+                position.loan_id.map(async(loan_id) => {
+                    let loan = await GetLoanById(loan_id)
+                    temp_loan.push(loan)
+                })
+
+                setLend(temp_lend)
+                setLoan(temp_loan)
+            }
+
             let assets = await UpdateAssets()
             setAssets(assets)
+
             let params = await UpdateParams()
             setParams(params)
         }
