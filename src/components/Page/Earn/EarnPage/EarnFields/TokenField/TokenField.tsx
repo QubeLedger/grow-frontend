@@ -217,7 +217,7 @@ export const VaultField = () => {
                     {vault.type == "lend" ? <LendProto><TokensProtoText>Lend</TokensProtoText></LendProto> : <GrowProto><TokensProtoText>Grow</TokensProtoText></GrowProto>}
                 </TokensBlock>
                 <ARPBlock>
-                    <ARPText>{vault.apr.toFixed(1)}%</ARPText>
+                    <ARPText>{vault.apr.toFixed(2)}%</ARPText>
                 </ARPBlock>
             </TokenFieldBlock>
             <ButtonsBlock >

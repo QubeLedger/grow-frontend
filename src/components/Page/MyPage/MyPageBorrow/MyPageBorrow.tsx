@@ -75,8 +75,8 @@ export const MyPageBorrow = () => {
         BorrowComponent = <>
             <InfoBlock>
                 <AssetsBlock> <Text>Assets</Text> </AssetsBlock>
-                {isMob && <PriceBlock> <Text>Amount(USQ)</Text> </PriceBlock>}
-                {isDes && <PriceBlock> <Text style={{marginLeft: "-22.8em"}}>Amount(USQ)</Text> </PriceBlock>}
+                {isMob && <PriceBlock> <Text>Amount</Text> </PriceBlock>}
+                {isDes && <PriceBlock> <Text style={{marginLeft: "-22.8em"}}>Amount</Text> </PriceBlock>}
             </InfoBlock>
             <TokenFieldBorrow/>
         </>

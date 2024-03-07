@@ -1,8 +1,8 @@
 import styled from "styled-components";
-import { ModalWant } from "../../../../Modal/BorrowModal/ModalWant/ModalWant";
 import { useToggleTheme } from "../../../../../hooks/useToggleTheme";
 import { useAmountBorrowEarnStore, useAmountBorrowInfoStore, useAmountBorrowRepayEarnStore } from "../../../../../hooks/useAmountInStore";
 import { FormEvent } from "react";
+import { ModalRepay } from "../../../../Modal/RepayModal/ModalWant/ModalWant";
 
 const Want = styled.div`
     width: 90%;
@@ -76,7 +76,7 @@ export const RepayWantTo = () => {
             <TextWant>I want to repay</TextWant>
             <FieldWant BorderField={theme.BorderField}>
                 <TokenBlock>
-                    <ModalWant/>
+                    <ModalRepay/>
                 </TokenBlock>
                 <InputBlock placeholder="0" onChange={HandleInputAmpunt} value={amtIn.amt}></InputBlock>               
             </FieldWant>

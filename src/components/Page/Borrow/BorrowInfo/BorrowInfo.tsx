@@ -122,7 +122,7 @@ export const BorrowInfo = () => {
             </BlockInfo>
             <BlockInfo>
                 <InfoText>Total Borrow</InfoText>
-                <LTVInfo Color="white">{connectWallet.connected ? 0 : (position.borrowedAmountInUSD / 10**6).toFixed(0)} USQ</LTVInfo>
+                <LTVInfo Color="white">{!connectWallet.connected ? 0 : (position.borrowedAmountInUSD / 10**6).toFixed(1)} USQ</LTVInfo>
             </BlockInfo>
             <BlockInfo>
                 <InfoText>Borrow Interest Rate</InfoText>

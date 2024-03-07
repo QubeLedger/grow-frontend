@@ -238,7 +238,7 @@ const StyledDialogContent = styled(ModalDialogContent) <{modalBgColor: string, m
     }
 `
 
-export const ModalWant = () => {
+export const ModalRepay = () => {
 
     const [ walletModalStatus, setWalletModalStatus ] = useShowModalFrom();
     const [ theme, setTheme ] = useToggleTheme()
@@ -259,7 +259,7 @@ export const ModalWant = () => {
                     Display: token.Base,
                     Logo: token.Logo,
                     Network: token.Network,
-                    Balance: temp_loan === undefined ? "0" : (temp_loan.amountOut_amount / 10**6).toFixed(2),
+                    Balance: temp_loan === undefined ? "0" : (temp_loan.amountOut_amount / 10**6).toFixed(4),
                     Denom: token.Denom,
                 })
             }
@@ -281,7 +281,7 @@ export const ModalWant = () => {
                     <TokensTextH3>{token_info.Display}</TokensTextH3>
                     <TokensTextH5>{token_info.Network}</TokensTextH5>
                 </TokensText>
-                {/*<TokensTextH2Number >{token_info.Balance}</TokensTextH2Number>*/}
+                <TokensTextH2Number >{token_info.Balance}</TokensTextH2Number>
             </TokenFields>
         </FirstField>
     )
