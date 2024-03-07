@@ -11,6 +11,7 @@ import { useAssetStore } from "../../../../hooks/useAssetStore";
 import { TOKEN_INFO } from "../../../../constants";
 import { useLoanStore } from "../../../../hooks/usePositionStore";
 import { useAmountBorrowInfoStore } from "../../../../hooks/useAmountInStore";
+import { myFixed } from "../../../Page/MyPage/MyPageDeposit/TokenFieldDeposit/TokenFieldDeposit";
 
 
 export interface BorrowCollateralTokenInfo {
@@ -259,7 +260,7 @@ export const ModalRepay = () => {
                     Display: token.Base,
                     Logo: token.Logo,
                     Network: token.Network,
-                    Balance: temp_loan === undefined ? "0" : (temp_loan.amountOut_amount / 10**6).toFixed(4),
+                    Balance: temp_loan === undefined ? "0" : myFixed((temp_loan.amountOut_amount / 10**6), 3),
                     Denom: token.Denom,
                 })
             }

@@ -6,6 +6,7 @@ import { QUBE_TESTNET_INFO, TOKEN_INFO } from "../../../../constants";
 import { useAmountBorrowEarnStore, useAmountBorrowInfoStore, useAmountBorrowRepayEarnStore } from "../../../../hooks/useAmountInStore";
 import { useState } from "react";
 import { useConnectKeplrWalletStore } from "../../../../hooks/useConnectKeplrWalletStore";
+import { myFixed } from "../../MyPage/MyPageDeposit/TokenFieldDeposit/TokenFieldDeposit";
 
 const InfoBlock = styled.div`
     margin-top: 50px;
@@ -127,7 +128,7 @@ export const RepayInfo = () => {
             </BlockInfo>
             <BlockInfo>
                 <InfoText>Borrow Interest Rate</InfoText>
-                <LTVInfo Color="#44A884">{isNaN(temp_apr)? "0.0" : temp_apr.toFixed(1)}%</LTVInfo>
+                <LTVInfo Color="#44A884">{isNaN(temp_apr)? "0.0" : myFixed(temp_apr, 3)}%</LTVInfo>
             </BlockInfo>            
             <LTVBlock>
                 <LTV>Risk Rate</LTV>
