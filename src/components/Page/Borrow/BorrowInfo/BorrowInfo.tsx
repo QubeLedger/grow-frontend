@@ -70,7 +70,7 @@ export const BorrowInfo = () => {
 
     assets.map((asset) => {
         TOKEN_INFO.map((token) => {
-            if(asset.denom == token.Denom && token.Base == borrow_info.denom) {
+            if(asset.denom == token.Denom && token.Denom == borrow_info.denom) {
 
                 let utilization_rate = asset.collectively_borrow_value / asset.provide_value
 

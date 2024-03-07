@@ -68,9 +68,11 @@ export const RepayInfo = () => {
 
     let temp_apr = 0
 
+    console.log(borrow_info)
+
     assets.map((asset) => {
         TOKEN_INFO.map((token) => {
-            if(asset.denom == token.Denom && token.Base == borrow_info.denom) {
+            if(asset.denom == token.Denom && token.Denom == borrow_info.denom) {
 
                 let utilization_rate = asset.collectively_borrow_value / asset.provide_value
 
@@ -92,7 +94,6 @@ export const RepayInfo = () => {
                 } else {
                     bir = params.slope_1 + ((utilization_rate - u_static) * ((max_rate - params.slope_2) / (1 - u_static)))
                 }
-
                 temp_apr = isNaN(bir) ? 0 : bir
             }
         })
@@ -108,9 +109,6 @@ export const RepayInfo = () => {
         let denom = TOKEN_INFO.find((token) => token.Base == borrow_info.base)
 
         let inc_amount = (Number(amtIn.amt) * 10 ** Number(denom?.Decimals)) * price
-
-        console.log(inc_amount)
-
         risk_rate = (((position.borrowedAmountInUSD - inc_amount) / position.lendAmountInUSD ) * (1 / 60)) * 10000
     }
 
