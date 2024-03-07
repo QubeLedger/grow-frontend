@@ -31,6 +31,7 @@ const ConfirmButton = styled.button`
     border-radius: 12px;
     cursor: pointer;
     color: black;
+    margin-top: 20px;
 `
 
 const ButtonBlock = styled.div`
@@ -109,6 +110,10 @@ export const RepayConfirm = () => {
             Button = <ButtonBlock>
                 <InsufficientConfirmButton>Select Token</InsufficientConfirmButton>
             </ButtonBlock>
+        } else if (temp_loan === undefined) {
+            Button = <ButtonBlock>
+                <InsufficientConfirmButton>No {temp_token?.Base} loans</InsufficientConfirmButton>
+            </ButtonBlock>
         } else if (amtIn.amt == '' || amtIn.amt == '0') {
             Button = <ButtonBlock>
                 <InsufficientConfirmButton>Enter {borrow_info.base} amount</InsufficientConfirmButton>
@@ -116,10 +121,6 @@ export const RepayConfirm = () => {
         } else if (Number(amtIn.amt) > Number(balance)) {
             Button = <ButtonBlock>
                 <InsufficientConfirmButton>Insufficient {temp_token?.Base} balance</InsufficientConfirmButton>
-            </ButtonBlock>
-        } else if (temp_loan === undefined) {
-            Button = <ButtonBlock>
-                <InsufficientConfirmButton>No {temp_token?.Base} loans</InsufficientConfirmButton>
             </ButtonBlock>
         } else {
             Button = <ButtonBlock>

@@ -3,7 +3,7 @@ import { usePositionStore } from "../../../../hooks/usePositionStore";
 import { useAssetStore } from "../../../../hooks/useAssetStore";
 import { useParamsStore } from "../../../../hooks/useParamsStore";
 import { QUBE_TESTNET_INFO, TOKEN_INFO } from "../../../../constants";
-import { useAmountBorrowEarnStore, useAmountBorrowInfoStore } from "../../../../hooks/useAmountInStore";
+import { useAmountBorrowEarnStore, useAmountBorrowInfoStore, useAmountBorrowRepayEarnStore } from "../../../../hooks/useAmountInStore";
 import { useState } from "react";
 import { useConnectKeplrWalletStore } from "../../../../hooks/useConnectKeplrWalletStore";
 
@@ -56,7 +56,7 @@ export const RepayInfo = () => {
     const [ assets, setAssets ] = useAssetStore();
     const [ params, setParams ] = useParamsStore();
     const [ borrow_info, setBorrowInfo ] = useAmountBorrowInfoStore()
-    const [ amtIn, setAmountBorrowEarnStore ] = useAmountBorrowEarnStore()
+    const [ amtIn, setAmountBorrowRepayEarnStore ] = useAmountBorrowRepayEarnStore()
     const [ price, setPrice ] = useState(0)
     const [ connectWallet, setConnectWallet ] = useConnectKeplrWalletStore();
 
@@ -108,7 +108,9 @@ export const RepayInfo = () => {
 
         let inc_amount = (Number(amtIn.amt) * 10 ** Number(denom?.Decimals)) * price
 
-        risk_rate = (((position.borrowedAmountInUSD + inc_amount) / position.lendAmountInUSD ) * (1 / 60)) * 10000
+        console.log(inc_amount)
+
+        risk_rate = (((position.borrowedAmountInUSD - inc_amount) / position.lendAmountInUSD ) * (1 / 60)) * 10000
     }
 
     let color = isNaN(risk_rate) || risk_rate == 0 ? "white" : "#44A884"
@@ -129,7 +131,7 @@ export const RepayInfo = () => {
             </BlockInfo>            
             <LTVBlock>
                 <LTV>Risk Rate</LTV>
-                <LTVInfo Color={(risk_rate > 95) ? "red" : color}>{isNaN(risk_rate)? "0.0" : risk_rate.toFixed(1)}%</LTVInfo>
+                <LTVInfo Color={(risk_rate <= 0) ? "white" : color}>{isNaN(risk_rate) || (risk_rate <= 0) ? "0.0" : risk_rate.toFixed(1)}%</LTVInfo>
             </LTVBlock>
         </InfoBlock>
     )
