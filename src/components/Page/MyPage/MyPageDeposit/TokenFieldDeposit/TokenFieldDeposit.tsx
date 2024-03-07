@@ -101,6 +101,10 @@ const EarnWithdrawalButton = styled.button`
     cursor: pointer;
 `
 
+export function myFixed(x: number, d: number) {
+    if (!d) return x.toFixed(d); // don't go wrong if no decimal
+    return x.toFixed(d).replace(/\.?0+$/, '');
+}
 
 export const TokenFieldDeposit = () => {
 
@@ -140,8 +144,8 @@ export const TokenFieldDeposit = () => {
         <FieldBlock BorderField={theme.BorderField}>
             <TokenImg src={lend.Logo}></TokenImg>
             <TokenName TextColor={theme.TextColor}>{lend.Display}</TokenName>
-            {isDes && <PriceBlock TextColor={theme.TextColor}> <PriceText>{lend.Amount} {lend.Display}</PriceText> </PriceBlock>}
-            {isMob && <PriceBlock TextColor={theme.TextColor} style={{marginRight: "12px"}}> <PriceText>{lend.Amount} {lend.Display}</PriceText> </PriceBlock>}
+            {isDes && <PriceBlock TextColor={theme.TextColor}> <PriceText>{myFixed(lend.Amount, 3)} {lend.Display}</PriceText> </PriceBlock>}
+            {isMob && <PriceBlock TextColor={theme.TextColor} style={{marginRight: "12px"}}> <PriceText>{myFixed(lend.Amount, 3)} {lend.Display}</PriceText> </PriceBlock>}
             {isDes &&   
                 <ButtonsBlock>
                     <EarnCustomLink to={`/earn`}>

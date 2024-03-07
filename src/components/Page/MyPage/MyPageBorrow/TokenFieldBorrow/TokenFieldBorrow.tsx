@@ -9,6 +9,7 @@ import { useToggleTheme } from "../../../../../hooks/useToggleTheme";
 import { useLoanStore } from "../../../../../hooks/usePositionStore";
 import { TokenBalance } from "../../MyPageBalance/TokenFieldBalance/TokenFieldsBalance";
 import { TOKEN_INFO } from "../../../../../constants";
+import { myFixed } from "../../MyPageDeposit/TokenFieldDeposit/TokenFieldDeposit";
 
 const FieldArrS = styled.div`
     overflow: auto;
@@ -142,8 +143,8 @@ export const TokenFieldBorrow = () => {
         <FieldBlock BorderField={theme.BorderField}>
             <TokenImg src={loan.Logo}></TokenImg>
             <TokenName TextColor={theme.TextColor}>{loan.Display}</TokenName>
-            {isDes && <PriceBlock TextColor={theme.TextColor} style={{marginRight: "auto"}}> <PriceText>{loan.Amount.toFixed(3)} {loan.Display}</PriceText> </PriceBlock>}
-            {isMob && <PriceBlock TextColor={theme.TextColor} style={{marginRight: "15px"}}> <PriceText>{loan.Amount.toFixed(3)} {loan.Display}</PriceText> </PriceBlock>}
+            {isDes && <PriceBlock TextColor={theme.TextColor} style={{marginRight: "auto"}}> <PriceText>{myFixed(loan.Amount, 3)} {loan.Display}</PriceText> </PriceBlock>}
+            {isMob && <PriceBlock TextColor={theme.TextColor} style={{marginRight: "15px"}}> <PriceText>{myFixed(loan.Amount, 3)} {loan.Display}</PriceText> </PriceBlock>}
             {isDes && button}
             {isMob && <></>}
         </FieldBlock>
