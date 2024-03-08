@@ -106,7 +106,7 @@ export const TokenFieldBalanceMobile = () => {
             <TokenImg src={balance.Logo}></TokenImg>
             <TokenName TextColor={theme.TextColor}>{balance.Display}</TokenName>
             <AmountBlock TextColor={theme.TextColor} style={{marginLeft: "auto"}}>
-                <MainAmountText>{myFixed(balance.Amount * balance.Price, 2)} {balance.Display}</MainAmountText>
+                <MainAmountText>{myFixed(balance.Amount, 4)} {balance.Display}</MainAmountText>
                 <SecondAmountText>{myFixed(balance.Amount * balance.Price, 2)} USQ</SecondAmountText>
             </AmountBlock>
         </FieldBlock>
