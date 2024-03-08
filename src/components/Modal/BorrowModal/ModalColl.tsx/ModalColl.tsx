@@ -1,7 +1,6 @@
 import styled from "styled-components";
 import { DialogContent, DialogOverlay } from '@reach/dialog';
 import { animated } from '@react-spring/web';
-import QubeLogo from '../../../../assets/svg/QubeLogo.webp'
 import ArrowBlack from '../../../../assets/svg/ArrowBlack.webp'
 import ArrowWhite from '../../../../assets/svg/ArrowWhite.webp'
 import loop from '../../../../assets/svg/loop.svg'

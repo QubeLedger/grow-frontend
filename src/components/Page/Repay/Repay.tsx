@@ -19,6 +19,7 @@ const Container = styled.div <{ margin: string }>`
     transition: margin-top .3s ease-in-out;
     display: flex;
     justify-content: center;
+    margin-bottom: 50px;
     @media (max-width: 500px){
         max-width: 100%;
         margin-left: 0;
@@ -31,6 +32,9 @@ const RepayBlock = styled.div <{ backgroundColor: string }>`
     height: calc(100vh - 65px);
     background: ${props => props.backgroundColor};
     margin-top: -5px;
+    @media (max-width: 450px) {
+        height: 100%;
+    }
 `
 
 

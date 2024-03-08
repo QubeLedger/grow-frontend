@@ -30,6 +30,10 @@ const ConfirmButton = styled.button`
     cursor: pointer;
     color: black;
     margin-top: 20px;
+    transition: all .15s ease-in-out;
+    &:active {
+         transform: scale(0.95);
+    }
 `
 
 const ButtonBlock = styled.div`
@@ -56,40 +60,44 @@ const InsufficientConfirmButton = styled.button`
     cursor: pointer;
     color: black;
     margin-top: 20px;
+    transition: all .15s ease-in-out;
+    &:active {
+     transform: scale(0.95);
+  }
 `
 
 export async function GetPriceByDenom(denom: string): Promise<number> {
     var price = await fetch(QUBE_TESTNET_INFO.rest + `/core/oracle/v1beta1/denoms/${denom}/exchange_rate`)
     var pricejson = await price.json()
     return Number(pricejson.exchange_rate)
-} 
+}
 
 export const BorrowConfirm = () => {
-    const [ wallet, _ ] = useWallet();
-    const [ position, setPosition ] = usePositionStore();
-    const [ borrow_info, setBorrowInfo ] = useAmountBorrowInfoStore()
-    const [ amtIn, setAmountBorrowEarnStore ] = useAmountBorrowEarnStore()
-    const [ price, setPrice ] = useState(0)
-    const [ walletModalStatus, setWalletModalStatus] = useShowWalletModal();
+    const [wallet, _] = useWallet();
+    const [position, setPosition] = usePositionStore();
+    const [borrow_info, setBorrowInfo] = useAmountBorrowInfoStore()
+    const [amtIn, setAmountBorrowEarnStore] = useAmountBorrowEarnStore()
+    const [price, setPrice] = useState(0)
+    const [walletModalStatus, setWalletModalStatus] = useShowWalletModal();
     const [client, setClient] = useClient();
 
-    let SetPriceByDenom = async(denom: string) => {
+    let SetPriceByDenom = async (denom: string) => {
         let temp_price = await GetPriceByDenom(denom)
         setPrice(temp_price)
     }
 
     let risk_rate = 0
 
-    if(Number(amtIn.amt) == 0 || borrow_info.base == "Select Token") {
-        risk_rate = ((position.borrowedAmountInUSD / position.lendAmountInUSD )* (1 / 60)) * 10000
-    } else if(Number(amtIn.amt) > 0) {
+    if (Number(amtIn.amt) == 0 || borrow_info.base == "Select Token") {
+        risk_rate = ((position.borrowedAmountInUSD / position.lendAmountInUSD) * (1 / 60)) * 10000
+    } else if (Number(amtIn.amt) > 0) {
         SetPriceByDenom(borrow_info.base)
 
         let denom = TOKEN_INFO.find((token) => token.Base == borrow_info.base)
 
         let inc_amount = (Number(amtIn.amt) * 10 ** Number(denom?.Decimals)) * price
 
-        risk_rate = (((position.borrowedAmountInUSD + inc_amount) / position.lendAmountInUSD ) * (1 / 60)) * 10000
+        risk_rate = (((position.borrowedAmountInUSD + inc_amount) / position.lendAmountInUSD) * (1 / 60)) * 10000
     }
 
     //console.log(amtIn)
@@ -97,9 +105,9 @@ export const BorrowConfirm = () => {
     let Button
 
     if (wallet.init == false) {
-        Button = <ButtonBlock onClick={() => {setWalletModalStatus({b: true})}}>
-                <ConfirmButton>Connect wallet</ConfirmButton>
-            </ButtonBlock>
+        Button = <ButtonBlock onClick={() => { setWalletModalStatus({ b: true }) }}>
+            <ConfirmButton>Connect wallet</ConfirmButton>
+        </ButtonBlock>
     } else {
         if (borrow_info.base == "Select Token") {
             Button = <ButtonBlock>
@@ -115,11 +123,11 @@ export const BorrowConfirm = () => {
             </ButtonBlock>
         } else {
             Button = <ButtonBlock>
-                <ConfirmButton onClick={() => {CreateBorrow(amtIn, wallet, client)}}>Confirm</ConfirmButton>
+                <ConfirmButton onClick={() => { CreateBorrow(amtIn, wallet, client) }}>Confirm</ConfirmButton>
             </ButtonBlock>
         }
     }
-    return(
+    return (
         <>{Button}</>
     )
 }

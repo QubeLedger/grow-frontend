@@ -41,10 +41,14 @@ const TokenImg = styled.img`
 `
 
 const PriceBlock = styled.div <{TextColor: string}>`
-    margin-left: auto;
+    margin-left: 40px;
     white-space: nowrap;
     text-align: left;
     color: ${props => props.TextColor};
+    max-width: 100%;
+    @media (max-width: 570px) {
+        margin-left: auto;
+    }
 `
 
 const PriceText = styled.a`
@@ -66,6 +70,7 @@ const ButtonsBlock = styled.div`
     align-items: center;
     margin-top: -5px;
     margin-right: 15px;
+    margin-left: auto;
 `
 
 const EarnDepositButton = styled.button `
@@ -143,7 +148,7 @@ export const TokenFieldBorrow = () => {
         <FieldBlock BorderField={theme.BorderField}>
             <TokenImg src={loan.Logo}></TokenImg>
             <TokenName TextColor={theme.TextColor}>{loan.Display}</TokenName>
-            {isDes && <PriceBlock TextColor={theme.TextColor} style={{marginRight: "auto"}}> <PriceText>{myFixed(loan.Amount, 6)} {loan.Display}</PriceText> </PriceBlock>}
+            {isDes && <PriceBlock TextColor={theme.TextColor}> <PriceText>{myFixed(loan.Amount, 6)} {loan.Display}</PriceText> </PriceBlock>}
             {isMob && <PriceBlock TextColor={theme.TextColor} style={{marginRight: "15px"}}> <PriceText>{myFixed(loan.Amount, 6)} {loan.Display}</PriceText> </PriceBlock>}
             {isDes && button}
             {isMob && <></>}

@@ -18,6 +18,7 @@ import { TokenInfo } from "../../../constants/tokens";
 
 const MyPageBlock = styled.div`
     width: 100%;
+    margin-bottom: 50px;
 `
 
 
@@ -26,6 +27,9 @@ const Block = styled.div <{ backgroundColor: string }>`
     height: calc(100vh - 65px);
     background: ${props => props.backgroundColor};
     margin-top: -5px;
+    @media (max-width: 450px) {
+        height: 100%;
+    }
 `
 
 const MyPageContainer = styled.div`
