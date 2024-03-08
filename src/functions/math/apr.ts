@@ -24,7 +24,7 @@ export function CalculateSupplyInterestRate(asset: Asset, params: Params): numbe
         }
 
         let sir = bir * utilization_rate
-        return isNaN(sir) ? 0 : sir
+        return isNaN(sir) ? 0 : sir * 100
 }
 
 export function CalculateBorrowInterestRate(asset: Asset, params: Params): number {
@@ -48,5 +48,5 @@ export function CalculateBorrowInterestRate(asset: Asset, params: Params): numbe
                 bir = params.slope_1 + ((utilization_rate - u_static) * ((max_rate - params.slope_2) / (1 - u_static)))
         }
 
-        return isNaN(bir) ? 0 : bir
+        return isNaN(bir) ? 0 : bir * 100
 }
