@@ -7,6 +7,7 @@ import { useWallet } from "../../../hooks/useWallet";
 import { useShowWalletModal } from "../../../hooks/useShowModal";
 import { CreateBorrow } from "../../../functions/borrow";
 import { useClient } from "../../../hooks/useClient";
+import { useAssetStore } from "../../../hooks/useAssetStore";
 
 const Button = styled.button`
     width: 250px;
@@ -71,7 +72,8 @@ export const BorrowConfirm = () => {
     const [ amtIn, setAmountBorrowEarnStore ] = useAmountBorrowEarnStore()
     const [ price, setPrice ] = useState(0)
     const [ walletModalStatus, setWalletModalStatus] = useShowWalletModal();
-    const [client, setClient] = useClient();
+    const [ client, setClient] = useClient();
+    const [ assets, setAssets ] = useAssetStore();
 
     let SetPriceByDenom = async(denom: string) => {
         let temp_price = await GetPriceByDenom(denom)
@@ -92,6 +94,8 @@ export const BorrowConfirm = () => {
         risk_rate = (((position.borrowedAmountInUSD + inc_amount) / position.lendAmountInUSD ) * (1 / 60)) * 10000
     }
 
+    let temp_asset = assets.find((asset) => asset.Display == borrow_info.base)
+    let denom = TOKEN_INFO.find((token) => token.Denom == amtIn.base)
     //console.log(amtIn)
 
     let Button
@@ -105,13 +109,17 @@ export const BorrowConfirm = () => {
             Button = <ButtonBlock>
                 <InsufficientConfirmButton>Select Token</InsufficientConfirmButton>
             </ButtonBlock>
-        } else if (amtIn.amt == '' || amtIn.amt == '0') {
+        } else if (amtIn.amt == '' || amtIn.amt == '0' || isNaN(Number(amtIn.amt))) {
             Button = <ButtonBlock>
                 <InsufficientConfirmButton>Enter {borrow_info.base} amount</InsufficientConfirmButton>
             </ButtonBlock>
         } else if (risk_rate > 95) {
             Button = <ButtonBlock>
                 <InsufficientConfirmButton>Big risk rate</InsufficientConfirmButton>
+            </ButtonBlock>
+        } else if(Number(temp_asset?.provide_value) < (Number(amtIn.amt) * 10 ** Number(denom?.Decimals))) { 
+            Button = <ButtonBlock>
+                <InsufficientConfirmButton>Not enough liquidity</InsufficientConfirmButton>
             </ButtonBlock>
         } else {
             Button = <ButtonBlock>

@@ -26,6 +26,9 @@ export interface Loan {
         startTime: number;
         oracleTicker: string;
         borrowedAmountInUSD: number;
+        Display: string;
+        Amount: number;
+        Logo: string;
 }
 
 const defaultState: Position = {

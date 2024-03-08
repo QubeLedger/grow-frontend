@@ -106,8 +106,6 @@ export const TokenFieldBorrow = () => {
     const [ theme, setTheme] = useToggleTheme()
     const [ loans, setLoan ] = useLoanStore();
 
-    let temp_loan: TokenBalance[] = []
-
     const isDes = useMediaQuery({
         query: "(min-device-width: 570px)",
     });
@@ -115,22 +113,13 @@ export const TokenFieldBorrow = () => {
         query: "(max-device-width: 570px)",
     });
 
-    loans.map((loan) => {
-        TOKEN_INFO.map((token) => {
-            if(loan.amountOut_denom == token.Denom) {
-                temp_loan.push({
-                    Display: token.Base,
-                    Amount: (Number(loan.amountOut_amount) / 10 ** Number(token.Decimals)),
-                    Logo: token.Logo,
-                    Price: 0
-                })
-            }
-        })
-    })
+    let temp_loan = loans
 
     temp_loan.sort(function(a, b) {
         return b.Amount - a.Amount
     });
+
+    temp_loan = temp_loan.filter((e) => e.Display != "")
 
     var button = <ButtonsBlock >
                     <EarnCustomLink to="/borrow">
