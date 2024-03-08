@@ -7,7 +7,7 @@ import WETHLogo from "../assets/svg/WETHLogo.webp"
 import USDTLogo from "../assets/svg/USDT Logo.webp"
 import SOLLogo from "../assets/svg/SOL Logo.webp"
 
-interface TokenInfo {
+export interface TokenInfo {
         Denom: string
         Base: string
         Network: string

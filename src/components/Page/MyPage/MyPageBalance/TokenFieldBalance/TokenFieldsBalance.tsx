@@ -1,8 +1,11 @@
 import styled from "styled-components";
 import { useToggleTheme } from "../../../../../hooks/useToggleTheme";
-import { useBalancesStore } from "../../../../../hooks/useBalanceStore";
+import { useBalancesStore, useTokenBalanceStore } from "../../../../../hooks/useBalanceStore";
 import { TOKEN_INFO } from "../../../../../constants/tokens";
 import { myFixed } from "../../MyPageDeposit/TokenFieldDeposit/TokenFieldDeposit";
+import { GetPriceByDenom } from "../../../Borrow/BorrowInfo/BorrowInfo";
+import { useState } from "react";
+import { useClient } from "../../../../../hooks/useClient";
 
 export interface TokenBalance {
     Display: string,
@@ -67,31 +70,12 @@ const SecondAmountText = styled.a`
 
 export const TokenFieldBalanceDesktop = () => {
 
-    const [theme, setTheme] = useToggleTheme();
-    const [balances, setBalances ] = useBalancesStore();
+    const [ theme, setTheme] = useToggleTheme();
+    const [ tokenBalances, setTokenBalanceStore] = useTokenBalanceStore()
 
-    let temp_balance: TokenBalance[] = []
+    //console.log(tokenBalances)
 
-    balances.map((balance_token) => {
-        TOKEN_INFO.map((token) => {
-            if(balance_token.denom == token.Denom) {
-                temp_balance.push({
-                    Display: token.Base,
-                    Amount: (Number(balance_token.amt) / 10 ** Number(token.Decimals)),
-                    Logo: token.Logo,
-                    Price: 1
-                })
-            }
-        })
-    })
-
-
-    temp_balance.sort(function(a, b) {
-        return b.Amount - a.Amount
-    });
-
-
-    const Balances = temp_balance.map((balance) => 
+    const Balances = tokenBalances.map((balance) => 
         <FieldBlock BorderField={theme.BorderField}>
             <TokenNameBlock>
                 <TokenImg src={balance.Logo}></TokenImg>
@@ -115,33 +99,15 @@ export const TokenFieldBalanceDesktop = () => {
 export const TokenFieldBalanceMobile = () => {
 
     const [theme, setTheme] = useToggleTheme()
-    let temp_balance: TokenBalance[] = []
-    const [balances, setBalances ] = useBalancesStore();
+    const [ tokenBalances, setTokenBalanceStore] = useTokenBalanceStore()
 
-    balances.map((balance_token) => {
-        TOKEN_INFO.map((token) => {
-            if(balance_token.denom == token.Denom) {
-                temp_balance.push({
-                    Display: token.Base,
-                    Amount: (Number(balance_token.amt) / 10 ** Number(token.Decimals)),
-                    Logo: token.Logo,
-                    Price: ((Number(balance_token.amt) / 10 ** Number(token.Decimals)) * 1)
-                })
-            }
-        })
-    })
-
-    temp_balance.sort(function(a, b) {
-        return b.Amount - a.Amount
-    });
-
-    const Balances = temp_balance.map((balance) => 
+    const Balances = tokenBalances.map((balance) => 
         <FieldBlock BorderField={theme.BorderField}>
             <TokenImg src={balance.Logo}></TokenImg>
             <TokenName TextColor={theme.TextColor}>{balance.Display}</TokenName>
             <AmountBlock TextColor={theme.TextColor} style={{marginLeft: "auto"}}>
-                <MainAmountText>{Math.trunc(balance.Amount*100)/100} {balance.Display}</MainAmountText>
-                <SecondAmountText>{Math.trunc((balance.Price) * 100)/100} USQ</SecondAmountText>
+                <MainAmountText>{myFixed(balance.Amount * balance.Price, 2)} {balance.Display}</MainAmountText>
+                <SecondAmountText>{myFixed(balance.Amount * balance.Price, 2)} USQ</SecondAmountText>
             </AmountBlock>
         </FieldBlock>
     )

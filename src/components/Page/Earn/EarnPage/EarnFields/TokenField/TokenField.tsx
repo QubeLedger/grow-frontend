@@ -208,6 +208,10 @@ export const VaultField = () => {
         })
     })
 
+    temp_vault.sort(function(a, b) {
+        return b.apr - a.apr
+    });
+
     const VaultsComponent = temp_vault.map((vault, i) => 
         <AccordionBlock BorderField={theme.BorderField} height={eAccordions[i] === undefined ? "60px" : eAccordions[i].height} onClick={() => {openAccordion(vault.Denom)}}>
             <TokenFieldBlock>

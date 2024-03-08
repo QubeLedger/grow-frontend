@@ -6,7 +6,6 @@ export async function GetLoanById(id: string): Promise<Loan> {
 
         try {
                 let res = await fetch(QUBE_TESTNET_INFO.rest + `/core/grow/v1beta1/loan/${id}`)
-                console.log(QUBE_TESTNET_INFO.rest + `/core/grow/v1beta1/loan/${id}`)
                 let loanJson = await res.json()
                 return {
                         loanId: loanJson.loan.loanId, 

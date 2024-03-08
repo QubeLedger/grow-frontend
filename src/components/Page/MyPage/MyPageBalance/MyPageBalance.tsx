@@ -2,11 +2,14 @@ import styled from "styled-components";
 import { useMediaQuery } from 'react-responsive'
 import { TokenFieldBalanceDesktop, TokenFieldBalanceMobile } from "./TokenFieldBalance/TokenFieldsBalance";
 import { useToggleTheme } from "../../../../hooks/useToggleTheme";
-import { useBalancesStore } from "../../../../hooks/useBalanceStore";
+import { useBalancesStore, useTokenBalanceStore, TokenBalance } from "../../../../hooks/useBalanceStore";
 import { useConnectKeplrWalletStore } from "../../../../hooks/useConnectKeplrWalletStore";
 import { useWallet } from "../../../../hooks/useWallet";
 import { useEffect } from "react";
 import { UpdateBalances } from "../../../../connection/balances";
+import { TOKEN_INFO } from "../../../../constants";
+import { GetPriceByDenom } from "../../Borrow/BorrowInfo/BorrowInfo";
+import { TokenInfo } from "../../../../constants/tokens";
 
 const BalanceBlock = styled.div`
     width: 100%;
@@ -58,7 +61,19 @@ export const ContainerBlockH = styled.div <{TextColor: string}>`
     color: ${props => props.TextColor};
 `
 
-
+export function GetInfoFromTokenInfo(denom: string): TokenInfo {
+    let token = TOKEN_INFO.find((token) => denom == token.Denom)
+    if(token === undefined) {
+        token = {
+            Denom: "",
+            Base: "",
+            Network: "",
+            Logo: "",
+            Decimals: 0
+        }
+    }
+    return token
+} 
 
 export const MyPageBalance = () => {
     
@@ -72,6 +87,7 @@ export const MyPageBalance = () => {
     });
 
     const [ balances, setBalances ] = useBalancesStore();
+    const [ tokenBalances, setTokenBalanceStore] = useTokenBalanceStore()
     const [ connectWallet, setConnectWallet ] = useConnectKeplrWalletStore();
     const [ wallet, setWallet ] = useWallet();
 
@@ -80,6 +96,30 @@ export const MyPageBalance = () => {
             if (wallet.init == true) {
                 let blns = await UpdateBalances(wallet, balances);
                 setBalances(blns)
+
+                let temp_tokenBalances = await Promise.all(balances.map(async(balance_token) => {
+                    let token = GetInfoFromTokenInfo(balance_token.denom)
+                    
+                    let temp_price = 0
+                    if (token.Base != ""){
+                        temp_price = await GetPriceByDenom(token.Base)
+                    }
+                    let temp_tokenBalance: TokenBalance = {
+                        Display: token.Base,
+                        Amount: (Number(balance_token.amt) / 10 ** Number(token.Decimals)),
+                        Logo: token.Logo,
+                        Price: isNaN(temp_price) ? 1 : temp_price
+                    }
+                    return temp_tokenBalance
+                }))
+
+                temp_tokenBalances = temp_tokenBalances.filter((e) => e.Display != "")
+
+                temp_tokenBalances.sort(function(a, b) {
+                    return (b.Amount * b.Price) - (a.Amount * a.Price)
+                });
+            
+                setTokenBalanceStore(temp_tokenBalances)
 			}	
 		}
 		update()
@@ -87,7 +127,7 @@ export const MyPageBalance = () => {
 
     let BalancesComponent
 
-    if(!connectWallet.connected || balances.length == 0) {
+    if(!connectWallet.connected || tokenBalances.length == 0) {
         BalancesComponent = <ContainerBlock >
             <ContainerBlockH TextColor={theme.TextColor}>
             <h1 style={{fontSize: "27px"}}>No tokens</h1>

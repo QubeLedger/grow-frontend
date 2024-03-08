@@ -2,7 +2,7 @@ import styled from "styled-components";
 import USQBalance from '../../../assets/svg/USQLogo.webp'
 import { MyPageHeader } from "./MyPageHeader/MyPageHeader";
 import { useToggleTheme } from "../../../hooks/useToggleTheme";
-import { useBalancesStore } from "../../../hooks/useBalanceStore";
+import { useBalancesStore, useTokenBalanceStore } from "../../../hooks/useBalanceStore";
 import { useConnectKeplrWalletStore } from "../../../hooks/useConnectKeplrWalletStore";
 import { TokenBalance } from "./MyPageBalance/TokenFieldBalance/TokenFieldsBalance";
 import { TOKEN_INFO } from "../../../constants";
@@ -13,6 +13,8 @@ import { UpdatePosition } from "../../../connection/position";
 import { Lend, Loan, useLendStore, useLoanStore, usePositionStore } from "../../../hooks/usePositionStore";
 import { GetLendById } from "../../../connection/lend";
 import { GetLoanById } from "../../../connection/loan";
+import { GetPriceByDenom } from "../Borrow/BorrowInfo/BorrowInfo";
+import { TokenInfo } from "../../../constants/tokens";
 
 const MyPageBlock = styled.div`
     width: 100%;
@@ -73,35 +75,37 @@ const ContainerBlock = styled.div`
     
 `
 
+export function GetInfoFromTokenInfo(denom: string): TokenInfo {
+    let token = TOKEN_INFO.find((token) => denom == token.Denom)
+    if(token === undefined) {
+        token = {
+            Denom: "",
+            Base: "",
+            Network: "",
+            Logo: "",
+            Decimals: 0
+        }
+    }
+    return token
+} 
 
 
 export const MyPage = () => {
 
-    const [theme, setTheme] = useToggleTheme()
+    const [ theme, setTheme] = useToggleTheme()
     const [ connectWallet, setConnectWallet ] = useConnectKeplrWalletStore();
     const [ balances, setBalances ] = useBalancesStore();
+    const [ tokenBalances, setTokenBalanceStore] = useTokenBalanceStore()
+    const [ wallet, setWallet ] = useWallet();
 
     let BalancesAmount
+    
 
     if(!connectWallet.connected || balances.length == 0) {
         BalancesAmount = 0
     } else {
-        let temp_balance: TokenBalance[] = []
-        balances.map((balance_token) => {
-            TOKEN_INFO.map((token) => {
-                if(balance_token.denom == token.Denom) {
-                    temp_balance.push({
-                        Display: token.Base,
-                        Amount: (Number(balance_token.amt) / 10 ** Number(token.Decimals)),
-                        Logo: token.Logo,
-                        Price: 1
-                    })
-                }
-            })
-        })
-
         let sum_amount = 0
-        temp_balance.map((balance) => {
+        tokenBalances.map((balance) => {
             sum_amount += (balance.Amount * balance.Price)
         })
         BalancesAmount = sum_amount.toFixed(0)

@@ -131,11 +131,11 @@ export const RepayInfo = () => {
             </BlockInfo>
             <BlockInfo>
                 <InfoText>Borrow Interest Rate</InfoText>
-                <LTVInfo Color="#44A884">{isNaN(temp_apr)? "0.0" : temp_apr.toFixed(2)}%</LTVInfo>
+                <LTVInfo Color="#44A884">{isNaN(temp_apr)? "0.0" : myFixed(temp_apr, 2)}%</LTVInfo>
             </BlockInfo>            
             <LTVBlock>
                 <LTV>Risk Rate</LTV>
-                <LTVInfo Color={(risk_rate.value <= 0) ? "white" : color}>{isNaN(risk_rate.value) || (risk_rate.value <= 0) ? "0.0" : risk_rate.value.toFixed(1)}%</LTVInfo>
+                <LTVInfo Color={(risk_rate.value <= 0) ? "white" : color}>{isNaN(risk_rate.value) || (risk_rate.value <= 0) ? "0.0" : myFixed(risk_rate.value, 2)}%</LTVInfo>
             </LTVBlock>
         </InfoBlock>
     )

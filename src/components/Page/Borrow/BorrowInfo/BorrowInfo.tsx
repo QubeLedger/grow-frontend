@@ -47,9 +47,13 @@ const BlockInfo = styled.div`
 `
 
 export async function GetPriceByDenom(denom: string): Promise<number> {
-    var price = await fetch(QUBE_TESTNET_INFO.rest + `/core/oracle/v1beta1/denoms/${denom}/exchange_rate`)
-    var pricejson = await price.json()
-    return Number(pricejson.exchange_rate)
+    try {
+        var price = await fetch(QUBE_TESTNET_INFO.rest + `/core/oracle/v1beta1/denoms/${denom}/exchange_rate`)
+        var pricejson = await price.json()
+        return Number(pricejson.exchange_rate)
+    } catch(e) {
+        return 0
+    }
 } 
 
 export const BorrowInfo = () => {
@@ -67,6 +71,24 @@ export const BorrowInfo = () => {
         setPrice(temp_price.toFixed(6))
     }
 
+    useEffect(() => {
+        if(Number(amtIn.amt) == 0 || borrow_info.base == "Select Token") {
+            setRiskRate({
+                value: ((position.borrowedAmountInUSD / position.lendAmountInUSD )* (1 / 60)) * 10000
+            })
+        } else if(Number(amtIn.amt) > 0) {
+            SetPriceByDenom(borrow_info.base)
+    
+            let denom = TOKEN_INFO.find((token) => token.Base == borrow_info.base)
+    
+            let inc_amount = (Number(amtIn.amt) * 10 ** Number(denom?.Decimals)) * Number(price)
+    
+            setRiskRate({
+                value: (((position.borrowedAmountInUSD + inc_amount) / position.lendAmountInUSD ) * (1 / 60)) * 10000
+            })
+        }
+    }, [position])
+    
     let temp_apr = 0
 
     assets.map((asset) => {
@@ -99,24 +121,6 @@ export const BorrowInfo = () => {
         })
     })
 
-    useEffect(() => {
-        if(Number(amtIn.amt) == 0 || borrow_info.base == "Select Token") {
-            setRiskRate({
-                value: ((position.borrowedAmountInUSD / position.lendAmountInUSD )* (1 / 60)) * 10000
-            })
-        } else if(Number(amtIn.amt) > 0) {
-            SetPriceByDenom(borrow_info.base)
-    
-            let denom = TOKEN_INFO.find((token) => token.Base == borrow_info.base)
-    
-            let inc_amount = (Number(amtIn.amt) * 10 ** Number(denom?.Decimals)) * Number(price)
-    
-            setRiskRate({
-                value: (((position.borrowedAmountInUSD + inc_amount) / position.lendAmountInUSD ) * (1 / 60)) * 10000
-            })
-        }
-    }, [position])
-    
     return(
         <InfoBlock>
             <BlockInfo>
@@ -133,7 +137,11 @@ export const BorrowInfo = () => {
             </BlockInfo>
             <LTVBlock>
                 <LTV>Risk Rate</LTV>
-                <LTVInfo Color={(risk_rate.value > 95) ? "red" : (isNaN(risk_rate.value) || risk_rate.value == 0) ? "white" : "#44A884"}>{(isNaN(risk_rate.value)? "0.0" : risk_rate.value.toFixed(1)) == "Infinity" ? "999.9" : (isNaN(risk_rate.value)? "0.0" : risk_rate.value.toFixed(1))}%</LTVInfo>
+                <LTVInfo Color={(risk_rate.value > 95) ? "red" : (isNaN(risk_rate.value) || risk_rate.value == 0) ? "white" : "#44A884"}>
+                    {
+                    (isNaN(risk_rate.value)? "0.0" : myFixed(risk_rate.value, 2)) == "Infinity" ? "999.9" : (isNaN(risk_rate.value)? "0.0" : myFixed(risk_rate.value, 2))
+                    }%
+                    </LTVInfo>
             </LTVBlock>
         </InfoBlock>
     )
