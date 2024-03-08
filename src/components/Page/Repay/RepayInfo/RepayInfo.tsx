@@ -80,10 +80,10 @@ export const RepayInfo = () => {
             let inc_amount = (Number(amtIn.amt) * 10 ** Number(denom?.Decimals)) * Number(price)
     
             setRiskRate({
-                value: (((position.borrowedAmountInUSD + inc_amount) / position.lendAmountInUSD ) * (1 / 60)) * 10000
+                value: (((position.borrowedAmountInUSD - inc_amount) / position.lendAmountInUSD ) * (1 / 60)) * 10000
             })
         }
-    }, [position])
+    }, [amtIn, position])
 
     let temp_apr = 0
 
@@ -131,7 +131,7 @@ export const RepayInfo = () => {
             </BlockInfo>
             <BlockInfo>
                 <InfoText>Borrow Interest Rate</InfoText>
-                <LTVInfo Color="#44A884">{isNaN(temp_apr)? "0.0" : myFixed(temp_apr, 2)}%</LTVInfo>
+                <LTVInfo Color="#44A884">{isNaN(temp_apr)? "0.0" : temp_apr.toFixed(2)}%</LTVInfo>
             </BlockInfo>            
             <LTVBlock>
                 <LTV>Risk Rate</LTV>

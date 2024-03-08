@@ -87,7 +87,7 @@ export const BorrowInfo = () => {
                 value: (((position.borrowedAmountInUSD + inc_amount) / position.lendAmountInUSD ) * (1 / 60)) * 10000
             })
         }
-    }, [position])
+    }, [amtIn, position])
     
     let temp_apr = 0
 
