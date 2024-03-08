@@ -16,7 +16,7 @@ const DepositBlock = styled.div <{margin: string}>`
 
 const Block = styled.div <{backgroundColor: string}>`
     width: 100%;
-     
+    height: calc(100vh - 65px);
     background: ${props => props.backgroundColor};
     margin-top: -5px;
 `
@@ -40,9 +40,9 @@ export const EarnWithdrawal = () => {
 
     return(
         <Block backgroundColor={theme.backgroundColor}>
-        <DepositBlock  margin={accordion.margin}>
-            <EarnWithdrawalContainer/>
-        </DepositBlock>
+            <DepositBlock  margin={accordion.margin}>
+                <EarnWithdrawalContainer/>
+            </DepositBlock>
         </Block>
     )
 }

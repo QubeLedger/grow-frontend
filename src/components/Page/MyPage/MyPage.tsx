@@ -22,15 +22,17 @@ const MyPageBlock = styled.div`
 `
 
 
-const Block = styled.div <{ backgroundColor: string }>`
+const Block = styled.div <{ backgroundColor: string, MyPageHeightMob: string, MyPageHeightDes: string }>`
     width: 100%;
-    height: calc(100vh - 65px);
+    height: ${props => props.MyPageHeightDes};
     background: ${props => props.backgroundColor};
     margin-top: -5px;
     @media (max-width: 450px) {
-        height: 100%;
+        height: ${props => props.MyPageHeightMob};
     }
 `
+// calc(100vh - 65px);
+// height: 100%;
 
 const MyPageContainer = styled.div`
     max-width: 570px;
@@ -101,6 +103,8 @@ export const MyPage = () => {
     const [ balances, setBalances ] = useBalancesStore();
     const [ tokenBalances, setTokenBalanceStore] = useTokenBalanceStore()
     const [ wallet, setWallet ] = useWallet();
+    const [ lend, setLend ] = useLendStore();
+    const [ loan, setLoan ] = useLoanStore()
 
     let BalancesAmount
     
@@ -116,7 +120,10 @@ export const MyPage = () => {
     }
 
     return (
-        <Block backgroundColor={theme.backgroundColor}>
+        <Block
+        MyPageHeightDes={lend.length >= 9 || loan.length >= 9 ? '100%;' : 'calc(100vh - 65px);'}
+        MyPageHeightMob={lend.length >= 4 || loan.length >= 4 ? '100%;' : 'calc(100vh - 65px);'}
+        backgroundColor={theme.backgroundColor}>
             <MyPageBlock>
                 <MyPageContainer>
                     <HeaderBlock TextColor={theme.TextColor}>
@@ -126,9 +133,9 @@ export const MyPage = () => {
                         <BalanceText TextColor={theme.TextColor}>{BalancesAmount}<BalanceImg src={USQBalance}></BalanceImg>
                         </BalanceText>
                     </BalanceBlock>
-                    <DynamicBlock />
+                    <DynamicBlock/>
                     <ContainerBlock>
-                        <MyPageHeader></MyPageHeader>
+                        <MyPageHeader/>
                     </ContainerBlock>
                 </MyPageContainer>
             </MyPageBlock>

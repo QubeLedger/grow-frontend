@@ -224,7 +224,7 @@ export const VaultField = () => {
                     <ARPText>{vault.apr.toFixed(2)}%</ARPText>
                 </ARPBlock>
             </TokenFieldBlock>
-            <ButtonsBlock >
+            <ButtonsBlock>
                 <EarnCustomLink to={`/deposit/${vault.Display}`}>
                     <EarnDepositButton>Deposit</EarnDepositButton>
                 </EarnCustomLink>
