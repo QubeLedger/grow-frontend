@@ -38,6 +38,7 @@ const FieldBlock = styled.div <{BorderField: string}>`
 const TokenImg = styled.img`
     width: 45px;
     margin-left: 15px;
+    border-radius: 50px;
 `
 
 const PriceBlock = styled.div <{TextColor: string}>`
