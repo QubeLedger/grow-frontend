@@ -12,6 +12,11 @@ const Button = styled.button`
     font-weight: 700;
     color: #000;
     display: flex;
+    transition: 0.2s all;
+    transition: all .15s ease-in-out;
+    &:active {
+         transform: scale(0.95);
+    } 
     @media (max-width: 500px) {
         width: 120px;
         height: 35px;

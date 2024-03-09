@@ -6,6 +6,7 @@ const LiquidationBLock = styled.div`
     display: flex;
     justify-content: center;
     align-items: center;
+    margin-bottom: 50px;
 `
 
 const Block = styled.div <{backgroundColor: string}>`
@@ -13,6 +14,9 @@ const Block = styled.div <{backgroundColor: string}>`
     height: calc(100vh - 65px);
     background: ${props => props.backgroundColor};
     margin-top: -5px;
+    @media (max-width: 450px) {
+        height: 100%;
+    }
 `
 
 const TestText = styled.h1`

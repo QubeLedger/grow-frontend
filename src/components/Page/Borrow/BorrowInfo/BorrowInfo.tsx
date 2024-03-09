@@ -36,7 +36,7 @@ const LTV = styled.h1`
 
 const LTVInfo = styled.h1 <{Color: string}>`
     font-size: 18px;
-    color: ${props => props.Color}
+    color: ${props => props.Color};
 `
 
 const BlockInfo = styled.div`

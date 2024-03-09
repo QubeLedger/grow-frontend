@@ -20,6 +20,9 @@ const InfoBlock = styled.div`
     display: flex;
     align-items: center;
     justify-content: space-between;
+    @media (min-width: 570px) {
+        justify-content: normal;
+    }
 `
 
 const AssetsBlock = styled.div`
@@ -34,6 +37,7 @@ const Text = styled.a`
 
 const PriceBlock = styled.div`
     margin-right: 15px;
+    margin-left: 90px;
 `
 
 const ContainerBlock = styled.div`
@@ -94,8 +98,7 @@ export const MyPageBorrow = () => {
         BorrowComponent = <>
             <InfoBlock>
                 <AssetsBlock> <Text>Assets</Text> </AssetsBlock>
-                {isMob && <PriceBlock> <Text>Amount</Text> </PriceBlock>}
-                {isDes && <PriceBlock> <Text style={{marginLeft: "-22.8em"}}>Amount</Text> </PriceBlock>}
+                <PriceBlock> <Text>Amount</Text> </PriceBlock>
             </InfoBlock>
             <TokenFieldBorrow/>
         </>

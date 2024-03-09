@@ -73,7 +73,7 @@ export const TokenFieldBalanceDesktop = () => {
     const [ theme, setTheme] = useToggleTheme();
     const [ tokenBalances, setTokenBalanceStore] = useTokenBalanceStore()
 
-    //console.log(tokenBalances)
+    
 
     const Balances = tokenBalances.map((balance) => 
         <FieldBlock BorderField={theme.BorderField}>
@@ -87,6 +87,7 @@ export const TokenFieldBalanceDesktop = () => {
             </AmountBlock>
         </FieldBlock>
     )
+    console.log(tokenBalances)
 
     return(
         <FieldArr>

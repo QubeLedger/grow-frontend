@@ -30,6 +30,10 @@ const ConfirmButton = styled.button`
     cursor: pointer;
     color: black;
     margin-top: 20px;
+    transition: all .15s ease-in-out;
+    &:active {
+         transform: scale(0.95);
+    }
 `
 
 const ButtonBlock = styled.div`
@@ -56,13 +60,17 @@ const InsufficientConfirmButton = styled.button`
     cursor: pointer;
     color: black;
     margin-top: 20px;
+    transition: all .15s ease-in-out;
+    &:active {
+     transform: scale(0.95);
+  }
 `
 
 export async function GetPriceByDenom(denom: string): Promise<number> {
     var price = await fetch(QUBE_TESTNET_INFO.rest + `/core/oracle/v1beta1/denoms/${denom}/exchange_rate`)
     var pricejson = await price.json()
     return Number(pricejson.exchange_rate)
-} 
+}
 
 export const BorrowConfirm = () => {
     const [ wallet, _ ] = useWallet();
@@ -75,14 +83,13 @@ export const BorrowConfirm = () => {
 
     let temp_asset = assets.find((asset) => asset.Display == borrow_info.base)
     let denom = TOKEN_INFO.find((token) => token.Denom == amtIn.base)
-    //console.log(amtIn)
 
     let Button
 
     if (wallet.init == false) {
-        Button = <ButtonBlock onClick={() => {setWalletModalStatus({b: true})}}>
-                <ConfirmButton>Connect wallet</ConfirmButton>
-            </ButtonBlock>
+        Button = <ButtonBlock onClick={() => { setWalletModalStatus({ b: true }) }}>
+            <ConfirmButton>Connect wallet</ConfirmButton>
+        </ButtonBlock>
     } else {
         if (borrow_info.base == "Select Token") {
             Button = <ButtonBlock>
@@ -102,11 +109,11 @@ export const BorrowConfirm = () => {
             </ButtonBlock>
         } else {
             Button = <ButtonBlock>
-                <ConfirmButton onClick={() => {CreateBorrow(amtIn, wallet, client)}}>Confirm</ConfirmButton>
+                <ConfirmButton onClick={() => { CreateBorrow(amtIn, wallet, client) }}>Confirm</ConfirmButton>
             </ButtonBlock>
         }
     }
-    return(
+    return (
         <>{Button}</>
     )
 }

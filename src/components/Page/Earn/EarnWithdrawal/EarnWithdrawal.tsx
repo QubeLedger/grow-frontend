@@ -40,9 +40,9 @@ export const EarnWithdrawal = () => {
 
     return(
         <Block backgroundColor={theme.backgroundColor}>
-        <DepositBlock  margin={accordion.margin}>
-            <EarnWithdrawalContainer/>
-        </DepositBlock>
+            <DepositBlock  margin={accordion.margin}>
+                <EarnWithdrawalContainer/>
+            </DepositBlock>
         </Block>
     )
 }

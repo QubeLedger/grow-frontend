@@ -32,6 +32,10 @@ const ConfirmButton = styled.button`
     cursor: pointer;
     color: black;
     margin-top: 20px;
+    transition: all .15s ease-in-out;
+    &:active {
+         transform: scale(0.95);
+    }
 `
 
 const ButtonBlock = styled.div`
@@ -58,6 +62,10 @@ const InsufficientConfirmButton = styled.button`
     cursor: pointer;
     color: black;
     margin-top: 20px;
+    transition: all .15s ease-in-out;
+    &:active {
+         transform: scale(0.95);
+    }
 `
 
 export async function GetPriceByDenom(denom: string): Promise<number> {
