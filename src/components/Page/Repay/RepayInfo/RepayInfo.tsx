@@ -85,37 +85,7 @@ export const RepayInfo = () => {
         }
     }, [amtIn, position])
 
-    let temp_apr = 0
-
-    assets.map((asset) => {
-        TOKEN_INFO.map((token) => {
-            if(asset.denom == token.Denom && token.Denom == borrow_info.denom) {
-
-                let utilization_rate = asset.collectively_borrow_value / asset.provide_value
-
-                let u_static = 0
-                let max_rate = 0
-
-                if(asset.type == "volatile"){
-                    u_static = params.u_static_volatile
-                    max_rate = params.max_rate_volatile
-                } else if(asset.type == "stable"){
-                    u_static = params.u_static_stable
-                    max_rate = params.max_rate_stable
-                }
-
-                let bir = 0
-
-                if(utilization_rate < u_static) {
-                    bir = params.slope_1 + (utilization_rate * ((params.slope_2 - params.slope_1) / u_static))
-                } else {
-                    bir = params.slope_1 + ((utilization_rate - u_static) * ((max_rate - params.slope_2) / (1 - u_static)))
-                }
-                temp_apr = isNaN(bir) ? 0 : bir
-            }
-        })
-    })
-
+    let temp_asset = assets.find((asset) => asset.Display == borrow_info.base)
 
     let color = isNaN(risk_rate.value) || risk_rate.value == 0 ? "white" : "#44A884"
     
@@ -131,7 +101,7 @@ export const RepayInfo = () => {
             </BlockInfo>
             <BlockInfo>
                 <InfoText>Borrow Interest Rate</InfoText>
-                <LTVInfo Color="#44A884">{isNaN(temp_apr)? "0.0" : temp_apr.toFixed(2)}%</LTVInfo>
+                <LTVInfo Color="#44A884">{isNaN(Number(temp_asset?.bir))? "0.0" : temp_asset?.bir.toFixed(2)}%</LTVInfo>
             </BlockInfo>            
             <LTVBlock>
                 <LTV>Risk Rate</LTV>

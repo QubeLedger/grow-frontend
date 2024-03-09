@@ -54,11 +54,11 @@ export const Borrow = () => {
     useEffect(() => {
         async function update() {
 
-            let assets = await UpdateAssets()
+            let assets = await UpdateAssets(params)
             setAssets(assets)
 
-            let params = await UpdateParams()
-            setParams(params)
+            let temp_params = await UpdateParams()
+            setParams(temp_params)
 
             if (wallet.init == true) {
                 let temp_loans = await Promise.all(position.loan_id.map(async(loan_id) => {

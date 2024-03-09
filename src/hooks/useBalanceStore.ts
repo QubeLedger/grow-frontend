@@ -15,7 +15,7 @@ export interface TokenBalance {
         Logo: string,
         Amount: number,
         Price: number,
-    }
+}
 
 const defaultState: Coin = { amt: "0", denom: "" };
 const defaultStateBalances: Array<Coin> = [];

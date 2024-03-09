@@ -49,28 +49,16 @@ const ButtonBlock = styled.div`
     margin-top: 35px;
 `
 
-const getBalance = (balances: Array<Coin>, denom: string) => {
-    let res: string = "0";
-    balances.map((coin) => {
-        if(coin.denom == denom) {
-            res = coin.amt;
-        }
-    })
-    return (Number(res) / 10 ** 6).toFixed(3) == "0.000" ? "0" : (Number(res) / 10 ** 6).toFixed(3)
-}
-
 export const EarnWithdrawalConfirm = () => {
 
     const [wallet, _ ] = useWallet();
     const [amtIn, setAmountWithdrawalEarnStore] = useAmountWithdrawalEarnStore()
     const [walletModalStatus, setWalletModalStatus] = useShowWalletModal();
-    const [balances, setBalances] = useBalancesStore();
     const [client, setClient] = useClient();
     const [ lends, setLends ] = useLendStore()
 
     let temp_token = TOKEN_INFO.find((token) => token.Base == amtIn.base )
     let temp_lend = lends.find((lend) => lend.amountIn_denom == temp_token?.Denom)
-        
     let Button;
 
     if (wallet.init == false) {
@@ -78,9 +66,13 @@ export const EarnWithdrawalConfirm = () => {
                 <ConfirmButton>Connect wallet</ConfirmButton>
             </ButtonBlock>
     } else {
-        if (amtIn.amt == '' || amtIn.amt == '0') {
+        if (amtIn.amt == '' || amtIn.amt == '0' || isNaN(Number(amtIn.amt))) {
             Button = <ButtonBlock>
                 <InsufficientConfirmButton>Enter {amtIn.base} amount</InsufficientConfirmButton>
+            </ButtonBlock>
+        } else if (temp_lend === undefined) { 
+            Button = <ButtonBlock>
+                <InsufficientConfirmButton>No {amtIn.base} deposit</InsufficientConfirmButton>
             </ButtonBlock>
         } else if (Number(amtIn.amt) > (Number(temp_lend?.amountIn_amount) / 10**6)) {
             Button = <ButtonBlock>

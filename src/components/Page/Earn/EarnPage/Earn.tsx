@@ -8,6 +8,11 @@ import { useAssetStore } from "../../../../hooks/useAssetStore";
 import { useParamsStore } from "../../../../hooks/useParamsStore";
 import { useEffect } from "react";
 import { useAccordionEarn } from "../../../../hooks/useAccordionEarn";
+import { useLendStore, useLoanStore, usePositionStore } from "../../../../hooks/usePositionStore";
+import { useWallet } from "../../../../hooks/useWallet";
+import { UpdatePosition } from "../../../../connection/position";
+import { GetLoanById } from "../../../../connection/loan";
+import { GetLendById } from "../../../../connection/lend";
 
 const EarnBLock = styled.div <{margin: string}>`
     width: 100%;
@@ -28,32 +33,53 @@ const Block = styled.div <{backgroundColor: string}>`
     }
 `
 
-
-
 export const Earn = () => {
     const [eAccordions, setEAccordion] = useAccordionEarn();
     const [accordion, setAccordion] = useAccordionStore()
     const [theme, setTheme] = useToggleTheme()
     const [params, setParams] = useParamsStore()
     const [assets, setAssets] = useAssetStore()
+    const [ position, setPosition ] = usePositionStore();
+    const [ wallet, setWallet ] = useWallet();
+    const [ lend, setLend ] = useLendStore();
+	const [ loan, setLoan ] = useLoanStore()
 
     useEffect(() => {
         async function update() {
-            let assets = await UpdateAssets()
-            setAssets(assets)
+
+            if (wallet.init == true) {
+                let position = await UpdatePosition(wallet.wallet.bech32Address)
+			    setPosition(position)
+
+                let temp_loans = await Promise.all(position.loan_id.map(async(loan_id) => {
+                    let temp_loan = await GetLoanById(loan_id)
+                    return temp_loan
+                }))
+                setLoan(temp_loans)
+
+                let temp_lends = await Promise.all(position.lend_id.map(async(lend_id) => {
+                    let temp_lend = await GetLendById(lend_id)
+                    return temp_lend
+                }))
+                setLend(temp_lends)
+            }
+
             let params = await UpdateParams()
             setParams(params)
+
+            let temp_assets = await UpdateAssets(params)
+            setAssets(temp_assets)
+            
+            temp_assets.map((asset) => {
+                eAccordions.push({
+                    base: asset.Display,
+                    active: false,
+                    height: '60px',
+                })
+            })
+            setEAccordion(eAccordions)
         }
         update();
-
-        assets.map((asset) => {
-            eAccordions.push({
-                base: asset.denom,
-                active: false,
-                height: '60px',
-            })
-        })
-        setEAccordion(eAccordions)
     }, [])
 
     return(

@@ -46,7 +46,7 @@ export const TOKEN_INFO: TokenInfo[] = [
         },
         {
                 Denom: "factory/qube1t2ydw7r4asmk74ymuvykjshdzun8dxye0az5wz/uweth",
-                Base: "ETH",
+                Base: "WETH",
                 Network: "Ethereum",
                 Logo: WETHLogo,
                 Decimals: 6

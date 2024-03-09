@@ -69,11 +69,8 @@ export const Repay = () => {
                 setLend(temp_lends)
             }
 
-            let assets = await UpdateAssets()
+            let assets = await UpdateAssets(params)
             setAssets(assets)
-
-            let params = await UpdateParams()
-            setParams(params)
         }
         update();
     }, [])

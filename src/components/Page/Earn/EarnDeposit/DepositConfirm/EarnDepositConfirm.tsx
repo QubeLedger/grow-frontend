@@ -76,7 +76,7 @@ export const EarnDepositConfirm = () => {
                 <ConfirmButton>Connect wallet</ConfirmButton>
             </ButtonBlock>
     } else {
-        if (amtIn.amt == '' || amtIn.amt == '0') {
+        if (amtIn.amt == '' || amtIn.amt == '0' || isNaN(Number(amtIn.amt))) {
             Button = <ButtonBlock>
                 <InsufficientConfirmButton>Enter {amtIn.base} amount</InsufficientConfirmButton>
             </ButtonBlock>

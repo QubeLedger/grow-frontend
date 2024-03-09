@@ -82,18 +82,6 @@ export const HomePage = () => {
 
     const [accordion, setAccordion] = useAccordionStore()
     const [theme, setTheme] = useToggleTheme()
-    const [_, setAssets] = useAssetStore()
-    const [params, setParams] = useParamsStore()
-
-    useEffect(() => {
-        async function update() {
-            let assets = await UpdateAssets()
-            setAssets(assets)
-            let params = await UpdateParams()
-            setParams(params)
-        }
-        update();
-    }, [])
 
     return(
         <Block backgroundColor={theme.backgroundColor}>

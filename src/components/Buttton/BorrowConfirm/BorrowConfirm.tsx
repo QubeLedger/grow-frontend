@@ -1,12 +1,12 @@
-import { useState } from "react";
 import styled from "styled-components";
 import { useAmountBorrowEarnStore, useAmountBorrowInfoStore } from "../../../hooks/useAmountInStore";
 import { QUBE_TESTNET_INFO, TOKEN_INFO } from "../../../constants";
-import { usePositionStore } from "../../../hooks/usePositionStore";
+import { useRiskRate } from "../../../hooks/usePositionStore";
 import { useWallet } from "../../../hooks/useWallet";
 import { useShowWalletModal } from "../../../hooks/useShowModal";
 import { CreateBorrow } from "../../../functions/borrow";
 import { useClient } from "../../../hooks/useClient";
+import { useAssetStore } from "../../../hooks/useAssetStore";
 
 const Button = styled.button`
     width: 250px;
@@ -73,34 +73,16 @@ export async function GetPriceByDenom(denom: string): Promise<number> {
 }
 
 export const BorrowConfirm = () => {
-    const [wallet, _] = useWallet();
-    const [position, setPosition] = usePositionStore();
-    const [borrow_info, setBorrowInfo] = useAmountBorrowInfoStore()
-    const [amtIn, setAmountBorrowEarnStore] = useAmountBorrowEarnStore()
-    const [price, setPrice] = useState(0)
-    const [walletModalStatus, setWalletModalStatus] = useShowWalletModal();
-    const [client, setClient] = useClient();
+    const [ wallet, _ ] = useWallet();
+    const [ borrow_info, setBorrowInfo ] = useAmountBorrowInfoStore()
+    const [ amtIn, setAmountBorrowEarnStore ] = useAmountBorrowEarnStore()
+    const [ walletModalStatus, setWalletModalStatus] = useShowWalletModal();
+    const [ client, setClient] = useClient();
+    const [ assets, setAssets ] = useAssetStore();
+    const [ risk_rate, setRiskRate ] = useRiskRate()
 
-    let SetPriceByDenom = async (denom: string) => {
-        let temp_price = await GetPriceByDenom(denom)
-        setPrice(temp_price)
-    }
-
-    let risk_rate = 0
-
-    if (Number(amtIn.amt) == 0 || borrow_info.base == "Select Token") {
-        risk_rate = ((position.borrowedAmountInUSD / position.lendAmountInUSD) * (1 / 60)) * 10000
-    } else if (Number(amtIn.amt) > 0) {
-        SetPriceByDenom(borrow_info.base)
-
-        let denom = TOKEN_INFO.find((token) => token.Base == borrow_info.base)
-
-        let inc_amount = (Number(amtIn.amt) * 10 ** Number(denom?.Decimals)) * price
-
-        risk_rate = (((position.borrowedAmountInUSD + inc_amount) / position.lendAmountInUSD) * (1 / 60)) * 10000
-    }
-
-    //console.log(amtIn)
+    let temp_asset = assets.find((asset) => asset.Display == borrow_info.base)
+    let denom = TOKEN_INFO.find((token) => token.Denom == amtIn.base)
 
     let Button
 
@@ -113,13 +95,17 @@ export const BorrowConfirm = () => {
             Button = <ButtonBlock>
                 <InsufficientConfirmButton>Select Token</InsufficientConfirmButton>
             </ButtonBlock>
-        } else if (amtIn.amt == '' || amtIn.amt == '0') {
+        } else if (amtIn.amt == '' || amtIn.amt == '0' || isNaN(Number(amtIn.amt))) {
             Button = <ButtonBlock>
                 <InsufficientConfirmButton>Enter {borrow_info.base} amount</InsufficientConfirmButton>
             </ButtonBlock>
-        } else if (risk_rate > 95) {
+        } else if (risk_rate.value > 95) {
             Button = <ButtonBlock>
                 <InsufficientConfirmButton>Big risk rate</InsufficientConfirmButton>
+            </ButtonBlock>
+        } else if(Number(temp_asset?.provide_value) < (Number(amtIn.amt) * 10 ** Number(denom?.Decimals))) { 
+            Button = <ButtonBlock>
+                <InsufficientConfirmButton>Not enough liquidity</InsufficientConfirmButton>
             </ButtonBlock>
         } else {
             Button = <ButtonBlock>

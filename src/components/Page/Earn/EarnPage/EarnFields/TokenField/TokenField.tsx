@@ -3,9 +3,7 @@ import { Accordion, useAccordionEarn } from '../../../../../../hooks/useAccordio
 import { EarnCustomLink } from "../../../EarnCustomLink/EarnCustomLink";
 import { useToggleTheme } from "../../../../../../hooks/useToggleTheme";
 import { useAssetStore } from "../../../../../../hooks/useAssetStore";
-import { TOKEN_INFO } from "../../../../../../constants";
-import { useParamsStore } from "../../../../../../hooks/useParamsStore";
-import { useEffect } from "react";
+
 
 export interface Vault {
     Display: string,
@@ -140,14 +138,19 @@ export const ARPText = styled.a`
     color: #44A884;
 `
 
+function GetAccordionByBase(eAccordions: Accordion[], base: string): Accordion | undefined {
+    return eAccordions.find((ea) => ea.base == base)
+}
+
 export const VaultField = () => {
 
     const [eAccordions, setEAccordion] = useAccordionEarn();
     const [theme, setTheme] = useToggleTheme()
     const [assets, setAssets] = useAssetStore()
-    const [params, setParams] = useParamsStore()
 
-    let temp_vault: Vault[] = []
+    let CheckAccrdion = (acc: Accordion | undefined): string => {
+        return acc === undefined ? "60px" : acc.height
+    }
 
     function openAccordion (base: string) {
         let index_eAccordion = eAccordions.findIndex((acc) => acc.base == base)
@@ -169,66 +172,23 @@ export const VaultField = () => {
         }
     }
 
-    assets.map((asset) => {
-        TOKEN_INFO.map((token) => {
-            if(asset.denom == token.Denom) {
-
-                let utilization_rate = asset.collectively_borrow_value / asset.provide_value
-
-                let u_static = 0
-                let max_rate = 0
-
-                if(asset.type == "volatile"){
-                    u_static = params.u_static_volatile
-                    max_rate = params.max_rate_volatile
-                } else if(asset.type == "stable"){
-                    u_static = params.u_static_stable
-                    max_rate = params.max_rate_stable
-                }
-
-                let bir = 0
-
-                if(utilization_rate < u_static) {
-                    bir = params.slope_1 + (utilization_rate * ((params.slope_2 - params.slope_1) / u_static))
-                } else {
-                    bir = params.slope_1 + ((utilization_rate - u_static) * ((max_rate - params.slope_2) / (1 - u_static)))
-                }
-
-                let sir = bir * utilization_rate
-
-
-                temp_vault.push({
-                    Display: token.Base,
-                    Denom: asset.denom,
-                    Logo: token.Logo,
-                    apr: isNaN(sir) ? 0 : sir,
-                    type: "lend",
-                })
-            }
-        })
-    })
-
-    temp_vault.sort(function(a, b) {
-        return b.apr - a.apr
-    });
-
-    const VaultsComponent = temp_vault.map((vault, i) => 
-        <AccordionBlock BorderField={theme.BorderField} height={eAccordions[i] === undefined ? "60px" : eAccordions[i].height} onClick={() => {openAccordion(vault.Denom)}}>
+    const VaultsComponent = assets.map((asset, i) => 
+        <AccordionBlock BorderField={theme.BorderField} height={CheckAccrdion(GetAccordionByBase(eAccordions, asset.Display))} onClick={() => {openAccordion(asset.Display)}}>
             <TokenFieldBlock>
                 <TokensBlock>
-                    <TokensImg src={vault.Logo}></TokensImg>
-                    <TokensName TextColor={theme.TextColor}>{vault.Display}</TokensName>
-                    {vault.type == "lend" ? <LendProto><TokensProtoText>Lend</TokensProtoText></LendProto> : <GrowProto><TokensProtoText>Grow</TokensProtoText></GrowProto>}
+                    <TokensImg src={asset.Logo}></TokensImg>
+                    <TokensName TextColor={theme.TextColor}>{asset.Display}</TokensName>
+                    {asset.AssetType == "lend" ? <LendProto><TokensProtoText>Lend</TokensProtoText></LendProto> : <GrowProto><TokensProtoText>Grow</TokensProtoText></GrowProto>}
                 </TokensBlock>
                 <ARPBlock>
-                    <ARPText>{vault.apr.toFixed(2)}%</ARPText>
+                    <ARPText>{asset.sir.toFixed(2)}%</ARPText>
                 </ARPBlock>
             </TokenFieldBlock>
-            <ButtonsBlock>
-                <EarnCustomLink to={`/deposit/${vault.Display}`}>
+            <ButtonsBlock >
+                <EarnCustomLink to={`/deposit/${asset.Display}`}>
                     <EarnDepositButton>Deposit</EarnDepositButton>
                 </EarnCustomLink>
-                <EarnCustomLink to={`/withdrawal/${vault.Display}`}>
+                <EarnCustomLink to={`/withdrawal/${asset.Display}`}>
                     <EarnWithdrawalButton>Withdrawal</EarnWithdrawalButton>
                 </EarnCustomLink>
             </ButtonsBlock>
