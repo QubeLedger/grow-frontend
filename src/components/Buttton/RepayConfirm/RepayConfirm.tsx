@@ -2,7 +2,7 @@ import { useState } from "react";
 import styled from "styled-components";
 import { useAmountBorrowInfoStore, useAmountBorrowRepayEarnStore } from "../../../hooks/useAmountInStore";
 import { QUBE_TESTNET_INFO, TOKEN_INFO } from "../../../constants";
-import { useLoanStore, usePositionStore } from "../../../hooks/usePositionStore";
+import { useLoanStore, usePositionStore, useRiskRate } from "../../../hooks/usePositionStore";
 import { useWallet } from "../../../hooks/useWallet";
 import { useShowWalletModal } from "../../../hooks/useShowModal";
 import { DeleteBorrow } from "../../../functions/borrow";
@@ -77,29 +77,10 @@ export const RepayConfirm = () => {
     const [ balances, setBalances] = useBalancesStore();
     const [ loans, setLoans] = useLoanStore()
 
-    let risk_rate = 0
     let Button: any;
     let temp_token = TOKEN_INFO.find((token) => token.Denom == amtIn.base )
     let temp_loan = loans.find((loan) => loan.amountOut_denom == temp_token?.Denom)
     let balance = getBalance(balances, String(temp_token?.Denom))
-
-    let SetPriceByDenom = async(denom: string) => {
-        let temp_price = await GetPriceByDenom(denom)
-        setPrice(temp_price)
-    }
-
-    if(Number(amtIn.amt) == 0 || borrow_info.base == "Select Token") {
-        risk_rate = ((position.borrowedAmountInUSD / position.lendAmountInUSD )* (1 / 60)) * 10000
-    } else if(Number(amtIn.amt) > 0) {
-        SetPriceByDenom(borrow_info.base)
-
-        let denom = TOKEN_INFO.find((token) => token.Base == borrow_info.base)
-
-        let inc_amount = (Number(amtIn.amt) * 10 ** Number(denom?.Decimals)) * price
-
-        risk_rate = ((((position.borrowedAmountInUSD - inc_amount) < 0 ? 0 : (position.borrowedAmountInUSD - inc_amount)) / position.lendAmountInUSD ) * (1 / 60)) * 10000
-    }
-
 
     if (wallet.init == false) {
         Button = <ButtonBlock onClick={() => {setWalletModalStatus({b: true})}}>

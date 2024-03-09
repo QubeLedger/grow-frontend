@@ -78,7 +78,7 @@ export const WantTo = () => {
                 <TokenBlock>
                     <ModalWant/>
                 </TokenBlock>
-                <InputBlock placeholder="0" onChange={HandleInputAmpunt} value={amtIn.amt}></InputBlock>               
+                <InputBlock placeholder="0" onChange={HandleInputAmpunt} value={amtIn.amt}></InputBlock>          
             </FieldWant>
         </Want>
     )

@@ -1,13 +1,11 @@
 import styled from "styled-components";
 import { TokenFieldDeposit } from "./TokenFieldDeposit/TokenFieldDeposit";
 import { useMediaQuery } from "react-responsive";
-import { useBalancesStore } from "../../../../hooks/useBalanceStore";
 import { useConnectKeplrWalletStore } from "../../../../hooks/useConnectKeplrWalletStore";
 import { useToggleTheme } from "../../../../hooks/useToggleTheme";
-import { Lend, useLendStore, usePositionStore } from "../../../../hooks/usePositionStore";
+import { useLendStore, usePositionStore } from "../../../../hooks/usePositionStore";
 import { useWallet } from "../../../../hooks/useWallet";
 import { useEffect } from "react";
-import { UpdatePosition } from "../../../../connection/position";
 import { GetLendById } from "../../../../connection/lend";
 
 const DepositBlock = styled.div`
@@ -81,6 +79,7 @@ export const MyPageDeposit = () => {
 		}
 		update()
     }, [])
+    
 
     let BalancesComponent
 
