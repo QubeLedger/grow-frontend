@@ -127,20 +127,17 @@ export const TokenFieldBorrow = () => {
 
     temp_loan = temp_loan.filter((e) => e.Display != "")
 
-    var button = <ButtonsBlock >
-                    <EarnCustomLink to="/borrow">
-                        <EarnDepositButton>Manage</EarnDepositButton>
-                    </EarnCustomLink>
-                </ButtonsBlock>
-
-
     let LoansComponent = temp_loan.map((loan) => 
         <FieldBlock BorderField={theme.BorderField}>
             <TokenImg src={loan.Logo}></TokenImg>
             <TokenName TextColor={theme.TextColor}>{loan.Display}</TokenName>
             {isDes && <PriceBlock TextColor={theme.TextColor}> <PriceText>{myFixed(loan.Amount, 6)} {loan.Display}</PriceText> </PriceBlock>}
             {isMob && <PriceBlock TextColor={theme.TextColor} style={{marginRight: "15px"}}> <PriceText>{myFixed(loan.Amount, 6)} {loan.Display}</PriceText> </PriceBlock>}
-            {isDes && button}
+            {isDes && <ButtonsBlock >
+                    <EarnCustomLink to="/borrow">
+                        <EarnDepositButton>Manage</EarnDepositButton>
+                    </EarnCustomLink>
+                </ButtonsBlock>}
             {isMob && <></>}
         </FieldBlock>
     ) 

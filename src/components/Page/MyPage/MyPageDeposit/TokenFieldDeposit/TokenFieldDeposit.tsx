@@ -112,8 +112,6 @@ export const TokenFieldDeposit = () => {
     const [ theme, setTheme ] = useToggleTheme()
     const [ lend, setLend ] = useLendStore();
 
-    let temp_lend: TokenBalance[] = []
-
     const isDes = useMediaQuery({
         query: "(min-device-width: 570px)",
     });
@@ -121,27 +119,16 @@ export const TokenFieldDeposit = () => {
         query: "(max-device-width: 570px)",
     });
 
-    let lends
-
-    lend.map((lend) => {
-        TOKEN_INFO.map((token) => {
-            if(lend.amountIn_denom == token.Denom) {
-                temp_lend.push({
-                    Display: token.Base,
-                    Amount: (Number(lend.amountIn_amount) / 10 ** Number(token.Decimals)),
-                    Logo: token.Logo,
-                    Price: 0
-                })
-            }
-        })
-    })
+    let temp_lend = lend
 
     temp_lend.sort(function(a, b) {
         return b.Amount - a.Amount
     });
+
+    temp_lend = temp_lend.filter((e) => e.Display != "")
     
     
-    lends = temp_lend.map((lend) => 
+    let ComponentLends = temp_lend.map((lend) => 
         <FieldBlock BorderField={theme.BorderField}>
             <TokenImg src={lend.Logo}></TokenImg>
             <TokenName TextColor={theme.TextColor}>{lend.Display}</TokenName>
@@ -162,7 +149,7 @@ export const TokenFieldDeposit = () => {
     )
     return (
         <FieldArr>
-            {lends}
+            {ComponentLends}
         </FieldArr>
     )
 }

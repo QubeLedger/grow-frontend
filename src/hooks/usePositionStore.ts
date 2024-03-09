@@ -16,6 +16,9 @@ export interface Lend {
         amountIn_denom: string;
         startTime: number;
         oracleTicker: string;
+        Display: string;
+        Amount: number;
+        Logo: string;
 }
 
 export interface Loan {

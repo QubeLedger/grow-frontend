@@ -88,7 +88,6 @@ export const TokenFieldBalanceDesktop = () => {
             </AmountBlock>
         </FieldBlock>
     )
-    console.log(tokenBalances)
 
     return(
         <FieldArr>
@@ -100,7 +99,7 @@ export const TokenFieldBalanceDesktop = () => {
 
 export const TokenFieldBalanceMobile = () => {
 
-    const [theme, setTheme] = useToggleTheme()
+    const [ theme, setTheme] = useToggleTheme()
     const [ tokenBalances, setTokenBalanceStore] = useTokenBalanceStore()
 
     const Balances = tokenBalances.map((balance) => 
