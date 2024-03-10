@@ -222,7 +222,7 @@ const StyledDialogContent = styled(ModalDialogContent) <{modalBgColor: string, m
         margin-top: 70px;
         @media (max-width: 500px) {
             width: 335px;
-            height: 580px;
+            height: 560px;
         }
         @media (max-width: 330px) {
             width: 305px;
@@ -307,7 +307,7 @@ export const ModalColl = () => {
                         <SearchToken placeholder='Search'></SearchToken>
                     </SearchDiv>
                 </SearchBorder>
-                {tokens}
+                    {tokens}
             </StyledDialogContent>
         </StyledDialogOvelay>
       </ModalBlock>

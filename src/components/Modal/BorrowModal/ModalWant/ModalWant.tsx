@@ -166,10 +166,6 @@ const TokensTextH3 = styled.h3 `
     margin-top: 15px;
 `
 
-const TokensTextH2Number = styled.h2 ` 
-    margin-left: auto;
-`
-
 const TokensTextH5 = styled.h5`
    margin-top: -10px;
     color: grey;
@@ -215,6 +211,11 @@ const SearchToken = styled.input `
     font-family: 'Metropolis', sans-serif;
 `
 
+const AssetsBlock = styled.div <{overflow: string}>`
+    width: 100%;
+    overflow-y: ${props => props.overflow};
+`
+
 
 const ModalDialogContent = animated(DialogContent);
 const StyledDialogContent = styled(ModalDialogContent) <{modalBgColor: string, modalBorder: string}> `
@@ -231,7 +232,7 @@ const StyledDialogContent = styled(ModalDialogContent) <{modalBgColor: string, m
         margin-top: 70px;
         @media (max-width: 500px) {
             width: 335px;
-            height: 580px;
+            height: 560px;
         }
         @media (max-width: 330px) {
             width: 305px;
@@ -314,7 +315,9 @@ export const ModalWant = () => {
                         <SearchToken placeholder='Search'></SearchToken>
                     </SearchDiv>
                 </SearchBorder>
-                {tokens}
+                <AssetsBlock overflow={assets.length >= 7 || assets.length >= 7 ? 'auto' : 'hidden'}>
+                    {tokens}
+                </AssetsBlock>
             </StyledDialogContent>
         </StyledDialogOvelay>
       </ModalBlock>
