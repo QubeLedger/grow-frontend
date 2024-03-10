@@ -23,13 +23,13 @@ const EarnBLock = styled.div <{margin: string}>`
     margin-bottom: 50px;
 `
 
-const Block = styled.div <{backgroundColor: string}>`
+const Block = styled.div <{backgroundColor: string, MyPageHeightMob: string, MyPageHeightDes: string}>`
     width: 100%;
-    height: calc(100vh - 65px);
+    height: ${props => props.MyPageHeightDes};
     background: ${props => props.backgroundColor};
     margin-top: -5px;
     @media (max-width: 450px) {
-        height: 100%;
+        height: ${props => props.MyPageHeightMob};
     }
 `
 
@@ -83,7 +83,10 @@ export const Earn = () => {
     }, [])
 
     return(
-        <Block backgroundColor={theme.backgroundColor}>
+        <Block
+        MyPageHeightDes={assets.length >= 8 || assets.length >= 8 ? '100%;' : 'calc(100vh - 65px);'}
+        MyPageHeightMob={assets.length >= 4 || assets.length >= 4 ? '100%;' : 'calc(100vh - 65px);'}
+        backgroundColor={theme.backgroundColor}>
             <EarnBLock margin={accordion.margin}>
                 <EarnContainer/>
             </EarnBLock>

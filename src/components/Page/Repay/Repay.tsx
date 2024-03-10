@@ -32,9 +32,6 @@ const RepayBlock = styled.div <{ backgroundColor: string }>`
     height: calc(100vh - 65px);
     background: ${props => props.backgroundColor};
     margin-top: -5px;
-    @media (max-width: 450px) {
-        height: 100%;
-    }
 `
 
 
