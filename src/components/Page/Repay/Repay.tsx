@@ -13,9 +13,8 @@ import { useWallet } from "../../../hooks/useWallet";
 import { GetLoanById } from "../../../connection/loan";
 import { GetLendById } from "../../../connection/lend";
 
-const Container = styled.div <{ margin: string }>`
+const Container = styled.div`
     max-width: 100%;
-    margin-top: ${props => props.margin};
     transition: margin-top .3s ease-in-out;
     display: flex;
     justify-content: center;
@@ -29,9 +28,7 @@ const Container = styled.div <{ margin: string }>`
 
 const RepayBlock = styled.div <{ backgroundColor: string }>`
     width: 100%;
-    height: calc(100vh - 65px);
     background: ${props => props.backgroundColor};
-    margin-top: -5px;
 `
 
 
@@ -75,7 +72,7 @@ export const Repay = () => {
     return (
 
         <RepayBlock backgroundColor={theme.backgroundColor}>
-            <Container margin={accordion.margin}>
+            <Container>
                 <RepayContainer/>
             </Container>
         </RepayBlock>

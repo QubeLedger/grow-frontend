@@ -8,6 +8,7 @@ import { BorrowConfirm } from "../../../Buttton/BorrowConfirm/BorrowConfirm";
 import { RepayField } from "../../Repay/RepayField/RepayField";
 import { RepayInfo } from "../../Repay/RepayInfo/RepayInfo";
 import { RepayConfirm } from "../../../Buttton/RepayConfirm/RepayConfirm";
+import { Repay } from "../../Repay/Repay";
 
 const Header = styled.div`
     width: 100%;
@@ -51,9 +52,7 @@ export const BorrowHeader = () => {
         <BorrowConfirm /></>
 
     const RepayContainer = <>
-        <RepayField />
-        <RepayInfo />
-        <RepayConfirm />
+        <Repay/>
     </>
 
     return (

@@ -12,7 +12,6 @@ const Contrainer = styled.div`
 export const RepayContainer = () => {
     return(
         <Contrainer>
-            <RepayHeader/>
             <RepayField/>
             <RepayInfo/>
             <RepayConfirm/>
