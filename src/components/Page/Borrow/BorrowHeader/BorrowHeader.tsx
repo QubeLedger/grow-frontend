@@ -18,8 +18,6 @@ const Header = styled.div`
 `
 
 const ButtonBlock = styled.div`
-    display: flex;
-    align-items: center;
     margin-bottom: 15px;
 `
 
