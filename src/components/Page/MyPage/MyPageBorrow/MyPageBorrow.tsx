@@ -10,10 +10,13 @@ import { useWallet } from "../../../../hooks/useWallet";
 import { useEffect } from "react";
 import { GetLoanById } from "../../../../connection/loan";
 
-const DepositBlock = styled.div`
+const DepositBlock = styled.div <{ MyPageHeightMob: string }>`
     width: 100%;
     height: 100px;
     margin-top: 10px;
+    @media (max-width: 500px) {
+        height: ${props => props.MyPageHeightMob};
+    }
 `
 
 const InfoBlock = styled.div`
@@ -105,7 +108,7 @@ export const MyPageBorrow = () => {
     }
 
     return(
-        <DepositBlock>
+        <DepositBlock MyPageHeightMob={loan.length >= 4 ? '100%;' : 'calc(100vh - 422px);'}>
             {BorrowComponent}
         </DepositBlock>
     ) 

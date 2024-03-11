@@ -31,8 +31,6 @@ const Block = styled.div <{ backgroundColor: string, MyPageHeightMob: string, My
         height: ${props => props.MyPageHeightMob};
     }
 `
-// calc(100vh - 65px);
-// height: 100%;
 
 const MyPageContainer = styled.div`
     max-width: 570px;
@@ -123,7 +121,7 @@ export const MyPage = () => {
     return (
         <Block
             MyPageHeightDes={lend.length >= 9 || loan.length >= 9 ? '100%;' : 'calc(100vh - 65px);'}
-            MyPageHeightMob={lend.length >= 4 || loan.length >= 4 ? '100%;' : 'calc(100vh - 65px);'}
+            MyPageHeightMob={balances.length >= 4 || loan.length >= 4 ? '100%;' : 'calc(100vh - 65px);'}
             backgroundColor={theme.backgroundColor}>
             <MyPageBlock>
                 <MyPageContainer>
