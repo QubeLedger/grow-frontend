@@ -132,7 +132,7 @@ export const TokenFieldDeposit = () => {
         <FieldBlock BorderField={theme.BorderField}>
             <TokenImg src={lend.Logo}></TokenImg>
             <TokenName TextColor={theme.TextColor}>{lend.Display}</TokenName>
-            {isDes && <PriceBlock TextColor={theme.TextColor}> <PriceText>{myFixed(lend.Amount, 3)} {lend.Display}</PriceText> </PriceBlock>}
+            {isDes && <PriceBlock TextColor={theme.TextColor}> <PriceText>{myFixed(lend.Amount, 6)} {lend.Display}</PriceText> </PriceBlock>}
             {isMob && <PriceBlock TextColor={theme.TextColor} style={{marginRight: "12px"}}> <PriceText>{myFixed(lend.Amount, 6)} {lend.Display}</PriceText> </PriceBlock>}
             {isDes &&   
                 <ButtonsBlock>
