@@ -46,6 +46,7 @@ const MyPageContainer = styled.div`
 const HeaderBlock = styled.div <{ TextColor: string }>`
     width: 100%;
     color: ${props => props.TextColor};
+    margin-top: 50px;
 `
 
 const BalanceBlock = styled.div`
@@ -83,7 +84,7 @@ const ContainerBlock = styled.div`
 
 export function GetInfoFromTokenInfo(denom: string): TokenInfo {
     let token = TOKEN_INFO.find((token) => denom == token.Denom)
-    if(token === undefined) {
+    if (token === undefined) {
         token = {
             Denom: "",
             Base: "",
@@ -93,23 +94,23 @@ export function GetInfoFromTokenInfo(denom: string): TokenInfo {
         }
     }
     return token
-} 
+}
 
 
 export const MyPage = () => {
 
-    const [ theme, setTheme] = useToggleTheme()
-    const [ connectWallet, setConnectWallet ] = useConnectKeplrWalletStore();
-    const [ balances, setBalances ] = useBalancesStore();
-    const [ tokenBalances, setTokenBalanceStore] = useTokenBalanceStore()
-    const [ wallet, setWallet ] = useWallet();
-    const [ lend, setLend ] = useLendStore();
-    const [ loan, setLoan ] = useLoanStore()
+    const [theme, setTheme] = useToggleTheme()
+    const [connectWallet, setConnectWallet] = useConnectKeplrWalletStore();
+    const [balances, setBalances] = useBalancesStore();
+    const [tokenBalances, setTokenBalanceStore] = useTokenBalanceStore()
+    const [wallet, setWallet] = useWallet();
+    const [lend, setLend] = useLendStore();
+    const [loan, setLoan] = useLoanStore()
 
     let BalancesAmount
-    
 
-    if(!connectWallet.connected || balances.length == 0) {
+
+    if (!connectWallet.connected || balances.length == 0) {
         BalancesAmount = 0
     } else {
         let sum_amount = 0
@@ -121,21 +122,21 @@ export const MyPage = () => {
 
     return (
         <Block
-        MyPageHeightDes={lend.length >= 9 || loan.length >= 9 ? '100%;' : 'calc(100vh - 65px);'}
-        MyPageHeightMob={lend.length >= 4 || loan.length >= 4 ? '100%;' : 'calc(100vh - 65px);'}
-        backgroundColor={theme.backgroundColor}>
+            MyPageHeightDes={lend.length >= 9 || loan.length >= 9 ? '100%;' : 'calc(100vh - 65px);'}
+            MyPageHeightMob={lend.length >= 4 || loan.length >= 4 ? '100%;' : 'calc(100vh - 65px);'}
+            backgroundColor={theme.backgroundColor}>
             <MyPageBlock>
                 <MyPageContainer>
                     <HeaderBlock TextColor={theme.TextColor}>
-                        <h1 style={{ fontSize: "30px", fontWeight: "600" }}>My Portfolio</h1>
+                        <h1 style={{ fontSize: "30px", fontWeight: "600", marginTop: "0px" }}>My Portfolio</h1>
                     </HeaderBlock>
                     <BalanceBlock>
                         <BalanceText TextColor={theme.TextColor}>{BalancesAmount}<BalanceImg src={USQBalance}></BalanceImg>
                         </BalanceText>
                     </BalanceBlock>
-                    <DynamicBlock/>
+                    <DynamicBlock />
                     <ContainerBlock>
-                        <MyPageHeader/>
+                        <MyPageHeader />
                     </ContainerBlock>
                 </MyPageContainer>
             </MyPageBlock>

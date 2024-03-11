@@ -39,7 +39,7 @@ const AmountButton = styled.button`
     margin-right: 20px;
     border-radius: 15px;
     cursor: pointer;
-    font-size: 11px;
+    font-size: 12px;
     font-weight: 700;
 `
 

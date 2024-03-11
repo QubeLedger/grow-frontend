@@ -8,7 +8,7 @@ const Input = styled.input <{inputTextColor: string}>`
     width: 100%;
     height: 100%;
     border: none;
-    font-size: 20px;
+    font-size: 21px;
     color: ${props => props.inputTextColor};
     outline: none;
     margin-left: 10px;

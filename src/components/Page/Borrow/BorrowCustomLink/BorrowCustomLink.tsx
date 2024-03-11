@@ -28,7 +28,7 @@ export const BorrowCustomLink = ({children, to}: Props) => {
         <LinkBLock 
         to={to}
         style={{
-            color: match ? theme.active == true ? '#C0C0C0' : '#333' :  theme.active == true ? '#666' : '#C0C0C0',
+            color: match ? theme.active == true ? '#fff' : '#333' :  theme.active == true ? '#666' : '#C0C0C0',
             transition: '.2s ease-in-out'
         }}
         TextColor={theme.TextColor}
