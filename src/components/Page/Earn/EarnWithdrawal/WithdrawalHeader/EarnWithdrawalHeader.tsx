@@ -20,7 +20,7 @@ const ButtonBack = styled.a`
 
 const HeaderText = styled.h1 <{TextColor: string}>`
     font-size: 30px;
-    margin-top: 10px;
+    margin: 10px 0;
     color: ${props => props.TextColor};
     white-space: nowrap;
 `

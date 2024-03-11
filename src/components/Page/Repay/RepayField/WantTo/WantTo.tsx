@@ -41,7 +41,7 @@ const InputBlock = styled.input <{TextColor: string}>`
     color: ${props => props.TextColor};
     border: none;
     border-radius: 20px;
-    padding-right: 10px;
+    padding-right: 15px;
     margin-left: auto;
     background: transparent;
 `

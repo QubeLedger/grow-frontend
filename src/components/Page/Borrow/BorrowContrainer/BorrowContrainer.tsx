@@ -13,9 +13,6 @@ export const BorrowContainer = () => {
     return(
         <Contrainer>
             <BorrowHeader/>
-            <BorrowFields/>
-            <BorrowInfo/>
-            <BorrowConfirm/>
         </Contrainer>
     ) 
 }
