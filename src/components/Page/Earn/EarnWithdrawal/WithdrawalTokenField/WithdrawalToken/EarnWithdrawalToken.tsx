@@ -14,6 +14,7 @@ const TokenBlock = styled.div`
 const TokenImg = styled.img`
     width: 30px;
     height: 30px;
+    border-radius: 50px;
 `
 
 
