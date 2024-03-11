@@ -21,7 +21,7 @@ const ButtonBlock = styled.div`
     margin-bottom: 15px;
 `
 
-const ButtonLink = styled.button <{ TextColor: string }>`
+const ButtonLinkBorrow = styled.button <{ TextColor: string }>`
     max-width: 100%;
     background: transparent;
     border: none;
@@ -29,6 +29,21 @@ const ButtonLink = styled.button <{ TextColor: string }>`
     font-size: 30px;
     font-weight: 700;
     outline: none;
+    margin-left: 12px;
+    font-family: 'Inter', sans-serif;
+    transition: all .3s ease-in-out;
+    color: ${props => props.TextColor};
+`
+
+const ButtonLinkRepay = styled.button <{ TextColor: string }>`
+    max-width: 100%;
+    background: transparent;
+    border: none;
+    cursor: pointer;
+    font-size: 30px;
+    font-weight: 700;
+    outline: none;
+    margin-left: 12px;
     font-family: 'Inter', sans-serif;
     transition: all .3s ease-in-out;
     color: ${props => props.TextColor};
@@ -48,29 +63,25 @@ export const BorrowHeader = () => {
         <BorrowInfo />
         <BorrowConfirm /></>
 
-    const RepayContainer = <>
-        <Repay/>
-    </>
-
     return (
         <Header>
             <ButtonBlock>
-                <ButtonLink TextColor={theme.TextColor}
+                <ButtonLinkBorrow TextColor={theme.TextColor}
                     onClick={() => { setBlock('borrow') }}
                     style={{
                         color: block == 'borrow' ? theme.TextColor = theme.active == true ? 'white' : 'black' : greyText,
                         textDecoration: block == 'borrow' ? underline : ''
-                    }}>Borrow</ButtonLink>
-                <ButtonLink TextColor={theme.TextColor}
+                    }}>Borrow</ButtonLinkBorrow>
+                <ButtonLinkRepay TextColor={theme.TextColor}
                     onClick={() => { setBlock('repay') }}
                     style={{
                         color: block == 'repay' ? theme.TextColor = theme.active == true ? 'white' : 'black' : greyText,
                         textDecoration: block == 'repay' ? underline : ''
-                    }}>Repay</ButtonLink>
+                    }}>Repay</ButtonLinkRepay>
             </ButtonBlock>
             <div>
                 {block == 'borrow' && BorrowContainer}
-                {block == 'repay' && RepayContainer}
+                {block == 'repay' && <Repay/>}
             </div>
         </Header>
     )
