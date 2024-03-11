@@ -10,7 +10,7 @@ const InfoBlock = styled.div`
 const InfoText = styled.h2`
     font-size: 12px;
     color: #BABABA;
-    margin: 10px 10px;
+    margin: 15px 10px;
 `
 
 

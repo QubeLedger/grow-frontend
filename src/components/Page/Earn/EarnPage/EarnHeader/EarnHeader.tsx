@@ -10,9 +10,7 @@ const HeaderText = styled.h1 <{TextColor: string}>`
     color: ${props => props.TextColor};
     margin-top: 0px;
     font-weight: 600;
-    @media (max-width: 500px) {
-        margin-bottom: 0px;
-    }
+    margin-bottom: 0px;
 `
 
 export const EarnHeader = () => {
