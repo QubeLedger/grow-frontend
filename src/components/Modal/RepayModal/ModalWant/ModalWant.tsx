@@ -140,7 +140,6 @@ const TokenFields = styled.button <{ TextColor: string }>`
     background-color: transparent;
     border: none;
     width: 85%;
-    margin-top: 20px;
     border-radius: 20px;
     display: flex;
     flex-direction: row;
@@ -219,6 +218,7 @@ const SearchToken = styled.input `
 const AssetsBlock = styled.div <{overflow: string}>`
     width: 100%;
     overflow-y: ${props => props.overflow};
+    margin-top: 10px;
 `
 
 

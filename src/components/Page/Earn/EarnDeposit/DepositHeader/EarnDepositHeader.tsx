@@ -21,12 +21,13 @@ const ButtonBack = styled.a`
 
 const HeaderText = styled.h1 <{TextColor: string}>`
     font-size: 30px;
-    margin-top: 10px;
+    margin: 10px 0;
     color: ${props => props.TextColor};
+    white-space: nowrap;
 `
 
 const ArrowLogo = styled.img`
-    width: 10px;
+    width: 15px;
     height: 10px;
     margin-right: 5px;
 `

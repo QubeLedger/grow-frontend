@@ -7,6 +7,7 @@ import { useAmountBorrowEarnStore, useAmountBorrowInfoStore, useAmountBorrowRepa
 import { useEffect, useState } from "react";
 import { useConnectKeplrWalletStore } from "../../../../hooks/useConnectKeplrWalletStore";
 import { myFixed } from "../../MyPage/MyPageDeposit/TokenFieldDeposit/TokenFieldDeposit";
+import { useToggleTheme } from "../../../../hooks/useToggleTheme";
 
 const InfoBlock = styled.div`
     margin-top: 50px;
@@ -33,9 +34,9 @@ const LTV = styled.h1`
     font-size: 18px;
 `
 
-const LTVInfo = styled.h1 <{Color: string}>`
+const LTVInfo = styled.h1 <{TextColor: string}>`
     font-size: 18px;
-    color: ${props => props.Color}
+    color: ${props => props.TextColor};
 `
 
 const BlockInfo = styled.div`
@@ -61,6 +62,7 @@ export const RepayInfo = () => {
     const [ price, setPrice ] = useState(0)
     const [ connectWallet, setConnectWallet ] = useConnectKeplrWalletStore();
     const [ risk_rate, setRiskRate ] = useRiskRate()
+    const [theme, setTheme] = useToggleTheme();
 
     let SetPriceByDenom = async(denom: string) => {
         let temp_price = await GetPriceByDenom(denom)
@@ -87,25 +89,25 @@ export const RepayInfo = () => {
 
     let temp_asset = assets.find((asset) => asset.Display == borrow_info.base)
 
-    let color = isNaN(risk_rate.value) || risk_rate.value == 0 ? "white" : "#44A884"
+    let color = isNaN(risk_rate.value) || risk_rate.value == 0 ? theme.TextColor : "#44A884"
     
     return(
         <InfoBlock>
             <BlockInfo>
                 <InfoText>Total Deposit</InfoText>
-                <LTVInfo Color="white">{!connectWallet.connected ? 0 : (position.lendAmountInUSD / 10**6).toFixed(1)} USQ</LTVInfo>
+                <LTVInfo TextColor={theme.TextColor}>{!connectWallet.connected ? 0 : (position.lendAmountInUSD / 10**6).toFixed(1)} USQ</LTVInfo>
             </BlockInfo>
             <BlockInfo>
                 <InfoText>Total Borrow</InfoText>
-                <LTVInfo Color="white">{!connectWallet.connected ? 0 : (position.borrowedAmountInUSD / 10**6).toFixed(1)} USQ</LTVInfo>
+                <LTVInfo TextColor={theme.TextColor}>{!connectWallet.connected ? 0 : (position.borrowedAmountInUSD / 10**6).toFixed(1)} USQ</LTVInfo>
             </BlockInfo>
             <BlockInfo>
                 <InfoText>Borrow Interest Rate</InfoText>
-                <LTVInfo Color="#44A884">{isNaN(Number(temp_asset?.bir))? "0.0" : temp_asset?.bir.toFixed(2)}%</LTVInfo>
+                <LTVInfo TextColor="#44A884">{isNaN(Number(temp_asset?.bir))? "0.0" : temp_asset?.bir.toFixed(2)}%</LTVInfo>
             </BlockInfo>            
             <LTVBlock>
                 <LTV>Risk Rate</LTV>
-                <LTVInfo Color={(risk_rate.value <= 0) ? "white" : color}>{isNaN(risk_rate.value) || (risk_rate.value <= 0) ? "0.0" : myFixed(risk_rate.value, 2)}%</LTVInfo>
+                <LTVInfo TextColor={(risk_rate.value <= 0) ? theme.TextColor : color}>{isNaN(risk_rate.value) || (risk_rate.value <= 0) ? "0.0" : myFixed(risk_rate.value, 2)}%</LTVInfo>
             </LTVBlock>
         </InfoBlock>
     )

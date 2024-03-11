@@ -41,7 +41,7 @@ const TokenFieldBlock = styled.div`
     display: flex;
     align-items: center;
     justify-content: space-between;
-    margin-top: 10px;
+    margin-top: 12px;
 `
 
 const EarnDepositButton = styled.button `
@@ -93,7 +93,7 @@ const TokensImg = styled.img`
 `
 
 const TokensName = styled.h1 <{TextColor: string}>`
-    font-size: 20px;
+    font-size: 18px;
     margin-left: 5px;
     color: ${props => props.TextColor};
 `
@@ -138,6 +138,12 @@ export const ARPText = styled.a`
     color: #44A884;
 `
 
+const NameBlock = styled.div`
+    width: 100px;
+    display: flex;
+    align-items: center;
+`
+
 function GetAccordionByBase(eAccordions: Accordion[], base: string): Accordion | undefined {
     return eAccordions.find((ea) => ea.base == base)
 }
@@ -176,8 +182,10 @@ export const VaultField = () => {
         <AccordionBlock BorderField={theme.BorderField} height={CheckAccrdion(GetAccordionByBase(eAccordions, asset.Display))} onClick={() => {openAccordion(asset.Display)}}>
             <TokenFieldBlock>
                 <TokensBlock>
-                    <TokensImg src={asset.Logo}></TokensImg>
-                    <TokensName TextColor={theme.TextColor}>{asset.Display}</TokensName>
+                    <NameBlock>
+                        <TokensImg src={asset.Logo}></TokensImg>
+                        <TokensName TextColor={theme.TextColor}>{asset.Display}</TokensName>
+                    </NameBlock>
                     {asset.AssetType == "lend" ? <LendProto><TokensProtoText>Lend</TokensProtoText></LendProto> : <GrowProto><TokensProtoText>Grow</TokensProtoText></GrowProto>}
                 </TokensBlock>
                 <ARPBlock>

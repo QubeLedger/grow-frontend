@@ -10,7 +10,6 @@ const SwapButton = styled.button`
     border: none;
     padding: 0;
     outline: none;
-    margin-top: -5px;
     @media (max-width: 950px) {
         margin-right: 20px;
     }

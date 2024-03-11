@@ -32,16 +32,16 @@ const TokenBlock = styled.div`
     align-items: center;
 `
 
-const InputBlock = styled.input`
+const InputBlock = styled.input <{TextColor: string}>`
     width: 50%;
     outline: none;
     text-align: right;
     font-size: 25px;
     font-weight: 400;
-    color: #969696;
+    color: ${props => props.TextColor};
     border: none;
     border-radius: 20px;
-    padding-right: 10px;
+    padding-right: 15px;
     margin-left: auto;
     background: transparent;
 `
@@ -78,7 +78,7 @@ export const RepayWantTo = () => {
                 <TokenBlock>
                     <ModalRepay/>
                 </TokenBlock>
-                <InputBlock placeholder="0" onChange={HandleInputAmpunt} value={amtIn.amt}></InputBlock>               
+                <InputBlock TextColor={theme.TextColor} placeholder="0" onChange={HandleInputAmpunt} value={amtIn.amt}></InputBlock>               
             </FieldWant>
         </Want>
     )

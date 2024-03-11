@@ -1,7 +1,7 @@
 import { createStore } from './store';
-import KeplrLogo from "../assets/svg/Keplr.webp"
+import KeplrLogo from "../assets/svg/KeplrConnect.svg"
 import LeapLogo from "../assets/svg/LeapWalletSoon.webp"
-import QubeLogo from "../assets/svg/QubeWalletSoon.webp"
+import QubeLogo from "../assets/svg/SoonQube.svg"
 
 export interface Wallet {
         logo: string;

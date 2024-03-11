@@ -7,6 +7,9 @@ const SearchBlock = styled.div`
     display: flex;
     align-items: center;
     margin-top: 15px;
+    @media (max-width: 500px) {
+        margin-top: 5px;
+    }
 `
 
 const SearchInput = styled.input <{searchBg: string, searchBorder: string}>`

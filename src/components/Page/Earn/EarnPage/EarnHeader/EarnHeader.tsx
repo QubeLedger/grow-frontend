@@ -3,12 +3,16 @@ import { useToggleTheme } from "../../../../../hooks/useToggleTheme";
 
 const Header = styled.div`
     width: 100%;
-    height: 50px;
 `
 
 const HeaderText = styled.h1 <{TextColor: string}>`
     font-size: 30px;
     color: ${props => props.TextColor};
+    margin-top: 0px;
+    font-weight: 600;
+    @media (max-width: 500px) {
+        margin-bottom: 0px;
+    }
 `
 
 export const EarnHeader = () => {

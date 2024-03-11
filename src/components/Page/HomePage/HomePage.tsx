@@ -61,6 +61,7 @@ const GreyText = styled.h2 <{homePageGreyText: string}>`
     @media (max-width: 500px) {
         font-size: 18px;
         margin-top: 20px;
+        margin-bottom: 0px;
     } 
 `
 
@@ -71,6 +72,7 @@ const ButtonBlock = styled.div`
     @media (max-width: 500px) {
         margin-right: 20px;
         max-width: 90%;
+        margin-top: 25px;
     }
 `
 

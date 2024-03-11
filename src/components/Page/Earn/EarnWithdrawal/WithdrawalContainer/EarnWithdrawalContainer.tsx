@@ -6,7 +6,7 @@ import { EarnWithdrawalConfirm } from '../WithdrawalConfirm/EarnWithdrawalConfir
 const ContrainerBlock = styled.div`
     width: 400px;
     height: 100%;
-    padding: 20px;
+    padding: 0 20px;
 `
 
 
