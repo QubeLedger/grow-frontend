@@ -29,7 +29,6 @@ const ButtonLink = styled.button <{ TextColor: string }>`
     font-size: 30px;
     font-weight: 700;
     outline: none;
-    margin-left: 12px;
     font-family: 'Inter', sans-serif;
     transition: all .3s ease-in-out;
     color: ${props => props.TextColor};
