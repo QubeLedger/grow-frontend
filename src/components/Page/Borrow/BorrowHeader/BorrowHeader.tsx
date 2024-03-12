@@ -19,10 +19,12 @@ const Header = styled.div`
 
 const ButtonBlock = styled.div`
     margin-bottom: 15px;
+    display: flex;
+    align-items: center;
+    justify-content: flex-start;
 `
 
 const ButtonLinkBorrow = styled.button <{ TextColor: string }>`
-    max-width: 100%;
     background: transparent;
     border: none;
     cursor: pointer;
@@ -36,7 +38,6 @@ const ButtonLinkBorrow = styled.button <{ TextColor: string }>`
 `
 
 const ButtonLinkRepay = styled.button <{ TextColor: string }>`
-    max-width: 100%;
     background: transparent;
     border: none;
     cursor: pointer;
