@@ -24,8 +24,7 @@ const ButtonBlock = styled.div`
     justify-content: flex-start;
 `
 
-const ButtonLinkBorrow = styled.button <{ TextColor: string }>`
-    background: transparent;
+const ButtonLinkBorrow = styled.a <{ TextColor: string }>`
     border: none;
     cursor: pointer;
     font-size: 30px;
@@ -37,8 +36,7 @@ const ButtonLinkBorrow = styled.button <{ TextColor: string }>`
     color: ${props => props.TextColor};
 `
 
-const ButtonLinkRepay = styled.button <{ TextColor: string }>`
-    background: transparent;
+const ButtonLinkRepay = styled.a <{ TextColor: string }>`
     border: none;
     cursor: pointer;
     font-size: 30px;
