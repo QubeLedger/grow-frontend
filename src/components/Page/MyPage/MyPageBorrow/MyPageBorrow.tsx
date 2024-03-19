@@ -40,7 +40,7 @@ const Text = styled.a`
 
 const PriceBlock = styled.div`
     margin-right: 15px;
-    margin-left: 90px;
+    margin-left: 103px;
 `
 
 const ContainerBlock = styled.div`
