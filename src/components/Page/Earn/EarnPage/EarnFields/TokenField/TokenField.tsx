@@ -3,6 +3,7 @@ import { Accordion, useAccordionEarn } from '../../../../../../hooks/useAccordio
 import { EarnCustomLink } from "../../../EarnCustomLink/EarnCustomLink";
 import { useToggleTheme } from "../../../../../../hooks/useToggleTheme";
 import { useAssetStore } from "../../../../../../hooks/useAssetStore";
+import { myFixed } from "../../../../MyPage/MyPageDeposit/TokenFieldDeposit/TokenFieldDeposit";
 
 
 export interface Vault {
@@ -189,7 +190,7 @@ export const VaultField = () => {
                     {asset.AssetType == "lend" ? <LendProto><TokensProtoText>Lend</TokensProtoText></LendProto> : <GrowProto><TokensProtoText>Grow</TokensProtoText></GrowProto>}
                 </TokensBlock>
                 <ARPBlock>
-                    <ARPText>{asset.sir.toFixed(2)}%</ARPText>
+                    <ARPText>{myFixed(asset.sir, 4)}%</ARPText>
                 </ARPBlock>
             </TokenFieldBlock>
             <ButtonsBlock >
