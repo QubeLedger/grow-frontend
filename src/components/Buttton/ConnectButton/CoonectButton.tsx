@@ -1,5 +1,5 @@
 import styled from "styled-components";
-import { ConnectModal } from "../../Modal/CoonectModal/ConnectModal";
+import { ConnectModal } from "../../Modal/ConnectModal/ConnectModal";
 
 const ButtonBlock = styled.div`
     max-width: 100%;

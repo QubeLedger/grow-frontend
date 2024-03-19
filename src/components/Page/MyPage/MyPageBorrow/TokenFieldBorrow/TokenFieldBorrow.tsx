@@ -42,7 +42,6 @@ const TokenImg = styled.img`
 `
 
 const PriceBlock = styled.div <{TextColor: string}>`
-    margin-left: 40px;
     white-space: nowrap;
     text-align: left;
     color: ${props => props.TextColor};
@@ -129,8 +128,10 @@ export const TokenFieldBorrow = () => {
 
     let LoansComponent = temp_loan.map((loan) => 
         <FieldBlock BorderField={theme.BorderField}>
-            <TokenImg src={loan.Logo}></TokenImg>
-            <TokenName TextColor={theme.TextColor}>{loan.Display}</TokenName>
+            <div style={{width: "165px", display: "flex", alignItems: "center"}}>
+                <TokenImg src={loan.Logo}></TokenImg>
+                <TokenName TextColor={theme.TextColor}>{loan.Display}</TokenName>
+            </div>
             {isDes && <PriceBlock TextColor={theme.TextColor}> <PriceText>{myFixed(loan.Amount, 6)} {loan.Display}</PriceText> </PriceBlock>}
             {isMob && <PriceBlock TextColor={theme.TextColor} style={{marginRight: "15px"}}> <PriceText>{myFixed(loan.Amount, 6)} {loan.Display}</PriceText> </PriceBlock>}
             {isDes && <ButtonsBlock >
