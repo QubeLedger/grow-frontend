@@ -50,16 +50,14 @@ export const Header = () => {
     });
 
     return(
-        <div>
-            
+        <div style={{display: "flex", flexDirection: "column"}}>
             <MainHeader headerColor={theme.headerColor}>
                 <HeaderLogoBlock>
                     <HomePageLinkButton to="/">
                         <HeaderLogoQUBE style={{marginTop: "-5px"}} src={QubeLogo}></HeaderLogoQUBE>
                     </HomePageLinkButton>
                 </HeaderLogoBlock>
-                <LinkButton></LinkButton>
-                    {isDes && <DefoultLinkBlock/>}
+                {isDes && <DefoultLinkBlock/>}
                 <ConnectButton></ConnectButton>
                 <ChangeTheme/>
             </MainHeader>

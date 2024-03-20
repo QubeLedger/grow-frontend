@@ -12,6 +12,8 @@ import { UpdatePosition } from "../../../connection/position";
 import { useWallet } from "../../../hooks/useWallet";
 import { GetLoanById } from "../../../connection/loan";
 import { GetLendById } from "../../../connection/lend";
+import { MobileLinkBlock } from "../../Header/VariablesLink/BlockLink";
+import { useMediaQuery } from "react-responsive";
 
 const Container = styled.div`
     max-width: 100%;
@@ -75,6 +77,7 @@ export const Repay = () => {
             <Container>
                 <RepayContainer/>
             </Container>
+            
         </RepayBlock>
 
     )

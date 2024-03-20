@@ -13,9 +13,15 @@ const LinkBLock = styled(LinkText)`
     padding: 10px 20px;
     @media (max-width: 930px) {
         font-size: 17px;
+        display: flex;
+        flex-direction: column;
+        align-items: center;
     }
     @media (max-width: 730px) {
         font-size: 15px;
+    }
+    @media (max-width: 500px) {
+        padding: 0px;
     }
 `
 

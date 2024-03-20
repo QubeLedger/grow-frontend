@@ -1,18 +1,20 @@
 import styled from "styled-components";
-import { EarnContainer } from "./EarnContainer/EarnContainer";
-import { useAccordionStore } from "../../../../hooks/useAccordionStore";
-import { useToggleTheme } from "../../../../hooks/useToggleTheme";
-import { UpdateAssets } from "../../../../connection/assets";
-import { UpdateParams } from "../../../../connection/params";
-import { useAssetStore } from "../../../../hooks/useAssetStore";
-import { useParamsStore } from "../../../../hooks/useParamsStore";
+import { EarnContainer } from "./EarnPage/EarnContainer/EarnContainer";
+import { useAccordionStore } from "../../../hooks/useAccordionStore";
+import { useToggleTheme } from "../../../hooks/useToggleTheme";
+import { UpdateAssets } from "../../../connection/assets";
+import { UpdateParams } from "../../../connection/params";
+import { useAssetStore } from "../../../hooks/useAssetStore";
+import { useParamsStore } from "../../../hooks/useParamsStore";
 import { useEffect } from "react";
-import { useAccordionEarn } from "../../../../hooks/useAccordionEarn";
-import { useLendStore, useLoanStore, usePositionStore } from "../../../../hooks/usePositionStore";
-import { useWallet } from "../../../../hooks/useWallet";
-import { UpdatePosition } from "../../../../connection/position";
-import { GetLoanById } from "../../../../connection/loan";
-import { GetLendById } from "../../../../connection/lend";
+import { useAccordionEarn } from "../../../hooks/useAccordionEarn";
+import { useLendStore, useLoanStore, usePositionStore } from "../../../hooks/usePositionStore";
+import { useWallet } from "../../../hooks/useWallet";
+import { UpdatePosition } from "../../../connection/position";
+import { GetLoanById } from "../../../connection/loan";
+import { GetLendById } from "../../../connection/lend";
+import { MobileLinkBlock } from "../../Header/VariablesLink/BlockLink";
+import { useMediaQuery } from "react-responsive";
 
 const EarnBLock = styled.div <{margin: string}>`
     width: 100%;
@@ -28,9 +30,6 @@ const Block = styled.div <{backgroundColor: string, MyPageHeightMob: string, MyP
     height: ${props => props.MyPageHeightDes};
     background: ${props => props.backgroundColor};
     margin-top: -5px;
-    @media (max-width: 450px) {
-        height: ${props => props.MyPageHeightMob};
-    }
 `
 
 export const Earn = () => {

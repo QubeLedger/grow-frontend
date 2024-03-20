@@ -15,6 +15,8 @@ import { GetLendById } from "../../../connection/lend";
 import { GetLoanById } from "../../../connection/loan";
 import { GetPriceByDenom } from "../Borrow/BorrowInfo/BorrowInfo";
 import { TokenInfo } from "../../../constants/tokens";
+import { MobileLinkBlock } from "../../Header/VariablesLink/BlockLink";
+import { useMediaQuery } from "react-responsive";
 
 const MyPageBlock = styled.div`
     width: 100%;
@@ -118,6 +120,13 @@ export const MyPage = () => {
         BalancesAmount = sum_amount.toFixed(0)
     }
 
+    const isDes = useMediaQuery({
+        query: "(min-device-width: 1110px)",
+    });
+    const isMob = useMediaQuery({
+        query: "(max-device-width: 1110px)",
+    });
+
     return (
         <Block
             MyPageHeightDes={lend.length >= 9 || loan.length >= 9 ? '100%;' : 'calc(100vh - 65px);'}
@@ -137,6 +146,7 @@ export const MyPage = () => {
                         <MyPageHeader />
                     </ContainerBlock>
                 </MyPageContainer>
+                {isMob && <MobileLinkBlock/>}
             </MyPageBlock>
         </Block>
     )
