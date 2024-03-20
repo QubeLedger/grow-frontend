@@ -11,7 +11,7 @@ const ContainerBlock = styled.div <{ MyPageHeightMob: string }>`
     display: flex;
     margin-left: 20px;
     margin-right: 20px;
-    padding-bottom: 20px;
+    margin-bottom: 100px;
     flex-direction: column;
     align-items: center;
     @media (max-width: 1000px) {

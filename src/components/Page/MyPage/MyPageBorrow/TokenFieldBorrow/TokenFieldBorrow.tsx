@@ -21,6 +21,7 @@ const FieldArrS = styled.div`
 
 const FieldArr = styled.div`
     overflow: visible;
+    margin-bottom: 100px;
 `
 
 const FieldBlock = styled.div <{BorderField: string}>`
