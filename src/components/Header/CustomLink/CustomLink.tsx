@@ -19,7 +19,9 @@ const LinkBLock = styled(LinkText)`
         padding: 0px;
     }
     @media (max-width: 730px) {
-        font-size: 15px;
+        font-size: 13px;
+        line-height: 1.2rem;
+        font-weight: 600;
     }
 `
 
