@@ -16,11 +16,14 @@ const BlockLink = styled.nav`
     width: 100%;
     display: flex;
     align-items: center;
-    gap: 80px;
+    gap: 50px;
     height: 60px;
     justify-content: center;
     margin-right: 30px;
     margin-left: 145px;
+    @media (max-width: 1110px) {
+        gap: 30px;
+    }
 `
 
 const NavBlock = styled.div <{navBlockBg: string}>`
@@ -33,6 +36,7 @@ const NavBlock = styled.div <{navBlockBg: string}>`
 `
 
 const LinkBlock = styled.div`
+    width: 100px;
     margin-top: -5px;
     @media (min-width: 730px){
         flex-grow: 0;
