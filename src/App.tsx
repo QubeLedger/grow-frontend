@@ -1,7 +1,7 @@
 import styled from 'styled-components';
 import { Header } from './components/Header/Header';
 import { Borrow } from './components/Page/Borrow/Borrow';
-import { Earn } from './components/Page/Earn/EarnPage/Earn';
+import { Earn } from './components/Page/Earn/Earn';
 import { Liquidation } from './components/Page/Liquidation/Liquidation';
 import { MyPage } from './components/Page/MyPage/MyPage';
 import { Routes, Route } from 'react-router-dom';
@@ -10,17 +10,19 @@ import { EarnDeposit } from './components/Page/Earn/EarnDeposit/EarnDeposit';
 import { EarnWithdrawal } from './components/Page/Earn/EarnWithdrawal/EarnWithdrawal';
 import { ThemeBlackState, ThemeWhiteState, useToggleTheme } from './hooks/useToggleTheme';
 import { useEffect } from 'react'
-import { Wallet, useWallet } from './hooks/useWallet';
+import { useWallet } from './hooks/useWallet';
 import { useConnectKeplrWalletStore } from './hooks/useConnectKeplrWalletStore';
 import { useBalancesStore } from './hooks/useBalanceStore';
 import { UpdateBalances } from './connection/balances';
 import { useClient } from './hooks/useClient';
 import { InitSigner } from './connection/stargate';
-import { Lend, Loan, useLendStore, useLoanStore, usePositionStore } from './hooks/usePositionStore';
+import { useLendStore, useLoanStore, usePositionStore } from './hooks/usePositionStore';
 import { UpdatePosition } from './connection/position';
 import { GetLendById } from './connection/lend';
 import { GetLoanById } from './connection/loan';
 import { Repay } from './components/Page/Repay/Repay';
+import { useMediaQuery } from 'react-responsive';
+import { MobileLinkBlock } from './components/Header/VariablesLink/BlockLink';
 
 
 const AppPage = styled.div`
@@ -101,6 +103,7 @@ function App() {
 					<Route path="/liquidation" element={<Liquidation />} />
 					<Route path="/repay" element={<Repay />} />
 				</Routes>
+				
 			</AppPage>
 		</>
 	);

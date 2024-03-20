@@ -5,15 +5,18 @@ import { EarnFields } from "../EarnFields/EarnFields";
 import { useToggleTheme } from "../../../../../hooks/useToggleTheme";
 import { useAssetStore } from "../../../../../hooks/useAssetStore";
 
-const ContainerBlock = styled.div`
+const ContainerBlock = styled.div <{ MyPageHeightMob: string }>`
     width: 500px;
     height: 100%;
     display: flex;
     margin-left: 20px;
     margin-right: 20px;
-    padding-bottom: 20px;
+    margin-bottom: 100px;
     flex-direction: column;
     align-items: center;
+    @media (max-width: 1000px) {
+        height: ${props => props.MyPageHeightMob};
+    }
 `
 
 const ContainerBlockH = styled.div <{TextColor: string}>`
@@ -39,7 +42,7 @@ export const EarnContainer = () => {
     }
 
     return(
-        <ContainerBlock>
+        <ContainerBlock  MyPageHeightMob={assets.length >= 4 ? '100%;' : 'calc(100vh - 422px);'}>
             <EarnHeader/>
             <EarnSerach/>
             {Component}

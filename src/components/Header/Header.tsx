@@ -43,23 +43,21 @@ export const Header = () => {
     const [theme, setTheme] = useToggleTheme()
 
     const isDes = useMediaQuery({
-        query: "(min-device-width: 1110px)",
+        query: "(min-device-width: 1050px)",
     });
     const isMob = useMediaQuery({
-        query: "(max-device-width: 1110px)",
+        query: "(max-device-width: 1050px)",
     });
 
     return(
-        <div>
-            
+        <div style={{display: "flex", flexDirection: "column"}}>
             <MainHeader headerColor={theme.headerColor}>
                 <HeaderLogoBlock>
                     <HomePageLinkButton to="/">
                         <HeaderLogoQUBE style={{marginTop: "-5px"}} src={QubeLogo}></HeaderLogoQUBE>
                     </HomePageLinkButton>
                 </HeaderLogoBlock>
-                <LinkButton></LinkButton>
-                    {isDes && <DefoultLinkBlock/>}
+                {isDes && <DefoultLinkBlock/>}
                 <ConnectButton></ConnectButton>
                 <ChangeTheme/>
             </MainHeader>
