@@ -28,7 +28,6 @@ const ContainerBlockH = styled.div <{TextColor: string}>`
 export const EarnContainer = () => {
 
     const [theme, setTheme] = useToggleTheme()
-
     const [assets, setAssets] = useAssetStore()
 
     let Component

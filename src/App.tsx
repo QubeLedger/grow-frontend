@@ -18,11 +18,7 @@ import { useClient } from './hooks/useClient';
 import { InitSigner } from './connection/stargate';
 import { useLendStore, useLoanStore, usePositionStore } from './hooks/usePositionStore';
 import { UpdatePosition } from './connection/position';
-import { GetLendById } from './connection/lend';
-import { GetLoanById } from './connection/loan';
 import { Repay } from './components/Page/Repay/Repay';
-import { useMediaQuery } from 'react-responsive';
-import { MobileLinkBlock } from './components/Header/VariablesLink/BlockLink';
 
 
 const AppPage = styled.div`

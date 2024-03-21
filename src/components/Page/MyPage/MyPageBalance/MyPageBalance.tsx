@@ -57,6 +57,7 @@ export const ContainerBlock = styled.div`
 
 export const ContainerBlockH = styled.div <{TextColor: string}>`
     width: 100%;
+    height: calc(100vh - 490px);
     text-align: center;
     color: ${props => props.TextColor};
 `

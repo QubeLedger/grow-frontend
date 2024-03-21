@@ -25,6 +25,14 @@ const LinkBLock = styled(LinkText)`
     }
 `
 
+const WalletLogo = styled.svg <{icon: string}>`
+    width: 20px;
+    height: 20px;
+    background: url(${props => props.icon});
+    background-repeat: no-repeat;
+    background-size: contain;
+`
+
 interface Props {
     to: string;
     children: ReactNode;
