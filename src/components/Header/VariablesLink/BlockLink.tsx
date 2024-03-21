@@ -10,6 +10,11 @@ import myBlackLogo from '../../../assets/svg/myBlackLogo.svg'
 import earnBlackLogo from '../../../assets/svg/earnBlackLogo.svg'
 import borrowBlackLogo from '../../../assets/svg/borrowBlackLogo.svg'
 import liquidationBlackLogo from '../../../assets/svg/liquidationBlackLogo.svg'
+import myActiveLogo from '../../../assets/svg/myActiveLogo.svg'
+import earnActiveLogo from '../../../assets/svg/earnActiveLogo.svg'
+import borrowActiveLogo from '../../../assets/svg/borrowActiveLogo.svg'
+import liquidationActiveLogo from '../../../assets/svg/liquidationActiveLogo.svg'
+import { useMatch } from "react-router";
 
 
 const BlockLink = styled.nav`
@@ -118,7 +123,6 @@ export const MobileLinkBlock = () => {
            <NavBlock navBlockBg={theme.navBlockBg}>
                 <MobBlockLink>
                     <MobLinkBlock>
-                        
                         <Customlink to="/my">
                             <WalletLogo icon={theme.active == true ? myBlackLogo : myLogo}></WalletLogo>
                             My

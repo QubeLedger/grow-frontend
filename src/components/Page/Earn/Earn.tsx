@@ -30,6 +30,9 @@ const Block = styled.div <{backgroundColor: string, MyPageHeightMob: string, MyP
     height: ${props => props.MyPageHeightDes};
     background: ${props => props.backgroundColor};
     margin-top: -5px;
+    @media (max-width: 450px) {
+        height: ${props => props.MyPageHeightMob};
+    }
 `
 
 export const Earn = () => {
@@ -77,14 +80,16 @@ export const Earn = () => {
                 })
             })
             setEAccordion(eAccordions)
+
+            console.log(assets)
         }
         update();
     }, [])
 
     return(
         <Block
-        MyPageHeightDes={assets.length >= 8 || assets.length >= 8 ? '100%;' : 'calc(100vh - 65px);'}
-        MyPageHeightMob={assets.length >= 4 || assets.length >= 4 ? '100%;' : 'calc(100vh - 65px);'}
+        MyPageHeightDes={assets.length >= 8 ? '100%;' : 'calc(100vh - 65px);'}
+        MyPageHeightMob={assets.length >= 4 ? '100%;' : 'calc(100vh - 422px);'}
         backgroundColor={theme.backgroundColor}>
             <EarnBLock margin={accordion.margin}>
                 <EarnContainer/>
