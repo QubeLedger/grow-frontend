@@ -21,6 +21,7 @@ const ContainerBlock = styled.div <{ MyPageHeightMob: string }>`
 
 const ContainerBlockH = styled.div <{TextColor: string}>`
     width: 100%;
+    height: calc(100vh - 400px);
     text-align: center;
     color: ${props => props.TextColor};
 `
