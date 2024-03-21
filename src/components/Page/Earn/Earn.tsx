@@ -89,7 +89,7 @@ export const Earn = () => {
     return(
         <Block
         MyPageHeightDes={assets.length >= 8 ? '100%;' : 'calc(100vh - 65px);'}
-        MyPageHeightMob={assets.length >= 4 ? '100%;' : 'calc(100vh - 422px);'}
+        MyPageHeightMob={assets.length >= 4 && assets.length !=0 ? '100%;' : '100vh'}
         backgroundColor={theme.backgroundColor}>
             <EarnBLock margin={accordion.margin}>
                 <EarnContainer/>

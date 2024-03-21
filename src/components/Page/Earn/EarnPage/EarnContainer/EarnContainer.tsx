@@ -21,7 +21,6 @@ const ContainerBlock = styled.div <{ MyPageHeightMob: string }>`
 
 const ContainerBlockH = styled.div <{TextColor: string}>`
     width: 100%;
-    height: calc(100vh - 400px);
     text-align: center;
     color: ${props => props.TextColor};
 `
@@ -29,7 +28,6 @@ const ContainerBlockH = styled.div <{TextColor: string}>`
 export const EarnContainer = () => {
 
     const [theme, setTheme] = useToggleTheme()
-
     const [assets, setAssets] = useAssetStore()
 
     let Component
