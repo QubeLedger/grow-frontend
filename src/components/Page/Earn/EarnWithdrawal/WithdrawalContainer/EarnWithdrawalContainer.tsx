@@ -2,6 +2,7 @@ import styled from "styled-components";
 import { EarnWithdrawalHeader } from "../WithdrawalHeader/EarnWithdrawalHeader";
 import { EarnWithdrawalTokenField } from "../WithdrawalTokenField/WithdrawalTokenField";
 import { EarnWithdrawalConfirm } from '../WithdrawalConfirm/EarnWithdrawalConfirm';
+import { WithdrawalModalTransaction } from "../../../../Modal/WithdrawalModal/ModalTransaction";
 
 const ContrainerBlock = styled.div`
     width: 400px;
@@ -15,7 +16,7 @@ export const EarnWithdrawalContainer = () => {
         <ContrainerBlock>
             <EarnWithdrawalHeader/>
             <EarnWithdrawalTokenField/>
-            <EarnWithdrawalConfirm/>
+            <WithdrawalModalTransaction/>
         </ContrainerBlock>
     )
 }

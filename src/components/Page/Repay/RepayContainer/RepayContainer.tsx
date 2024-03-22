@@ -1,8 +1,8 @@
 import styled from "styled-components";
-import { RepayHeader } from '../RepayHeader/RepayHeader';
 import { RepayField } from "../RepayField/RepayField";
 import { RepayInfo } from "../RepayInfo/RepayInfo";
 import { RepayConfirm } from "../../../Buttton/RepayConfirm/RepayConfirm";
+import { RepayModalTransaction } from "../../../Modal/RepayModal/ModalTransaction/ModalTransaction";
 
 const Contrainer = styled.div`
     width: 400px;
@@ -14,7 +14,7 @@ export const RepayContainer = () => {
         <Contrainer>
             <RepayField/>
             <RepayInfo/>
-            <RepayConfirm/>
+            <RepayModalTransaction/>
         </Contrainer>
     ) 
 }
