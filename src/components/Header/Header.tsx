@@ -58,8 +58,8 @@ export const Header = () => {
                     </HomePageLinkButton>
                 </HeaderLogoBlock>
                 {isDes && <DefoultLinkBlock/>}
-                <ConnectButton></ConnectButton>
                 <ChangeTheme/>
+                <ConnectButton></ConnectButton>
             </MainHeader>
             {isMob && <MobileLinkBlock/>}
         </div>

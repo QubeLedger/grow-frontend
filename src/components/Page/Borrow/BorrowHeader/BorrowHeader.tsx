@@ -69,7 +69,8 @@ export const BorrowHeader = () => {
                     onClick={() => { setBlock('borrow') }}
                     style={{
                         color: block == 'borrow' ? theme.TextColor = theme.active == true ? 'white' : 'black' : greyText,
-                        textDecoration: block == 'borrow' ? underline : ''
+                        textDecoration: block == 'borrow' ? underline : '',
+                        marginLeft: "19px"
                     }}>Borrow</ButtonLinkBorrow>
                 <ButtonLinkRepay TextColor={theme.TextColor}
                     onClick={() => { setBlock('repay') }}
