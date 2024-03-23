@@ -6,13 +6,14 @@ import { useConnectKeplrWalletStore } from "../../../hooks/useConnectKeplrWallet
 
 const SwapButton = styled.button`
     width: 35px;
-    margin-right: 55px;
+    margin-right: 20px;
     background-color: transparent;
     border: none;
     padding: 0;
     outline: none;
     @media (max-width: 950px) {
         margin-right: 20px;
+        margin-left: auto;
     }
 `
 
