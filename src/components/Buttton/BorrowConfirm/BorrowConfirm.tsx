@@ -11,7 +11,7 @@ import { useAssetStore } from "../../../hooks/useAssetStore";
 const Button = styled.button`
     width: 250px;
     height: 40px;
-    background: linear-gradient(to left, #3B9CFC, #6CBBFF);
+    background: linear-gradient(to right, #57adff, #0089ff);
     border: none;
     margin-top: 30px;
     border-radius: 10px;
@@ -23,7 +23,7 @@ const ConfirmButton = styled.button`
     height: 40px;
     font-size: 17px;
     font-weight: 700;
-    background: linear-gradient(to left, #3B9CFC, #6CBBFF);
+    background: linear-gradient(to right, #57adff, #0089ff);
     border: none;
     margin: 0 auto;
     border-radius: 12px;
