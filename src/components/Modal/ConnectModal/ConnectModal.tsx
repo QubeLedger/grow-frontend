@@ -144,7 +144,7 @@ export const ConnectModal = () => {
     const open = () => {setWalletModalStatus({b: true})};
     const close = () => {setWalletModalStatus({b: false})};
 
-    let BackgroundConnectButton = 'linear-gradient(to right, #57adff, #0089ff)';
+    let BackgroundConnectButton = 'linear-gradient(to right, #6db8ff, #0089ff)';
     var walletAddr: string = "";
 
     const [ connectWallet, setConnectKeplrWalletStore ] = useConnectKeplrWalletStore();

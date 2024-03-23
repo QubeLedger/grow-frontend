@@ -13,7 +13,7 @@ import { getBalance } from "../../Page/Earn/EarnDeposit/DepositConfirm/EarnDepos
 const Button = styled.button`
     width: 250px;
     height: 40px;
-    background: linear-gradient(to right, #57adff, #0089ff);
+    background: linear-gradient(to right, #6db8ff, #0089ff);
     border: none;
     margin-top: 40px;
     border-radius: 10px;
@@ -21,11 +21,11 @@ const Button = styled.button`
 `
 
 const ConfirmButton = styled.button`
-    width: 260px;
-    height: 40px;
-    font-size: 17px;
+    width: 90%;
+    height: 50px;
+    font-size: 19px;
     font-weight: 700;
-    background: linear-gradient(to right, #57adff, #0089ff);
+    background: linear-gradient(to right, #6db8ff, #0089ff);
     border: none;
     margin: 0 auto;
     border-radius: 12px;
@@ -51,9 +51,9 @@ const ButtonText = styled.a`
 `
 
 const InsufficientConfirmButton = styled.button`
-    width: 260px;
-    height: 40px;
-    font-size: 17px;
+    width: 90%;
+    height: 50px;
+    font-size: 19px;
     font-weight: 700;
     background: #757575;
     border: none;

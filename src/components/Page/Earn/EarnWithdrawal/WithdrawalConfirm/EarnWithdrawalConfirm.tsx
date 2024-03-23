@@ -9,11 +9,11 @@ import { useClient } from "../../../../../hooks/useClient";
 import { useLendStore } from "../../../../../hooks/usePositionStore";
 
 const ConfirmButton = styled.button`
-    width: 260px;
-    height: 40px;
-    font-size: 17px;
+    width: 100%;
+    height: 50px;
+    font-size: 19px;
     font-weight: 700;
-    background: linear-gradient(to right, #57adff, #0089ff);
+    background: linear-gradient(to right, #6db8ff, #0089ff);
     border: none;
     margin: 0 auto;
     border-radius: 12px;
@@ -26,9 +26,9 @@ const ConfirmButton = styled.button`
 `
 
 const InsufficientConfirmButton = styled.button`
-    width: 260px;
-    height: 40px;
-    font-size: 17px;
+    width: 100%;
+    height: 50px;
+    font-size: 19px;
     font-weight: 700;
     background: #757575;
     border: none;
