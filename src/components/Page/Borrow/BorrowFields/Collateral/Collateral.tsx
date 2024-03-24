@@ -1,5 +1,5 @@
 import styled from "styled-components";
-import { ModalColl } from "../../../../Modal/BorrowModal/ModalColl.tsx/ModalColl";
+import { ModalColl } from "../../../../Modal/BorrowPageModal/ModalColl/ModalColl";
 import { useToggleTheme } from "../../../../../hooks/useToggleTheme";
 import { useAmountCollateralEarnStore, useAmountCollateralInfoStore } from "../../../../../hooks/useAmountInStore";
 import { FormEvent } from "react";

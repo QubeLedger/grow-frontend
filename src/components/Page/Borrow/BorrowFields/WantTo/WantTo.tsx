@@ -1,5 +1,5 @@
 import styled from "styled-components";
-import { ModalWant } from "../../../../Modal/BorrowModal/ModalWant/ModalWant";
+import { ModalWant } from "../../../../Modal/BorrowPageModal/ModalWant/ModalWant";
 import { useToggleTheme } from "../../../../../hooks/useToggleTheme";
 import { useAmountBorrowEarnStore, useAmountBorrowInfoStore } from "../../../../../hooks/useAmountInStore";
 import { FormEvent } from "react";

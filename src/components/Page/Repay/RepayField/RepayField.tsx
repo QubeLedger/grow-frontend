@@ -1,5 +1,5 @@
 import styled from "styled-components";
-import { RepayWantTo } from "./WantTo/WantTo";
+import { RepayInputField } from "./WantTo/InputField";
 
 const Fields = styled.div`
     width: 100%;
@@ -12,7 +12,7 @@ const Fields = styled.div`
 export const RepayField = () => {
     return(
         <Fields>
-            <RepayWantTo></RepayWantTo>
+            <RepayInputField></RepayInputField>
         </Fields>
     ) 
 } 

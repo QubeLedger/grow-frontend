@@ -2,7 +2,7 @@ import styled from "styled-components";
 import { useToggleTheme } from "../../../../../hooks/useToggleTheme";
 import { useAmountBorrowEarnStore, useAmountBorrowInfoStore, useAmountBorrowRepayEarnStore } from "../../../../../hooks/useAmountInStore";
 import { FormEvent } from "react";
-import { ModalRepay } from "../../../../Modal/RepayModal/ModalWant/ModalWant";
+import { ModalRepay } from "../../../../Modal/RepayPageModal/ModalWant/ModalWant";
 
 const Want = styled.div`
     width: 90%;
@@ -47,7 +47,7 @@ const InputBlock = styled.input <{TextColor: string}>`
 `
 
 
-export const RepayWantTo = () => {
+export const RepayInputField = () => {
     
     const [theme, setTheme] = useToggleTheme();
     const [ borrow_info, setBorrowInfo ] = useAmountBorrowInfoStore()
