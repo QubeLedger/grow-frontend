@@ -33,7 +33,7 @@ export const CastomButtonlink = ({children, to}: Props) => {
         <LinkBLock 
         to={to}
         style={{
-            color: '#000',
+            color: '#fff',
             transition: '.2s ease-in-out'
         }}
         >

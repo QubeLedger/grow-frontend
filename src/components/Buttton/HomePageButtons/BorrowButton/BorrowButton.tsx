@@ -10,7 +10,7 @@ const Button = styled.button`
     border: none;
     font-size: 18px;
     font-weight: 700;
-    color: #000;
+    color: #fff;
     display: flex;
     transition: 0.2s all;
     transition: all .15s ease-in-out;
