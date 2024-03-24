@@ -1,165 +1,80 @@
-import { DialogContent, DialogOverlay } from '@reach/dialog'
-import React from 'react'
-import { animated, easings, useSpring, useTransition } from '@react-spring/web'
-import styled, { css } from 'styled-components'
+import { animated, useTransition } from '@react-spring/web';
+import { DialogContent, DialogOverlay } from '@reach/dialog';
+import styled from 'styled-components';
 
-export const MODAL_TRANSITION_DURATION = 200
-
-const AnimatedDialogOverlay = animated(DialogOverlay)
-
-const StyledDialogOverlay = styled(AnimatedDialogOverlay)<{ $scrollOverlay?: boolean }>`
-  will-change: transform, opacity;
-  &[data-reach-dialog-overlay] {
-    z-index: 1;
-    background-color: transparent;
-    overflow: hidden;
-
-    display: flex;
-    align-items: center;
-    overflow-y: ${({ $scrollOverlay }) => $scrollOverlay && 'scroll'};
-    justify-content: center;
-
-    background-color: ${({ theme }) => theme.scrim};
-  }
+const ModalDialogContent = animated(DialogContent);
+const StyledDialogContent = styled(ModalDialogContent) <{ modalBgColor: string, modalBorder: string }>`
+    &[data-reach-dialog-content] {
+        background-color: ${props => props.modalBgColor};
+        width: 375px;
+        height: 430px;
+        display: flex;
+        flex-direction: column;
+        border-radius: 20px;
+        border:  ${props => props.modalBorder};
+        margin-top: -10px;
+        position: relative;
+        outline: none;
+        transition: all .3s ease-in-out;
+        @media (max-width: 500px) {
+            width: 100%;
+            border-radius: 0px;
+            border-top-right-radius: 20px;
+            border-top-left-radius: 20px;
+        }
+    }
 `
 
-type StyledDialogProps = {
-  $minHeight?: number | false
-  $maxHeight?: number
-  $scrollOverlay?: boolean
-  $hideBorder?: boolean
-  $maxWidth: number
-}
 
-const AnimatedDialogContent = animated(DialogContent)
-const StyledDialogContent = styled(AnimatedDialogContent)<StyledDialogProps>`
-  overflow-y: auto;
-
-  &[data-reach-dialog-content] {
-    margin: auto;
-    background-color: ${({ theme }) => theme.surface2};
-    border: ${({ theme, $hideBorder }) => !$hideBorder && `1px solid ${theme.surface3}`};
-    box-shadow: ${({ theme }) => theme.deprecated_deepShadow};
-    padding: 0px;
-    width: 50vw;
-    overflow-y: auto;
-    overflow-x: hidden;
-    max-width: ${({ $maxWidth }) => $maxWidth}px;
-    ${({ $maxHeight }) =>
-      $maxHeight &&
-      css`
-        max-height: ${$maxHeight}vh;
-      `}
-    ${({ $minHeight }) =>
-      $minHeight &&
-      css`
-        min-height: ${$minHeight}vh;
-      `}
-    display: ${({ $scrollOverlay }) => ($scrollOverlay ? 'inline-table' : 'flex')};
-    border-radius: 20px;
-
-    @media screen and (max-width: ${({ theme }) => theme.breakpoint.md}px) {
-      width: 65vw;
+const ModalDialogOverlay = animated(DialogOverlay);
+const StyledDialogOvelay = styled(ModalDialogOverlay)`
+    &[data-reach-dialog-overlay] {
+        z-index: 1;
+        position: fixed;
+        left: 0;
+        top: 0;
+        bottom: 0;
+        right: 0;
+        overflow: auto;
+        display:flex;
+        align-items: center;
+        justify-content: center; 
+        transition: background-color 3s;
+        background-color: rgba(0,0,0,.45);
+        @media (max-width: 500px) {
+            align-items: flex-end;
+        }
     }
-    @media screen and (max-width: ${({ theme }) => theme.breakpoint.sm}px) {
-      margin: 0;
-      width: 100vw;
-      border-radius: 20px;
-      border-bottom-left-radius: 0;
-      border-bottom-right-radius: 0;
-    }
-  }
 `
 
-interface ModalProps {
-  isOpen: boolean
-  onDismiss?: () => void
-  onSwipe?: () => void
-  height?: number // takes precedence over minHeight and maxHeight
-  minHeight?: number | false
-  maxHeight?: number
-  maxWidth?: number
-  initialFocusRef?: React.RefObject<any>
-  children?: React.ReactNode
-  $scrollOverlay?: boolean
-  hideBorder?: boolean
-  slideIn?: boolean
-}
-
-export default function Modal({
-  isOpen,
-  onDismiss,
-  minHeight = false,
-  maxHeight = 90,
-  maxWidth = 420,
-  height,
-  initialFocusRef,
-  children,
-  onSwipe = onDismiss,
-  $scrollOverlay,
-  hideBorder = false,
-  slideIn,
-}: ModalProps) {
-  const fadeTransition = useTransition(isOpen, {
-    config: { duration: MODAL_TRANSITION_DURATION },
-    from: { opacity: 0 },
-    enter: { opacity: 1 },
-    leave: { opacity: 0 },
-  })
-
-  const slideTransition = useTransition(isOpen, {
-    config: { duration: MODAL_TRANSITION_DURATION, easing: easings.easeInOutCubic },
-    from: { transform: 'translateY(40px)' },
-    enter: { transform: 'translateY(0px)' },
-    leave: { transform: 'translateY(40px)' },
-  })
-
-  const [{ y }, set] = useSpring(() => ({ y: 0, config: { mass: 1, tension: 210, friction: 20 } }))
-  // const bind = useGesture({
-  //   onDrag: (state) => {
-  //     set({
-  //       y: state.down ? state.movement[1] : 0,
-  //     })
-  //     if (state.movement[1] > 300 || (state.velocity > 3 && state.direction[1] > 0)) {
-  //       onSwipe?.()
-  //     }
-  //   },
-  // })
-
-  return (
-    <>
-      {fadeTransition(
-        ({ opacity }, item) =>
-          item && (
-            <StyledDialogOverlay
-              style={{ opacity: opacity.to({ range: [0.0, 1.0], output: [0, 1] }) }}
-              onDismiss={onDismiss}
-              initialFocusRef={initialFocusRef}
-              unstable_lockFocusAcrossFrames={false}
-              $scrollOverlay={$scrollOverlay}
-            >
-              {slideTransition(
-                (styles, item) =>
-                  item && (
-                    <StyledDialogContent
-                      {...(slideIn
-                        ? { style: styles }
-                        : {})}
-                      aria-label="dialog"
-                      $minHeight={height ?? minHeight}
-                      $maxHeight={height ?? maxHeight}
-                      $hideBorder={hideBorder}
-                      $maxWidth={maxWidth}
-                    >
-                      {/* prevents the automatic focusing of inputs on mobile by the reach dialog */}
-                      {!initialFocusRef ? <div tabIndex={1} /> : null}
-                      {children}
-                    </StyledDialogContent>
-                  )
-              )}
-            </StyledDialogOverlay>
-          )
-      )}
-    </>
-  )
-}
+export function Modal(
+        isOpen: boolean,
+        onDismiss?: () => void,
+        children?: React.ReactNode,
+        modalBgColor?: string,
+        modalBorder?: string,
+) {    
+        const transitions = useTransition(isOpen, {
+            from: { opacity: 0, transform: "translateY(100px)" },
+            enter: { opacity: 1, transform: "translateY(0px)" },
+        });
+    
+        return (
+            <>
+                {transitions((styles, item) => (
+                    item && (
+                        <StyledDialogOvelay
+                            style={styles}
+                            isOpen={isOpen}
+                            onDismiss={onDismiss}
+                            key={null}
+                        >
+                            <StyledDialogContent modalBgColor={modalBgColor? modalBgColor : ""} modalBorder={modalBorder? modalBorder : ""}>
+                                {children}
+                            </StyledDialogContent>
+                        </StyledDialogOvelay>
+                    )
+                ))}
+            </>
+        );
+    }

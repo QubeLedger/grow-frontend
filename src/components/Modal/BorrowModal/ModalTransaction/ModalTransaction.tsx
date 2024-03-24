@@ -5,7 +5,8 @@ import { useShowTransactionModalBorrow } from '../../../../hooks/useShowModal';
 import { useToggleTheme } from '../../../../hooks/useToggleTheme';
 import { BorrowConfirm } from '../../../Buttton/BorrowConfirm/BorrowConfirm';
 import { BorrowModalContent } from './ModalContent';
-import Modal from '../../Modal';
+import { isTemplateHead } from 'typescript';
+import { Modal } from '../../Modal';
 
 const ModalDialogOverlay = animated(DialogOverlay);
 const StyledDialogOvelay = styled(ModalDialogOverlay)`
@@ -127,14 +128,7 @@ export const BorrowModalTransaction = () => {
     const [ShowTransactionModalBorrow, setShowTransactionModalBorrow] = useShowTransactionModalBorrow();
     const [theme, setTheme] = useToggleTheme();
 
-
-    const transitions = useTransition(ShowTransactionModalBorrow, {
-        from: { y: -40 },
-    });
-
-    console.log(ShowTransactionModalBorrow)
-
-    const BorrowModalT = <>
+    const Content = <>
         <CloseDiv>
             <HeaderBlock>
                 <HeaderText TextColor={theme.TextColor}>Confirm borrow</HeaderText>
@@ -149,14 +143,18 @@ export const BorrowModalTransaction = () => {
         </ContentDiv>
     </>
 
+    const ModalComponent = Modal(
+        ShowTransactionModalBorrow.b,
+        close,
+        Content,
+        theme.modalBgColor,
+        theme.modalBorder
+    )
+
     return (
         <OpenButtonBlock>
             <OpenButton onClick={open}>Confirm</OpenButton>
-            <Modal
-                isOpen={ShowTransactionModalBorrow.b}
-                onDismiss={close}
-                children = {BorrowModalT}
-            ></Modal>
+            {ModalComponent}
 
         </OpenButtonBlock>
     );

@@ -1,5 +1,5 @@
 import styled from "styled-components";
-import { ModalColl } from "../../../../Modal/BorrowModal/ModalColl.tsx/ModalColl";
+import { ModalCollateral } from "../../../../Modal/BorrowModal/ModalCollateral/ModalCollateral";
 import { useToggleTheme } from "../../../../../hooks/useToggleTheme";
 import { useAmountCollateralEarnStore, useAmountCollateralInfoStore } from "../../../../../hooks/useAmountInStore";
 import { FormEvent } from "react";
@@ -77,7 +77,7 @@ export const Collateral = () => {
             <TextColl>Collateral</TextColl>
             <FieldCool BorderField={theme.BorderField}>
                 <TokenBlock>
-                    <ModalColl/>
+                    <ModalCollateral/>
                 </TokenBlock>
                 <InputBlock placeholder="0" onChange={HandleInputAmpunt} value={amtIn.amt}></InputBlock>  
             </FieldCool>

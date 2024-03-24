@@ -231,7 +231,7 @@ const StyledDialogContent = styled(ModalDialogContent) <{modalBgColor: string, m
 `
 
 
-export const ModalColl = () => {
+export const ModalCollateral = () => {
 
     const [ walletModalStatus, setWalletModalStatus ] = useShowModalTo();
     const [ theme, setTheme] = useToggleTheme()
