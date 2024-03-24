@@ -15,7 +15,6 @@ const StyledDialogContent = styled(ModalDialogContent) <{ modalBgColor: string, 
         margin-top: -10px;
         position: relative;
         outline: none;
-        transition: all .3s ease-in-out;
         @media (max-width: 500px) {
             width: 100%;
             border-radius: 0px;
@@ -39,7 +38,6 @@ const StyledDialogOvelay = styled(ModalDialogOverlay)`
         display:flex;
         align-items: center;
         justify-content: center; 
-        transition: background-color 3s;
         background-color: rgba(0,0,0,.45);
         @media (max-width: 500px) {
             align-items: flex-end;
@@ -53,28 +51,40 @@ export function Modal(
         children?: React.ReactNode,
         modalBgColor?: string,
         modalBorder?: string,
-) {    
-        const transitions = useTransition(isOpen, {
-            from: { opacity: 0, transform: "translateY(100px)" },
-            enter: { opacity: 1, transform: "translateY(0px)" },
+) {
+        const fadeTransition = useTransition(isOpen, {
+                from: { opacity: 0 },
+                enter: { opacity: 1 },
+        })
+
+        const slideTransitions = useTransition(isOpen, {
+                from: { transform: "translateY(100px)" },
+                enter: { transform: "translateY(0px)" },
         });
-    
+
         return (
-            <>
-                {transitions((styles, item) => (
-                    item && (
-                        <StyledDialogOvelay
-                            style={styles}
-                            isOpen={isOpen}
-                            onDismiss={onDismiss}
-                            key={null}
-                        >
-                            <StyledDialogContent modalBgColor={modalBgColor? modalBgColor : ""} modalBorder={modalBorder? modalBorder : ""}>
-                                {children}
-                            </StyledDialogContent>
-                        </StyledDialogOvelay>
-                    )
-                ))}
-            </>
+                <>
+                        {fadeTransition(({ opacity }, item) => (
+                                item && (
+                                        <StyledDialogOvelay
+                                                isOpen={isOpen}
+                                                onDismiss={onDismiss}
+                                                style={{ opacity: opacity.to({ range: [0.0, 1.0], output: [0, 1] }) }}
+                                                key={null}
+                                        >
+                                                {slideTransitions((styles, item) => (
+                                                        item && (
+                                                                <StyledDialogContent
+                                                                        modalBgColor={modalBgColor ? modalBgColor : ""}
+                                                                        modalBorder={modalBorder ? modalBorder : ""}
+                                                                        style={styles}
+                                                                >
+                                                                        {children}
+                                                                </StyledDialogContent>
+                                                        )))}
+                                        </StyledDialogOvelay>
+                                )
+                        ))}
+                </>
         );
-    }
+}
