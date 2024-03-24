@@ -54,7 +54,7 @@ const OpenButton = styled.button <{color: string, border: string, margin: string
     padding: 10px 20px;
     white-space: nowrap;
     margin-top: ${props => props.margin};
-    color: #000;
+    color: #fff;
     @media (max-width: 500px) {
         font-size: 15px;
     }
