@@ -9,7 +9,7 @@ import { useClient } from "../../../hooks/useClient";
 import { useAssetStore } from "../../../hooks/useAssetStore";
 
 const Button = styled.button`
-    width: 250px;
+    width: 90%;
     height: 40px;
     background: linear-gradient(to left, #3B9CFC, #6CBBFF);
     border: none;
@@ -19,7 +19,7 @@ const Button = styled.button`
 `
 
 const ConfirmButton = styled.button`
-    width: 260px;
+    width: 90%;
     height: 40px;
     font-size: 17px;
     font-weight: 700;
@@ -49,7 +49,7 @@ const ButtonText = styled.a`
 `
 
 const InsufficientConfirmButton = styled.button`
-    width: 260px;
+    width: 90%;
     height: 40px;
     font-size: 17px;
     font-weight: 700;
