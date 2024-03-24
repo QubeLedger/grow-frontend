@@ -53,7 +53,7 @@ export function Modal(
 	modalBorder?: string,
 ) {
 	const fadeTransition = useTransition(isOpen, {
-		from: { opacity: 0 },
+		from: { opacity: 1 },
 		enter: { opacity: 1 },
 	})
 
