@@ -102,7 +102,7 @@ const StyledDialogContent = styled(ModalDialogContent) <{ modalBgColor: string, 
     &[data-reach-dialog-content] {
         background-color: ${props => props.modalBgColor};
         width: 375px;
-        height: 430px;
+        
         display: flex;
         flex-direction: column;
         border-radius: 20px;
