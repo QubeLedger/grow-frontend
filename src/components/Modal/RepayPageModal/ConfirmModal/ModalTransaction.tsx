@@ -2,11 +2,11 @@ import { DialogContent, DialogOverlay } from '@reach/dialog';
 import styled from 'styled-components';
 import { animated } from '@react-spring/web';
 import { ButtonBlock, ConfirmButton } from '../../../Buttton/BorrowConfirm/BorrowConfirm';
-import { RepayConfirm } from '../../../Buttton/RepayConfirm/RepayConfirm';
 import { AmountIn } from '../../../../hooks/useAmountInStore';
 import { Wallet } from '../../../../hooks/useWallet';
 import { Client } from '../../../../hooks/useClient';
 import { DeleteBorrow } from '../../../../functions/borrow';
+import { RepayModalInfo } from './RepayModalInfo';
 
 const ModalDialogOverlay = animated(DialogOverlay);
 const StyledDialogOvelay = styled(ModalDialogOverlay)`
@@ -229,13 +229,13 @@ export function RepayModal(
                             <AmountToken TextColor={TextColor}>{Amount}</AmountToken>
                         </AmountBlock>
                     </Field>
-                    <GradientBlock/>
-                    <ButtonBlock>
-                        <ConfirmButton onClick={() => {DeleteBorrow(amtIn, wallet, client)}}>Confirm</ConfirmButton>
-                    </ButtonBlock>
+                    <GradientBlock />
+                    <RepayModalInfo />
                 </Block>
             </Container>
-            <RepayConfirm />
+            <ButtonBlock>
+                <ConfirmButton onClick={() => { DeleteBorrow(amtIn, wallet, client) }}>Confirm</ConfirmButton>
+            </ButtonBlock>
         </ContentDiv>
     </>
 

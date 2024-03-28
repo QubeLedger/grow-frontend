@@ -55,11 +55,6 @@ export async function GetPriceByDenom(denom: string): Promise<number> {
 } 
 
 export const RepayModalInfo = () => {
-    const [ assets, setAssets ] = useAssetStore();
-    const [ borrow_info, setBorrowInfo ] = useAmountBorrowInfoStore()
-
-    let temp_asset = assets.find((asset) => asset.Display == borrow_info.base)
-
     return(
         <InfoBlock>
             <BlockInfo>
