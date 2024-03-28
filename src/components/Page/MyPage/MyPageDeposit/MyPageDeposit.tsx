@@ -81,7 +81,7 @@ export const MyPageDeposit = () => {
 			}	
 		}
 		update()
-    }, [])
+    }, [wallet])
     
 
     let BalancesComponent

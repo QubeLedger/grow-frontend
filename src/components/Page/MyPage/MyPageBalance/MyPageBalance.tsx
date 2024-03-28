@@ -124,7 +124,7 @@ export const MyPageBalance = () => {
 			}	
 		}
 		update()
-    }, [])
+    }, [wallet])
 
     let BalancesComponent
 

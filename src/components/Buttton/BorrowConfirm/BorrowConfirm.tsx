@@ -43,6 +43,13 @@ export const ButtonBlock = styled.div`
     width: 100%;
     display: flex;
     justify-content: center;
+    margin-bottom: 20px;
+`
+
+export const ButtonBlock1 = styled.div`
+    width: 100%;
+    display: flex;
+    justify-content: center;
 `
 
 const InsufficientConfirmButton = styled.button`
@@ -105,31 +112,31 @@ export const BorrowConfirm = () => {
     )
 
     if (wallet.init == false) {
-        Button = <ButtonBlock onClick={() => { setWalletModalStatus({ b: true }) }}>
+        Button = <ButtonBlock1 onClick={() => { setWalletModalStatus({ b: true }) }}>
             <ConfirmButton>Connect wallet</ConfirmButton>
-        </ButtonBlock>
+        </ButtonBlock1>
     } else {
         if (borrow_info.base == "Select Token") {
-            Button = <ButtonBlock>
+            Button = <ButtonBlock1>
                 <InsufficientConfirmButton>Select Token</InsufficientConfirmButton>
-            </ButtonBlock>
+            </ButtonBlock1>
         } else if (amtIn.amt == '' || amtIn.amt == '0' || isNaN(Number(amtIn.amt))) {
-            Button = <ButtonBlock>
+            Button = <ButtonBlock1>
                 <InsufficientConfirmButton>Enter {borrow_info.base} amount</InsufficientConfirmButton>
-            </ButtonBlock>
+            </ButtonBlock1>
         } else if (risk_rate.value > 95) {
-            Button = <ButtonBlock>
+            Button = <ButtonBlock1>
                 <InsufficientConfirmButton>Big risk rate</InsufficientConfirmButton>
-            </ButtonBlock>
+            </ButtonBlock1>
         } else if (Number(temp_asset?.provide_value) < (Number(amtIn.amt) * 10 ** Number(denom?.Decimals))) {
-            Button = <ButtonBlock>
+            Button = <ButtonBlock1>
                 <InsufficientConfirmButton>Not enough liquidity</InsufficientConfirmButton>
-            </ButtonBlock>
+            </ButtonBlock1>
         } else {
             Button = <>
-                <ButtonBlock>
+                <ButtonBlock1>
                     <ConfirmButton onClick={open}>Confirm</ConfirmButton>
-                </ButtonBlock>
+                </ButtonBlock1>
                 {ModalComponent}
             </>
         }

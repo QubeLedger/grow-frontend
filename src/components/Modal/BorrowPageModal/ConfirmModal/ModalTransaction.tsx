@@ -234,7 +234,7 @@ export function BorrowModal(
                 </Block>
             </Container>
             <ButtonBlock>
-                <ConfirmButton onClick={() => { CreateBorrow(amtIn, wallet, client) }}>Confirm</ConfirmButton>
+                <ConfirmButton onClick={() => {  onCLose(); CreateBorrow(amtIn, wallet, client); }}>Confirm</ConfirmButton>
             </ButtonBlock>
         </ContentDiv>
     </>

@@ -86,7 +86,7 @@ export const MyPageBorrow = () => {
 			}	
 		}
 		update()
-    }, [])
+    }, [wallet])
 
     let BorrowComponent
 

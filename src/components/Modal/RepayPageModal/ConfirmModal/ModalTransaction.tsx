@@ -234,7 +234,7 @@ export function RepayModal(
                 </Block>
             </Container>
             <ButtonBlock>
-                <ConfirmButton onClick={() => { DeleteBorrow(amtIn, wallet, client) }}>Confirm</ConfirmButton>
+                <ConfirmButton onClick={() => { onCLose(); DeleteBorrow(amtIn, wallet, client); }}>Confirm</ConfirmButton>
             </ButtonBlock>
         </ContentDiv>
     </>

@@ -234,7 +234,7 @@ export function DepositModal(
                 </Block>
             </Container>
             <ButtonBlock>
-                <ConfirmButton onClick={() => {CreateLend(amtIn, wallet, client)}}>Confirm</ConfirmButton>
+                <ConfirmButton onClick={() => { onCLose(); CreateLend(amtIn, wallet, client); }}>Confirm</ConfirmButton>
             </ButtonBlock>
         </ContentDiv>
     </>

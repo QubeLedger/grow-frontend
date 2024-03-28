@@ -4,7 +4,7 @@ import { MakeCreateLendMsg, MakeWithdrawalLendMsg } from "./msg/grow/lend";
 import { AmountIn } from "../hooks/useAmountInStore";
 
 
-export async function CreateLend(amtIn: AmountIn, wallet: Wallet, client: Client) {
+export async function CreateLend(amtIn: AmountIn, wallet: Wallet, client: Client)  {
         try {
                 let msg = await MakeCreateLendMsg(amtIn, wallet)
 
@@ -15,9 +15,7 @@ export async function CreateLend(amtIn: AmountIn, wallet: Wallet, client: Client
                                 "auto",
                         );
                         if (result.code !== undefined && result.code !== 0) {
-                                console.log("Failed to send tx: " + result.log || result.rawLog);
-
-                                
+                                console.log("Failed to send tx: " + result.log || result.rawLog);   
                         } else {
                                 console.log("Succeed to send tx:" + result.transactionHash);
                         }

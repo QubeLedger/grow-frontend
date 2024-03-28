@@ -234,7 +234,7 @@ export function WithdrawalModal(
                 </Block>
             </Container>
             <ButtonBlock>
-                <ConfirmButton onClick={() => { WithdrawalLend(amtIn, wallet, client) }}>Confirm</ConfirmButton>
+                <ConfirmButton onClick={() => { onCLose(); WithdrawalLend(amtIn, wallet, client); }}>Confirm</ConfirmButton>
             </ButtonBlock>
         </ContentDiv>
     </>
