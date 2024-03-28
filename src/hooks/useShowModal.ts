@@ -12,5 +12,5 @@ export const [useShowWalletModal] = createStore(defaultState);
 export const [useShowTransactionModalBorrow] = createStore(defaultState);
 export const [useShowTransactionModalRepay] = createStore(defaultState);
 export const [useShowTransactionModalDeposit] = createStore(defaultState);
-export const [useShowTransactionModalW] = createStore(defaultState);
+export const [useShowTransactionModalWithdrawal] = createStore(defaultState);
 export const [useShowAlert] = createStore(defaultState);

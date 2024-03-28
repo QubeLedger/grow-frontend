@@ -1,12 +1,13 @@
 import styled from "styled-components";
-import { Coin, useBalancesStore } from "../../../../../hooks/useBalanceStore";
 import { useWallet } from "../../../../../hooks/useWallet";
-import { useAmountDepositEarnStore, useAmountWithdrawalEarnStore } from "../../../../../hooks/useAmountInStore";
-import { useShowWalletModal } from "../../../../../hooks/useShowModal";
+import { useAmountWithdrawalEarnStore } from "../../../../../hooks/useAmountInStore";
+import { useShowTransactionModalWithdrawal, useShowWalletModal } from "../../../../../hooks/useShowModal";
 import { TOKEN_INFO } from "../../../../../constants";
-import { WithdrawalLend } from "../../../../../functions/lend";
 import { useClient } from "../../../../../hooks/useClient";
 import { useLendStore } from "../../../../../hooks/usePositionStore";
+import { useToggleTheme } from "../../../../../hooks/useToggleTheme";
+import { Modal } from "../../../../Modal/Modal";
+import { WithdrawalModal } from "../../../../Modal/WithdrawalPageModal/ConfirmModal/ModalTransaction";
 
 const ConfirmButton = styled.button`
     width: 100%;
@@ -51,41 +52,66 @@ const ButtonBlock = styled.div`
 
 export const EarnWithdrawalConfirm = () => {
 
-    const [wallet, _ ] = useWallet();
+    const [wallet, _] = useWallet();
     const [amtIn, setAmountWithdrawalEarnStore] = useAmountWithdrawalEarnStore()
     const [walletModalStatus, setWalletModalStatus] = useShowWalletModal();
     const [client, setClient] = useClient();
-    const [ lends, setLends ] = useLendStore()
+    const [lends, setLends] = useLendStore();
+    const [ShowTransactionModalWithdrawal, setShowTransactionModalWithdrawal] = useShowTransactionModalWithdrawal();
+    const [theme, setTheme] = useToggleTheme();
 
-    let temp_token = TOKEN_INFO.find((token) => token.Base == amtIn.base )
+    const open = () => { setShowTransactionModalWithdrawal({ b: true }) };
+    const close = () => { setShowTransactionModalWithdrawal({ b: false }) };
+
+    let temp_token = TOKEN_INFO.find((token) => token.Base == amtIn.base)
     let temp_lend = lends.find((lend) => lend.amountIn_denom == temp_token?.Denom)
     let Button;
 
+    const ModalComponent = Modal(
+        ShowTransactionModalWithdrawal.b,
+        close,
+        WithdrawalModal(
+            theme.TextColor,
+            temp_token?.Logo ? temp_token?.Logo : "",
+            temp_token?.Base ? temp_token?.Base : "",
+            amtIn.amt,
+            amtIn,
+            wallet,
+            client,
+            close,
+        ),
+        theme.modalBgColor,
+        theme.modalBorder
+    )
+
     if (wallet.init == false) {
-        Button = <ButtonBlock onClick={() => {setWalletModalStatus({b: true})}}>
-                <ConfirmButton>Connect wallet</ConfirmButton>
-            </ButtonBlock>
+        Button = <ButtonBlock onClick={() => { setWalletModalStatus({ b: true }) }}>
+            <ConfirmButton>Connect wallet</ConfirmButton>
+        </ButtonBlock>
     } else {
         if (amtIn.amt == '' || amtIn.amt == '0' || isNaN(Number(amtIn.amt))) {
             Button = <ButtonBlock>
                 <InsufficientConfirmButton>Enter {amtIn.base} amount</InsufficientConfirmButton>
             </ButtonBlock>
-        } else if (temp_lend === undefined) { 
+        } else if (temp_lend === undefined) {
             Button = <ButtonBlock>
                 <InsufficientConfirmButton>No {amtIn.base} deposit</InsufficientConfirmButton>
             </ButtonBlock>
-        } else if (Number(amtIn.amt) > (Number(temp_lend?.amountIn_amount) / 10**6)) {
+        } else if (Number(amtIn.amt) > (Number(temp_lend?.amountIn_amount) / 10 ** 6)) {
             Button = <ButtonBlock>
                 <InsufficientConfirmButton>Insufficient {amtIn.base} balance</InsufficientConfirmButton>
             </ButtonBlock>
         } else {
-            Button = <ButtonBlock>
-                <ConfirmButton onClick={() => {WithdrawalLend(amtIn, wallet, client)}}>Confirm</ConfirmButton>
-            </ButtonBlock>
+            Button = <>
+                <ButtonBlock>
+                    <ConfirmButton onClick={open}>Confirm</ConfirmButton>
+                </ButtonBlock>
+                {ModalComponent}
+            </>
         }
     }
 
-    return(
+    return (
         <>{Button}</>
     )
 }

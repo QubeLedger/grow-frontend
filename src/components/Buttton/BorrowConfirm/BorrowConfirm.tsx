@@ -3,10 +3,13 @@ import { useAmountBorrowEarnStore, useAmountBorrowInfoStore } from "../../../hoo
 import { QUBE_TESTNET_INFO, TOKEN_INFO } from "../../../constants";
 import { useRiskRate } from "../../../hooks/usePositionStore";
 import { useWallet } from "../../../hooks/useWallet";
-import { useShowWalletModal } from "../../../hooks/useShowModal";
+import { useShowTransactionModalBorrow, useShowWalletModal } from "../../../hooks/useShowModal";
 import { CreateBorrow } from "../../../functions/borrow";
 import { useClient } from "../../../hooks/useClient";
 import { useAssetStore } from "../../../hooks/useAssetStore";
+import { Modal } from "../../Modal/Modal";
+import { BorrowModal } from "../../Modal/BorrowPageModal/ConfirmModal/ModalTransaction";
+import { useToggleTheme } from "../../../hooks/useToggleTheme";
 
 const Button = styled.button`
     width: 250px;
@@ -18,7 +21,7 @@ const Button = styled.button`
     cursor: pointer;
 `
 
-const ConfirmButton = styled.button`
+export const ConfirmButton = styled.button`
     width: 90%;
     height: 50px;
     font-size: 19px;
@@ -36,7 +39,7 @@ const ConfirmButton = styled.button`
     }
 `
 
-const ButtonBlock = styled.div`
+export const ButtonBlock = styled.div`
     width: 100%;
     display: flex;
     justify-content: center;
@@ -67,18 +70,39 @@ export async function GetPriceByDenom(denom: string): Promise<number> {
 }
 
 export const BorrowConfirm = () => {
-    const [ wallet, _ ] = useWallet();
-    const [ borrow_info, setBorrowInfo ] = useAmountBorrowInfoStore()
-    const [ amtIn, setAmountBorrowEarnStore ] = useAmountBorrowEarnStore()
-    const [ walletModalStatus, setWalletModalStatus] = useShowWalletModal();
-    const [ client, setClient] = useClient();
-    const [ assets, setAssets ] = useAssetStore();
-    const [ risk_rate, setRiskRate ] = useRiskRate()
+    const [wallet, _] = useWallet();
+    const [borrow_info, setBorrowInfo] = useAmountBorrowInfoStore()
+    const [amtIn, setAmountBorrowEarnStore] = useAmountBorrowEarnStore()
+    const [walletModalStatus, setWalletModalStatus] = useShowWalletModal();
+    const [client, setClient] = useClient();
+    const [assets, setAssets] = useAssetStore();
+    const [risk_rate, setRiskRate] = useRiskRate();
+    const [ShowTransactionModalBorrow, setShowTransactionModalBorrow] = useShowTransactionModalBorrow();
+    const [theme, setTheme] = useToggleTheme();
 
+    const open = () => { setShowTransactionModalBorrow({ b: true }) };
+    const close = () => { setShowTransactionModalBorrow({ b: false }) };
+
+    let Button;
     let temp_asset = assets.find((asset) => asset.Display == borrow_info.base)
     let denom = TOKEN_INFO.find((token) => token.Denom == amtIn.base)
 
-    let Button
+    const ModalComponent = Modal(
+        ShowTransactionModalBorrow.b,
+        close,
+        BorrowModal(
+            theme.TextColor,
+            borrow_info.logo,
+            borrow_info.base,
+            amtIn.amt,
+            amtIn,
+            wallet,
+            client,
+            close,
+        ),
+        theme.modalBgColor,
+        theme.modalBorder
+    )
 
     if (wallet.init == false) {
         Button = <ButtonBlock onClick={() => { setWalletModalStatus({ b: true }) }}>
@@ -97,14 +121,17 @@ export const BorrowConfirm = () => {
             Button = <ButtonBlock>
                 <InsufficientConfirmButton>Big risk rate</InsufficientConfirmButton>
             </ButtonBlock>
-        } else if(Number(temp_asset?.provide_value) < (Number(amtIn.amt) * 10 ** Number(denom?.Decimals))) { 
+        } else if (Number(temp_asset?.provide_value) < (Number(amtIn.amt) * 10 ** Number(denom?.Decimals))) {
             Button = <ButtonBlock>
                 <InsufficientConfirmButton>Not enough liquidity</InsufficientConfirmButton>
             </ButtonBlock>
         } else {
-            Button = <ButtonBlock>
-                <ConfirmButton onClick={() => { CreateBorrow(amtIn, wallet, client) }}>Confirm</ConfirmButton>
-            </ButtonBlock>
+            Button = <>
+                <ButtonBlock>
+                    <ConfirmButton onClick={open}>Confirm</ConfirmButton>
+                </ButtonBlock>
+                {ModalComponent}
+            </>
         }
     }
     return (

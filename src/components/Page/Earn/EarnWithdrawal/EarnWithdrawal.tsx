@@ -4,9 +4,9 @@ import { useToggleTheme } from "../../../../hooks/useToggleTheme";
 import { useAmountWithdrawalEarnStore } from "../../../../hooks/useAmountInStore";
 import { useEffect } from "react";
 import { useParams } from "react-router";
-import { WithdrawalModalTransaction } from "../../../Modal/WithdrawalPageModal/ConfirmModal/ModalTransaction";
 import { EarnWithdrawalTokenField } from "./WithdrawalTokenField/WithdrawalTokenField";
 import { EarnWithdrawalHeader } from "./WithdrawalHeader/EarnWithdrawalHeader";
+import { EarnWithdrawalConfirm } from "./WithdrawalConfirm/EarnWithdrawalConfirm";
 
 const DepositBlock = styled.div <{ margin: string }>`
     width: 100%;
@@ -52,7 +52,7 @@ export const EarnWithdrawal = () => {
                 <ContrainerBlock>
                     <EarnWithdrawalHeader />
                     <EarnWithdrawalTokenField />
-                    <WithdrawalModalTransaction />
+                    <EarnWithdrawalConfirm />
                 </ContrainerBlock>
             </DepositBlock>
         </Block>

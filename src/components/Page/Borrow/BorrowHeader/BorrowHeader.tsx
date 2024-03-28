@@ -1,15 +1,10 @@
 import styled from "styled-components";
 import { useToggleTheme } from "../../../../hooks/useToggleTheme";
-import { BorrowCustomLink } from "../BorrowCustomLink/BorrowCustomLink";
 import { useState } from "react";
 import { BorrowFields } from "../BorrowFields/BorrowFields";
 import { BorrowInfo } from "../BorrowInfo/BorrowInfo";
 import { BorrowConfirm } from "../../../Buttton/BorrowConfirm/BorrowConfirm";
-import { RepayField } from "../../Repay/RepayField/RepayField";
-import { RepayInfo } from "../../Repay/RepayInfo/RepayInfo";
-import { RepayConfirm } from "../../../Buttton/RepayConfirm/RepayConfirm";
 import { Repay } from "../../Repay/Repay";
-import { BorrowModalTransaction } from "../../../Modal/BorrowPageModal/ConfirmModal/ModalTransaction";
 
 const Header = styled.div`
     width: 100%;
@@ -61,7 +56,8 @@ export const BorrowHeader = () => {
     const BorrowContainer = <>
         <BorrowFields />
         <BorrowInfo />
-        <BorrowModalTransaction /></>
+        <BorrowConfirm />
+    </>
 
     return (
         <Header>

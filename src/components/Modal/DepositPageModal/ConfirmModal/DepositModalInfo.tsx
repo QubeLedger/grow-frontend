@@ -8,6 +8,7 @@ import { useEffect, useState } from "react";
 import { useConnectKeplrWalletStore } from "../../../../hooks/useConnectKeplrWalletStore";
 import { myFixed } from "../../../Page/MyPage/MyPageDeposit/TokenFieldDeposit/TokenFieldDeposit";
 import { useToggleTheme } from "../../../../hooks/useToggleTheme";
+import { useParams } from "react-router";
 
 const InfoBlock = styled.div`
     width: 100%;
@@ -55,61 +56,20 @@ export async function GetPriceByDenom(denom: string): Promise<number> {
 }
 
 export const DepositModalInfo = () => {
-    const [position, setPosition] = usePositionStore();
-    const [assets, setAssets] = useAssetStore();
-    const [params, setParams] = useParamsStore();
-    const [borrow_info, setBorrowInfo] = useAmountBorrowInfoStore()
-    const [amtIn, setAmountBorrowRepayEarnStore] = useAmountBorrowRepayEarnStore()
-    const [price, setPrice] = useState(0)
-    const [connectWallet, setConnectWallet] = useConnectKeplrWalletStore();
-    const [risk_rate, setRiskRate] = useRiskRate()
-    const [theme, setTheme] = useToggleTheme();
+    let { denom } = useParams()
+    const [ assets, setAssets ] = useAssetStore();
 
-    let SetPriceByDenom = async (denom: string) => {
-        let temp_price = await GetPriceByDenom(denom)
-        setPrice(temp_price)
-    }
-
-    useEffect(() => {
-        if (Number(amtIn.amt) == 0 || borrow_info.base == "Select Token") {
-            setRiskRate({
-                value: ((position.borrowedAmountInUSD / position.lendAmountInUSD) * (1 / 60)) * 10000
-            })
-        } else if (Number(amtIn.amt) > 0) {
-            SetPriceByDenom(borrow_info.base)
-
-            let denom = TOKEN_INFO.find((token) => token.Base == borrow_info.base)
-
-            let inc_amount = (Number(amtIn.amt) * 10 ** Number(denom?.Decimals)) * Number(price)
-
-            setRiskRate({
-                value: (((position.borrowedAmountInUSD - inc_amount) / position.lendAmountInUSD) * (1 / 60)) * 10000
-            })
-        }
-    }, [amtIn, position])
-
-    let temp_asset = assets.find((asset) => asset.Display == borrow_info.base)
-
-    let color = isNaN(risk_rate.value) || risk_rate.value == 0 ? theme.TextColor : "#44A884"
-
+    let temp_asset = assets.find((asset) => asset.Display == denom)
     return (
         <InfoBlock>
-            <BlockInfo>
-                <InfoText>Total Deposit</InfoText>
-                <LTVInfo TextColor={theme.TextColor}>{!connectWallet.connected ? 0 : (position.lendAmountInUSD / 10 ** 6).toFixed(1)} USQ</LTVInfo>
+             <BlockInfo>
+                <InfoText>Supply Interest Rate</InfoText>
+                <LTVInfo TextColor="#44A884">{isNaN(Number(temp_asset?.sir))? "0.0" : temp_asset?.sir.toFixed(2)}%</LTVInfo>
             </BlockInfo>
-            <BlockInfo>
-                <InfoText>Total Borrow</InfoText>
-                <LTVInfo TextColor={theme.TextColor}>{!connectWallet.connected ? 0 : (position.borrowedAmountInUSD / 10 ** 6).toFixed(1)} USQ</LTVInfo>
+           <BlockInfo>
+                <InfoText>Network cost</InfoText>
+                <LTVInfo TextColor="#44A884">{QUBE_TESTNET_INFO.feeCurrencies[0].gasPriceStep.average} {QUBE_TESTNET_INFO.feeCurrencies[0].coinDenom}</LTVInfo>
             </BlockInfo>
-            <BlockInfo>
-                <InfoText>Borrow Interest Rate</InfoText>
-                <LTVInfo TextColor="#44A884">{isNaN(Number(temp_asset?.bir)) ? "0.0" : temp_asset?.bir.toFixed(2)}%</LTVInfo>
-            </BlockInfo>
-            <LTVBlock>
-                <LTV>Risk Rate</LTV>
-                <LTVInfo TextColor={(risk_rate.value <= 0) ? theme.TextColor : color}>{isNaN(risk_rate.value) || (risk_rate.value <= 0) ? "0.0" : myFixed(risk_rate.value, 2)}%</LTVInfo>
-            </LTVBlock>
         </InfoBlock>
     )
 }

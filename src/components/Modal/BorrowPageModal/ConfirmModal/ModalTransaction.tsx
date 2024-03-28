@@ -1,12 +1,12 @@
 import { DialogContent, DialogOverlay } from '@reach/dialog';
 import styled from 'styled-components';
-import { animated, useTransition } from '@react-spring/web';
-import { useShowTransactionModalBorrow } from '../../../../hooks/useShowModal';
-import { useToggleTheme } from '../../../../hooks/useToggleTheme';
-import { BorrowConfirm } from '../../../Buttton/BorrowConfirm/BorrowConfirm';
-import { BorrowModalContent } from './ModalContent';
-import { isTemplateHead } from 'typescript';
-import { Modal } from '../../Modal';
+import { animated } from '@react-spring/web';
+import { ButtonBlock, ConfirmButton } from '../../../Buttton/BorrowConfirm/BorrowConfirm';
+import { BorrowModalInfo } from './BorrowModalInfo';
+import { CreateBorrow } from '../../../../functions/borrow';
+import { AmountIn } from '../../../../hooks/useAmountInStore';
+import { Wallet } from '../../../../hooks/useWallet';
+import { Client } from '../../../../hooks/useClient';
 
 const ModalDialogOverlay = animated(DialogOverlay);
 const StyledDialogOvelay = styled(ModalDialogOverlay)`
@@ -120,42 +120,124 @@ const StyledDialogContent = styled(ModalDialogContent) <{ modalBgColor: string, 
     }
 `
 
+const Container = styled.div`
+    width: 100%;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+`
 
-export const BorrowModalTransaction = () => {
+const Block = styled.div`
+    width: 100%;
+    display: flex;
+    align-items: center;
+    flex-direction: column;
+    margin-top: 5px;
+`
 
-    const open = () => { setShowTransactionModalBorrow({ b: true }) };
-    const close = () => { setShowTransactionModalBorrow({ b: false }) };
-    const [ShowTransactionModalBorrow, setShowTransactionModalBorrow] = useShowTransactionModalBorrow();
-    const [theme, setTheme] = useToggleTheme();
+const TextBlock = styled.div`
+    width: 90%;
+    text-align: left;
+`
 
+const Text = styled.a <{ TextColor: string }>`
+    font-size: 11px;
+    color: ${props => props.TextColor};
+`
+
+const Field = styled.div`
+    width: 90%;
+    height: 65px;
+    background: transparent;
+    border-radius: 15px;
+    display: flex;
+    align-items: center;
+    display: flex;
+    justify-content: space-between;
+    margin-top: 5px;
+`
+
+const LogoBlock = styled.div`
+    width: 100px;
+    display: flex;
+    align-items: center;
+`
+
+const TokenLogo = styled.img`
+    width: 40px;
+    height: 40px;
+`
+
+const TokenName = styled.a <{ TextColor: string }>`
+    font-size: 24px;
+    color: ${props => props.TextColor};
+    font-weight: 500;
+    margin-left: 10px;
+`
+
+const AmountBlock = styled.div`
+    display: flex;
+    flex-direction: column;
+    text-align: right;
+`
+
+const AmountToken = styled.a <{ TextColor: string }>`
+    font-size: 25px;
+    color: ${props => props.TextColor};
+    font-weight: 500;
+`
+
+const GradientBlock = styled.div`
+    width: 90%;
+    height: 5px;
+    background: linear-gradient(to right, rgb(119, 191, 249), rgb(45, 150, 255));
+    border-radius: 50px;
+    margin-top: 10px;
+`
+
+export function BorrowModal(
+    TextColor: string,
+    Logo: string,
+    Name: string,
+    Amount: string,
+    amtIn: AmountIn,
+    wallet: Wallet,
+    client: Client,
+    onCLose: () => void,
+) {
     const Content = <>
         <CloseDiv>
             <HeaderBlock>
-                <HeaderText TextColor={theme.TextColor}>Confirm borrow</HeaderText>
+                <HeaderText TextColor={TextColor}>Confirm borrow</HeaderText>
             </HeaderBlock>
-            <CloseButton TextColor={theme.TextColor}>
-                <a style={{ cursor: "pointer" }} onClick={close} aria-hidden>×</a>
+            <CloseButton TextColor={TextColor}>
+                <a style={{ cursor: "pointer" }} onClick={onCLose} aria-hidden>×</a>
             </CloseButton>
         </CloseDiv>
         <ContentDiv>
-            <BorrowModalContent />
-            <BorrowConfirm />
+            <Container>
+                <Block>
+                    <TextBlock>
+                        <Text TextColor={TextColor}>You'll get</Text>
+                    </TextBlock>
+                    <Field>
+                        <LogoBlock>
+                            <TokenLogo src={Logo}></TokenLogo>
+                            <TokenName TextColor={TextColor}>{Name}</TokenName>
+                        </LogoBlock>
+                        <AmountBlock>
+                            <AmountToken TextColor={TextColor}>{Amount}</AmountToken>
+                        </AmountBlock>
+                    </Field>
+                    <GradientBlock />
+                    <BorrowModalInfo />
+                </Block>
+            </Container>
+            <ButtonBlock>
+                <ConfirmButton onClick={() => { CreateBorrow(amtIn, wallet, client) }}>Confirm</ConfirmButton>
+            </ButtonBlock>
         </ContentDiv>
     </>
 
-    const ModalComponent = Modal(
-        ShowTransactionModalBorrow.b,
-        close,
-        Content,
-        theme.modalBgColor,
-        theme.modalBorder
-    )
-
-    return (
-        <OpenButtonBlock>
-            <OpenButton onClick={open}>Confirm</OpenButton>
-            {ModalComponent}
-
-        </OpenButtonBlock>
-    );
+    return Content
 }

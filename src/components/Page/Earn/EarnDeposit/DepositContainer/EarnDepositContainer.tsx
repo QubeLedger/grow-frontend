@@ -3,7 +3,6 @@ import { EarnDepositHeader } from "../DepositHeader/EarnDepositHeader";
 import { EarnDepositTokenField } from "../DepositTokenField/DepositTokenField";
 import { EarnDepositConfirm } from "../DepositConfirm/EarnDepositConfirm";
 import { EarnDepositAPR } from "../DepositARP/EarnDepositaAPR";
-import { DepositModalTransaction } from "../../../../Modal/DepositPageModal/ConfirmModal/ModalTransaction";
 
 const ContrainerBlock = styled.div`
     width: 400px;
@@ -18,7 +17,7 @@ export const EarnDepositContainer = () => {
             <EarnDepositHeader/>
             <EarnDepositTokenField/>
             <EarnDepositAPR/>
-            <DepositModalTransaction/>
+            <EarnDepositConfirm/>
         </ContrainerBlock>
     )
 }

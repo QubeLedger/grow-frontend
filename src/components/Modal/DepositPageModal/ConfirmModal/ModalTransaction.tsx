@@ -1,13 +1,12 @@
 import { DialogContent, DialogOverlay } from '@reach/dialog';
 import styled from 'styled-components';
-import { animated, useTransition } from '@react-spring/web';
-import { useShowTransactionModalBorrow, useShowTransactionModalRepay } from '../../../../hooks/useShowModal';
-import { useToggleTheme } from '../../../../hooks/useToggleTheme';
-import { BorrowConfirm } from '../../../Buttton/BorrowConfirm/BorrowConfirm';
-import { DepositModalContent } from './ModalContent';
-import { isTemplateHead } from 'typescript';
-import { Modal } from '../../Modal';
-import { RepayConfirm } from '../../../Buttton/RepayConfirm/RepayConfirm';
+import { animated } from '@react-spring/web';
+import { ButtonBlock, ConfirmButton } from '../../../Buttton/BorrowConfirm/BorrowConfirm';
+import { DepositModalInfo } from './DepositModalInfo';
+import { CreateLend } from '../../../../functions/lend';
+import { AmountIn } from '../../../../hooks/useAmountInStore';
+import { Wallet } from '../../../../hooks/useWallet';
+import { Client } from '../../../../hooks/useClient';
 
 const ModalDialogOverlay = animated(DialogOverlay);
 const StyledDialogOvelay = styled(ModalDialogOverlay)`
@@ -121,42 +120,124 @@ const StyledDialogContent = styled(ModalDialogContent) <{ modalBgColor: string, 
     }
 `
 
+const Container = styled.div`
+    width: 100%;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+`
 
-export const DepositModalTransaction = () => {
+const Block = styled.div`
+    width: 100%;
+    display: flex;
+    align-items: center;
+    flex-direction: column;
+    margin-top: 5px;
+`
 
-    const open = () => { setShowTransactionModalRepay({ b: true }) };
-    const close = () => { setShowTransactionModalRepay({ b: false }) };
-    const [ShowTransactionModalRepay, setShowTransactionModalRepay] = useShowTransactionModalRepay();
-    const [theme, setTheme] = useToggleTheme();
+const TextBlock = styled.div`
+    width: 90%;
+    text-align: left;
+`
 
+const Text = styled.a <{ TextColor: string }>`
+    font-size: 11px;
+    color: ${props => props.TextColor};
+`
+
+const Field = styled.div`
+    width: 90%;
+    height: 65px;
+    background: transparent;
+    border-radius: 15px;
+    display: flex;
+    align-items: center;
+    display: flex;
+    justify-content: space-between;
+    margin-top: 5px;
+`
+
+const LogoBlock = styled.div`
+    width: 100px;
+    display: flex;
+    align-items: center;
+`
+
+const TokenLogo = styled.img`
+    width: 40px;
+    height: 40px;
+`
+
+const TokenName = styled.a <{ TextColor: string }>`
+    font-size: 24px;
+    color: ${props => props.TextColor};
+    font-weight: 500;
+    margin-left: 10px;
+`
+
+const AmountBlock = styled.div`
+    display: flex;
+    flex-direction: column;
+    text-align: right;
+`
+
+const AmountToken = styled.a <{ TextColor: string }>`
+    font-size: 25px;
+    color: ${props => props.TextColor};
+    font-weight: 500;
+`
+
+const GradientBlock = styled.div`
+    width: 90%;
+    height: 5px;
+    background: linear-gradient(to right, rgb(119, 191, 249), rgb(45, 150, 255));
+    border-radius: 50px;
+    margin-top: 10px;
+`
+
+export function DepositModal(
+    TextColor: string,
+    Logo: string,
+    Name: string,
+    Amount: string,
+    amtIn: AmountIn,
+    wallet: Wallet,
+    client: Client,
+    onCLose: () => void,
+) {
     const Content = <>
         <CloseDiv>
             <HeaderBlock>
-                <HeaderText TextColor={theme.TextColor}>Confirm Deposit</HeaderText>
+                <HeaderText TextColor={TextColor}>Confirm Deposit</HeaderText>
             </HeaderBlock>
-            <CloseButton TextColor={theme.TextColor}>
-                <a style={{ cursor: "pointer" }} onClick={close} aria-hidden>×</a>
+            <CloseButton TextColor={TextColor}>
+                <a style={{ cursor: "pointer" }} onClick={onCLose} aria-hidden>×</a>
             </CloseButton>
         </CloseDiv>
         <ContentDiv>
-            <DepositModalContent />
-            <RepayConfirm />
+            <Container>
+                <Block>
+                    <TextBlock>
+                        <Text TextColor={TextColor}>You'll get</Text>
+                    </TextBlock>
+                    <Field>
+                        <LogoBlock>
+                            <TokenLogo src={Logo}></TokenLogo>
+                            <TokenName TextColor={TextColor}>{Name}</TokenName>
+                        </LogoBlock>
+                        <AmountBlock>
+                            <AmountToken TextColor={TextColor}>{Amount}</AmountToken>
+                        </AmountBlock>
+                    </Field>
+                    <GradientBlock />
+                    <DepositModalInfo />
+                </Block>
+            </Container>
+            <ButtonBlock>
+                <ConfirmButton onClick={() => {CreateLend(amtIn, wallet, client)}}>Confirm</ConfirmButton>
+            </ButtonBlock>
         </ContentDiv>
     </>
 
-    const ModalComponent = Modal(
-        ShowTransactionModalRepay.b,
-        close,
-        Content,
-        theme.modalBgColor,
-        theme.modalBorder
-    )
-
-    return (
-        <OpenButtonBlock>
-            <OpenButton onClick={open}>Confirm</OpenButton>
-            {ModalComponent}
-
-        </OpenButtonBlock>
-    );
+    return Content
 }

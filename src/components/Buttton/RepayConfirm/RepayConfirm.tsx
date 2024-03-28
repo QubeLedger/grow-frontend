@@ -4,11 +4,14 @@ import { useAmountBorrowInfoStore, useAmountBorrowRepayEarnStore } from "../../.
 import { QUBE_TESTNET_INFO, TOKEN_INFO } from "../../../constants";
 import { useLoanStore, usePositionStore, useRiskRate } from "../../../hooks/usePositionStore";
 import { useWallet } from "../../../hooks/useWallet";
-import { useShowWalletModal } from "../../../hooks/useShowModal";
+import { useShowTransactionModalRepay, useShowWalletModal } from "../../../hooks/useShowModal";
 import { DeleteBorrow } from "../../../functions/borrow";
 import { useClient } from "../../../hooks/useClient";
 import { useBalancesStore } from "../../../hooks/useBalanceStore";
 import { getBalance } from "../../Page/Earn/EarnDeposit/DepositConfirm/EarnDepositConfirm";
+import { RepayModal } from "../../Modal/RepayPageModal/ConfirmModal/ModalTransaction";
+import { useToggleTheme } from "../../../hooks/useToggleTheme";
+import { Modal } from "../../Modal/Modal";
 
 const Button = styled.button`
     width: 250px;
@@ -77,18 +80,40 @@ export async function GetPriceByDenom(denom: string): Promise<number> {
 export const RepayConfirm = () => {
     const [ wallet, _ ] = useWallet();
     const [ position, setPosition ] = usePositionStore();
-    const [ borrow_info, setBorrowInfo ] = useAmountBorrowInfoStore()
-    const [ amtIn, setAmountBorrowRepayEarnStore ] = useAmountBorrowRepayEarnStore()
-    const [ price, setPrice ] = useState(0)
+    const [ borrow_info, setBorrowInfo ] = useAmountBorrowInfoStore();
+    const [ amtIn, setAmountBorrowRepayEarnStore ] = useAmountBorrowRepayEarnStore();
+    const [ price, setPrice ] = useState(0);
     const [ walletModalStatus, setWalletModalStatus] = useShowWalletModal();
     const [ client, setClient] = useClient();
     const [ balances, setBalances] = useBalancesStore();
-    const [ loans, setLoans] = useLoanStore()
+    const [ loans, setLoans] = useLoanStore();
+    const [ ShowTransactionModalRepay, setShowTransactionModalRepay] = useShowTransactionModalRepay();
+    const [ theme, setTheme] = useToggleTheme();
+
+    const open = () => { setShowTransactionModalRepay({ b: true }) };
+    const close = () => { setShowTransactionModalRepay({ b: false }) };
 
     let Button: any;
     let temp_token = TOKEN_INFO.find((token) => token.Denom == amtIn.base )
     let temp_loan = loans.find((loan) => loan.amountOut_denom == temp_token?.Denom)
     let balance = getBalance(balances, String(temp_token?.Denom))
+
+    const ModalComponent = Modal(
+        ShowTransactionModalRepay.b,
+        close,
+        RepayModal(
+            theme.TextColor,
+            temp_token?.Logo? temp_token?.Logo : "",
+            temp_token?.Base? temp_token?.Base : "",
+            amtIn.amt,
+            amtIn,
+            wallet,
+            client,
+            close,
+        ),
+        theme.modalBgColor,
+        theme.modalBorder
+    )
 
     if (wallet.init == false) {
         Button = <ButtonBlock onClick={() => {setWalletModalStatus({b: true})}}>
@@ -112,9 +137,12 @@ export const RepayConfirm = () => {
                 <InsufficientConfirmButton>Insufficient {temp_token?.Base} balance</InsufficientConfirmButton>
             </ButtonBlock>
         } else {
-            Button = <ButtonBlock>
-                <ConfirmButton onClick={() => {DeleteBorrow(amtIn, wallet, client)}}>Confirm</ConfirmButton>
-            </ButtonBlock>
+            Button = <>
+                <ButtonBlock>
+                    <ConfirmButton onClick={open}>Confirm</ConfirmButton>
+                </ButtonBlock>
+                {ModalComponent}
+            </>
         }
     }
     return(

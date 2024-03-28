@@ -1,11 +1,14 @@
 import styled from "styled-components";
 import { useAmountDepositEarnStore } from "../../../../../hooks/useAmountInStore";
 import { useWallet } from "../../../../../hooks/useWallet";
-import { useShowWalletModal } from "../../../../../hooks/useShowModal";
+import { useShowTransactionModalDeposit, useShowWalletModal } from "../../../../../hooks/useShowModal";
 import { Coin, useBalancesStore } from "../../../../../hooks/useBalanceStore";
 import { TOKEN_INFO } from "../../../../../constants";
 import { CreateLend } from "../../../../../functions/lend";
 import { useClient } from "../../../../../hooks/useClient";
+import { useToggleTheme } from "../../../../../hooks/useToggleTheme";
+import { Modal } from "../../../../Modal/Modal";
+import { DepositModal } from "../../../../Modal/DepositPageModal/ConfirmModal/ModalTransaction";
 
 const ConfirmButton = styled.button`
     width: 100%;
@@ -65,11 +68,33 @@ export const EarnDepositConfirm = () => {
     const [walletModalStatus, setWalletModalStatus] = useShowWalletModal();
     const [balances, setBalances] = useBalancesStore();
     const [client, setClient] = useClient();
+    const [ShowTransactionModalDeposit, setShowTransactionModalDeposit] = useShowTransactionModalDeposit();
+    const [theme, setTheme] = useToggleTheme();
+
+    const open = () => { setShowTransactionModalDeposit({ b: true }) };
+    const close = () => { setShowTransactionModalDeposit({ b: false }) };
         
     let Button;
 
-    let temp_token = TOKEN_INFO.find((token) => token.Base == amtIn.base )
-    let balance = getBalance(balances, String(temp_token?.Denom))
+    let temp_token = TOKEN_INFO.find((token) => token.Base == amtIn.base );
+    let balance = getBalance(balances, String(temp_token?.Denom));
+
+    const ModalComponent = Modal(
+        ShowTransactionModalDeposit.b,
+        close,
+        DepositModal(
+            theme.TextColor,
+            temp_token?.Logo? temp_token?.Logo : "",
+            temp_token?.Base? temp_token?.Base : "",
+            amtIn.amt,
+            amtIn,
+            wallet,
+            client,
+            close,
+        ),
+        theme.modalBgColor,
+        theme.modalBorder
+    )
 
     if (wallet.init == false) {
         Button = <ButtonBlock onClick={() => {setWalletModalStatus({b: true})}}>
@@ -85,9 +110,12 @@ export const EarnDepositConfirm = () => {
                 <InsufficientConfirmButton>Insufficient {amtIn.base} balance</InsufficientConfirmButton>
             </ButtonBlock>
         } else {
-            Button = <ButtonBlock>
-                <ConfirmButton onClick={() => {CreateLend(amtIn, wallet, client)}}>Confirm</ConfirmButton>
-            </ButtonBlock>
+            Button = <>
+                <ButtonBlock>
+                    <ConfirmButton onClick={open}>Confirm</ConfirmButton>
+                </ButtonBlock>
+                {ModalComponent}
+            </>
         }
     }
 
