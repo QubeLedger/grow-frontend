@@ -10,12 +10,15 @@ import { useToggleTheme } from "../../hooks/useToggleTheme";
 import { HomePageLinkButton } from "./CustomLink/HomePageLinkButton";
 
 
-const MainHeader = styled.div <{headerColor: string}>`
+const MainHeader = styled.div <{headerColor: string, mobHeaderColor: string}>`
     max-width: 100%;
     height: 70px;
     display: flex;
     align-items: center;
     background: ${props => props.headerColor};
+    @media (max-width: 500px) {
+        background: ${props => props.mobHeaderColor};
+    }
 `
 
 const HeaderLogoBlock = styled.div`
@@ -51,7 +54,7 @@ export const Header = () => {
 
     return(
         <div style={{display: "flex", flexDirection: "column"}}>
-            <MainHeader headerColor={theme.headerColor}>
+            <MainHeader headerColor={theme.headerColor} mobHeaderColor={theme.mobHeaderColor}>
                 <HeaderLogoBlock>
                     <HomePageLinkButton to="/">
                         <HeaderLogoQUBE style={{marginTop: "-5px"}} src={QubeLogo}></HeaderLogoQUBE>

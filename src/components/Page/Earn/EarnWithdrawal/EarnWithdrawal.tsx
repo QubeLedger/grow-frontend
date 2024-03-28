@@ -1,12 +1,14 @@
 import styled from "styled-components";
-import { EarnWithdrawalContainer } from "./WithdrawalContainer/EarnWithdrawalContainer";
 import { useAccordionStore } from "../../../../hooks/useAccordionStore";
 import { useToggleTheme } from "../../../../hooks/useToggleTheme";
 import { useAmountWithdrawalEarnStore } from "../../../../hooks/useAmountInStore";
 import { useEffect } from "react";
 import { useParams } from "react-router";
+import { WithdrawalModalTransaction } from "../../../Modal/WithdrawalPageModal/ConfirmModal/ModalTransaction";
+import { EarnWithdrawalTokenField } from "./WithdrawalTokenField/WithdrawalTokenField";
+import { EarnWithdrawalHeader } from "./WithdrawalHeader/EarnWithdrawalHeader";
 
-const DepositBlock = styled.div <{margin: string}>`
+const DepositBlock = styled.div <{ margin: string }>`
     width: 100%;
     display: flex;
     justify-content: center;
@@ -14,11 +16,17 @@ const DepositBlock = styled.div <{margin: string}>`
     transition: margin-top .3s ease-in-out;
 `
 
-const Block = styled.div <{backgroundColor: string}>`
+const Block = styled.div <{ backgroundColor: string }>`
     width: 100%;
     height: calc(100vh - 65px);
     background: ${props => props.backgroundColor};
     margin-top: -5px;
+`
+
+const ContrainerBlock = styled.div`
+    width: 400px;
+    height: 100%;
+    padding: 0 20px;
 `
 
 export const EarnWithdrawal = () => {
@@ -27,7 +35,7 @@ export const EarnWithdrawal = () => {
     const [theme, setTheme] = useToggleTheme()
 
     const [amtIn, setAmountWithdrawalEarnStore] = useAmountWithdrawalEarnStore()
-    let { denom } = useParams()  
+    let { denom } = useParams()
 
     useEffect(() => {
         setAmountWithdrawalEarnStore(
@@ -38,10 +46,14 @@ export const EarnWithdrawal = () => {
         );
     }, [])
 
-    return(
+    return (
         <Block backgroundColor={theme.backgroundColor}>
-            <DepositBlock  margin={accordion.margin}>
-                <EarnWithdrawalContainer/>
+            <DepositBlock margin={accordion.margin}>
+                <ContrainerBlock>
+                    <EarnWithdrawalHeader />
+                    <EarnWithdrawalTokenField />
+                    <WithdrawalModalTransaction />
+                </ContrainerBlock>
             </DepositBlock>
         </Block>
     )

@@ -30,7 +30,7 @@ const ConfirmButton = styled.button`
     margin: 0 auto;
     border-radius: 12px;
     cursor: pointer;
-    color: black;
+    color: #fff;
     margin-top: 20px;
     transition: all .15s ease-in-out;
     &:active {
@@ -47,7 +47,7 @@ const ButtonBlock = styled.div`
 const ButtonText = styled.a`
     font-weight: 700;
     font-size: 18px;
-    color: black;
+    color: #fff;
 `
 
 const InsufficientConfirmButton = styled.button`
@@ -60,7 +60,7 @@ const InsufficientConfirmButton = styled.button`
     margin: 0 auto;
     border-radius: 12px;
     cursor: pointer;
-    color: black;
+    color: #fff;
     margin-top: 20px;
     transition: all .15s ease-in-out;
     &:active {

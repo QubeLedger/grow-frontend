@@ -4,6 +4,7 @@ interface Theme {
   active: boolean;
   backgroundColor: string;
   headerColor: string;
+  mobHeaderColor: string;
   button: string;
   TextColor: string;
   homePageGreyText: string;
@@ -26,6 +27,7 @@ export const ThemeWhiteState: Theme = {
     active: false, 
     backgroundColor: '#fff', 
     headerColor: '#ECEBEB' ,
+    mobHeaderColor: "#fff",
     button: 'linear-gradient(to right, rgb(119, 191, 249), rgb(45, 150, 255))',
     TextColor: 'black',
     homePageGreyText: '#BABABA',
@@ -48,6 +50,7 @@ export const ThemeBlackState: Theme = {
   active: true, 
   backgroundColor: '#161616', 
   headerColor: '#202020' ,
+  mobHeaderColor: "#161616",
   button: 'linear-gradient(to right, rgb(119, 191, 249), rgb(45, 150, 255))',
   TextColor: 'white',
   homePageGreyText: '#aaa',
