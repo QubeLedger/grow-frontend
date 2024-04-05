@@ -4,7 +4,7 @@ import { useBalancesStore, useTokenBalanceStore } from "../../../../../hooks/use
 import { TOKEN_INFO } from "../../../../../constants/tokens";
 import { myFixed } from "../../MyPageDeposit/TokenFieldDeposit/TokenFieldDeposit";
 import { GetPriceByDenom } from "../../../Borrow/BorrowInfo/BorrowInfo";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { useClient } from "../../../../../hooks/useClient";
 
 export interface TokenBalance {
@@ -75,9 +75,8 @@ export const TokenFieldBalanceDesktop = () => {
     const [ theme, setTheme] = useToggleTheme();
     const [ tokenBalances, setTokenBalanceStore] = useTokenBalanceStore()
 
-    
 
-    const Balances = tokenBalances.map((balance) => 
+    let Balances = tokenBalances.map((balance) => 
         <FieldBlock BorderField={theme.BorderField}>
             <TokenNameBlock>
                 <TokenImg src={balance.Logo}></TokenImg>

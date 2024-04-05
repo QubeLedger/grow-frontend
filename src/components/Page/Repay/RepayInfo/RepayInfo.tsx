@@ -64,29 +64,26 @@ export const RepayInfo = () => {
     const [ risk_rate, setRiskRate ] = useRiskRate()
     const [theme, setTheme] = useToggleTheme();
 
-    let SetPriceByDenom = async(denom: string) => {
-        let temp_price = await GetPriceByDenom(denom)
-        setPrice(temp_price)
-    }
-
     useEffect(() => {
-        if(Number(amtIn.amt) == 0 || borrow_info.base == "Select Token") {
-            setRiskRate({
-                value: ((position.borrowedAmountInUSD / position.lendAmountInUSD )* (1 / 60)) * 10000
-            })
-        } else if(Number(amtIn.amt) > 0) {
-            SetPriceByDenom(borrow_info.base)
-    
-            let denom = TOKEN_INFO.find((token) => token.Base == borrow_info.base)
-    
-            let inc_amount = (Number(amtIn.amt) * 10 ** Number(denom?.Decimals)) * Number(price)
-    
-            setRiskRate({
-                value: (((position.borrowedAmountInUSD - inc_amount) / position.lendAmountInUSD ) * (1 / 60)) * 10000
-            })
+        async function update() {
+            if(Number(amtIn.amt) == 0 || amtIn.base == '') {
+                setRiskRate({
+                    value: ((position.borrowedAmountInUSD / position.lendAmountInUSD )* (1 / 60)) * 10000
+                })
+            } else if(Number(amtIn.amt) > 0) {
+                let price = await GetPriceByDenom(borrow_info.base)
+        
+                let denom = TOKEN_INFO.find((token) => token.Base == borrow_info.base)
+                let inc_amount = (Number(amtIn.amt) * 10 ** Number(denom?.Decimals)) * Number(price)
+            
+                setRiskRate({
+                    value: (((position.borrowedAmountInUSD - inc_amount) / position.lendAmountInUSD ) * (1 / 60)) * 10000
+                })
+            }
         }
-    }, [amtIn, position])
-
+        update()
+    }, [amtIn, position, borrow_info])
+    
     let temp_asset = assets.find((asset) => asset.Display == borrow_info.base)
 
     let color = isNaN(risk_rate.value) || risk_rate.value == 0 ? theme.TextColor : "#44A884"

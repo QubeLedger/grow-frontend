@@ -70,7 +70,7 @@ export const MyPageDeposit = () => {
     const [ position, setPosition ] = usePositionStore();
     const [ wallet, setWallet ] = useWallet();
 
-    useEffect(() => {
+    /*useEffect(() => {
         async function update() {
             if (wallet.init == true) {
                 let temp_lends = await Promise.all(position.lend_id.map(async(lend_id) => {
@@ -81,7 +81,7 @@ export const MyPageDeposit = () => {
 			}	
 		}
 		update()
-    }, [wallet])
+    }, [wallet])*/
     
 
     let BalancesComponent

@@ -58,6 +58,10 @@ export const Borrow = () => {
             setParams(temp_params)
 
             if (wallet.init == true) {
+
+                let temp_position = await UpdatePosition(wallet.wallet.bech32Address)
+				setPosition(temp_position)
+
                 let temp_loans = await Promise.all(position.loan_id.map(async(loan_id) => {
                     let temp_loan = await GetLoanById(loan_id)
                     return temp_loan
@@ -69,6 +73,7 @@ export const Borrow = () => {
                     return temp_lend
                 }))
                 setLend(temp_lends)
+                
 
             }
         }

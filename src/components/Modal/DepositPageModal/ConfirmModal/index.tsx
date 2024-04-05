@@ -2,11 +2,18 @@ import { DialogContent, DialogOverlay } from '@reach/dialog';
 import styled from 'styled-components';
 import { animated } from '@react-spring/web';
 import { ButtonBlock, ConfirmButton } from '../../../Buttton/BorrowConfirm/BorrowConfirm';
-import { DepositModalInfo } from './DepositModalInfo';
 import { CreateLend } from '../../../../functions/lend';
 import { AmountIn } from '../../../../hooks/useAmountInStore';
 import { Wallet } from '../../../../hooks/useWallet';
 import { Client } from '../../../../hooks/useClient';
+import { useShowTransactionModalDeposit } from '../../../../hooks/useShowModal';
+import { useAssetStore } from '../../../../hooks/useAssetStore';
+import { useParams } from 'react-router';
+import { QUBE_TESTNET_INFO } from '../../../../constants';
+import { LoadingModalComponent } from '../../helpers/LoadingModalComponent';
+import { SucceedModalComponent } from '../../helpers/SucceedModalComponent';
+import { FailedModalComponent } from '../../helpers/FailedModalComponent';
+import { RejectedModalComponent } from '../../helpers/RejectedModalComponent';
 
 const ModalDialogOverlay = animated(DialogOverlay);
 const StyledDialogOvelay = styled(ModalDialogOverlay)`
@@ -166,6 +173,7 @@ const LogoBlock = styled.div`
 const TokenLogo = styled.img`
     width: 40px;
     height: 40px;
+    border-radius: 50px;
 `
 
 const TokenName = styled.a <{ TextColor: string }>`
@@ -195,6 +203,45 @@ const GradientBlock = styled.div`
     margin-top: 10px;
 `
 
+const InfoBlock = styled.div`
+    width: 100%;
+    margin-top: 20px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    flex-direction: column;
+`
+
+const LTVBlock = styled.div`
+    width: 90%;
+    display: flex;
+    justify-content: space-between;
+    color: #BABABA;
+`
+
+const InfoText = styled.h1`
+    font-size: 16px;
+    color: #BABABA;
+    margin: 0;
+`
+
+const LTV = styled.h1`
+    font-size: 16px;
+`
+
+const LTVInfo = styled.h1 <{ TextColor: string }>`
+    font-size: 16px;
+    color: ${props => props.TextColor};
+`
+
+const BlockInfo = styled.div`
+    width: 90%;
+    display: flex;
+    justify-content: space-between;
+    color: #BABABA;
+    align-items: center;
+`
+
 export function DepositModal(
     TextColor: string,
     Logo: string,
@@ -205,20 +252,17 @@ export function DepositModal(
     client: Client,
     onCLose: () => void,
 ) {
-    const Content = <>
-        <CloseDiv>
-            <HeaderBlock>
-                <HeaderText TextColor={TextColor}>Confirm Deposit</HeaderText>
-            </HeaderBlock>
-            <CloseButton TextColor={TextColor}>
-                <a style={{ cursor: "pointer" }} onClick={onCLose} aria-hidden>×</a>
-            </CloseButton>
-        </CloseDiv>
+    const [ShowTransactionModalDeposit, setShowTransactionModalDeposit] = useShowTransactionModalDeposit();
+    const [ assets, setAssets ] = useAssetStore();
+    let { denom } = useParams()
+    let temp_asset = assets.find((asset) => asset.Display == denom)
+
+    let ContentModalNotPending = <>
         <ContentDiv>
             <Container>
                 <Block>
                     <TextBlock>
-                        <Text TextColor={TextColor}>You'll get</Text>
+                        <Text TextColor={TextColor}>You'll deposit</Text>
                     </TextBlock>
                     <Field>
                         <LogoBlock>
@@ -230,14 +274,65 @@ export function DepositModal(
                         </AmountBlock>
                     </Field>
                     <GradientBlock />
-                    <DepositModalInfo />
+                    <InfoBlock>
+                        <BlockInfo>
+                            <InfoText>Supply Interest Rate</InfoText>
+                            <LTVInfo TextColor="#44A884">{isNaN(Number(temp_asset?.sir)) ? "0.0" : temp_asset?.sir.toFixed(2)}%</LTVInfo>
+                        </BlockInfo>
+                        <BlockInfo>
+                            <InfoText>Network cost</InfoText>
+                            <LTVInfo TextColor="#44A884">{QUBE_TESTNET_INFO.feeCurrencies[0].gasPriceStep.average} {QUBE_TESTNET_INFO.feeCurrencies[0].coinDenom}</LTVInfo>
+                        </BlockInfo>
+                    </InfoBlock>
                 </Block>
             </Container>
             <ButtonBlock>
-                <ConfirmButton onClick={() => { onCLose(); CreateLend(amtIn, wallet, client); }}>Confirm</ConfirmButton>
+                <ConfirmButton onClick={() => {
+                    setShowTransactionModalDeposit({ b: true, isPending: true, status: "" });
+                    CreateLend(amtIn, wallet, client).then((
+                        status
+                    ) => {
+                        setShowTransactionModalDeposit({ b: ShowTransactionModalDeposit.b, isPending: true, status: status })
+                    })
+
+                }}>Confirm</ConfirmButton>
             </ButtonBlock>
         </ContentDiv>
     </>
 
-    return Content
+    let PendingTxComponent;
+    switch (ShowTransactionModalDeposit.status) {
+        case "":
+            PendingTxComponent = LoadingModalComponent
+            break;
+
+        case "Succeed":
+            PendingTxComponent = SucceedModalComponent(
+                "deposit"
+            )
+            break;
+
+        case "Failed":
+            PendingTxComponent = FailedModalComponent(
+                "deposit"
+            )
+            break;
+
+        case "Error":
+            PendingTxComponent = RejectedModalComponent
+            break;
+
+    }
+
+    return <>
+        <CloseDiv>
+            <HeaderBlock>
+                <HeaderText TextColor={TextColor}>Confirm deposit</HeaderText>
+            </HeaderBlock>
+            <CloseButton TextColor={TextColor}>
+                <a style={{ cursor: "pointer" }} onClick={onCLose} aria-hidden>×</a>
+            </CloseButton>
+        </CloseDiv>
+        {ShowTransactionModalDeposit.isPending ? PendingTxComponent : ContentModalNotPending}
+    </>
 }

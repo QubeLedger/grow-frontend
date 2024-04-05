@@ -8,7 +8,7 @@ import { CreateLend } from "../../../../../functions/lend";
 import { useClient } from "../../../../../hooks/useClient";
 import { useToggleTheme } from "../../../../../hooks/useToggleTheme";
 import { Modal } from "../../../../Modal/Modal";
-import { DepositModal } from "../../../../Modal/DepositPageModal/ConfirmModal/ModalTransaction";
+import { DepositModal } from "../../../../Modal/DepositPageModal/ConfirmModal";
 
 const ConfirmButton = styled.button`
     width: 100%;
@@ -71,8 +71,8 @@ export const EarnDepositConfirm = () => {
     const [ShowTransactionModalDeposit, setShowTransactionModalDeposit] = useShowTransactionModalDeposit();
     const [theme, setTheme] = useToggleTheme();
 
-    const open = () => { setShowTransactionModalDeposit({ b: true }) };
-    const close = () => { setShowTransactionModalDeposit({ b: false }) };
+    const open = () => { setShowTransactionModalDeposit({ b: true, isPending: ShowTransactionModalDeposit.isPending, status: "" }) };
+    const close = () => { setShowTransactionModalDeposit({ b: false, isPending: false, status: "" }) };
         
     let Button;
 

@@ -141,9 +141,6 @@ export const TokenFieldDeposit = () => {
                     <EarnCustomLink to={`/earn`}>
                         <EarnDepositButton>Manage</EarnDepositButton>
                     </EarnCustomLink>
-                    {/* <EarnCustomLink to={`/withdrawal/${lend.Display}`}>
-                        <EarnWithdrawalButton>Withdrawal</EarnWithdrawalButton>
-                    </EarnCustomLink> */}
                 </ButtonsBlock>
             }
             {isMob && <></>}

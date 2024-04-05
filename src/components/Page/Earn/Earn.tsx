@@ -80,8 +80,6 @@ export const Earn = () => {
                 })
             })
             setEAccordion(eAccordions)
-
-            console.log(assets)
         }
         update();
     }, [])

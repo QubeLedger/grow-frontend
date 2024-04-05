@@ -282,18 +282,15 @@ export const ModalWant = () => {
                     <TokensTextH3>{token_info.Display}</TokensTextH3>
                     <TokensTextH5>{token_info.Network}</TokensTextH5>
                 </TokensText>
-                {/*<TokensTextH2Number >{token_info.Balance}</TokensTextH2Number>*/}
             </TokenFields>
         </FirstField>
     )
 
-    let temp_logo = amountWant.base == "Select Token" ? <></> : <Logo src={amountWant.logo}></Logo>
-
     return (
       <ModalBlock>
         <OpenButton TextColor={theme.TextColor} onClick={open}>
-        {temp_logo}
-           {amountWant.base}
+        {amountWant.base == "Select Token" ? <></> : <Logo src={amountWant.logo}></Logo>}
+        {amountWant.base}
         <Arrow ArrrowColor={theme.active == true ? ArrowWhite : ArrowBlack}></Arrow>
             </OpenButton>
         <StyledDialogOvelay isOpen={walletModalStatus.b}  onDismiss={close}>

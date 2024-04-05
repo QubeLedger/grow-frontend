@@ -2,11 +2,19 @@ import { DialogContent, DialogOverlay } from '@reach/dialog';
 import styled from 'styled-components';
 import { animated } from '@react-spring/web';
 import { ButtonBlock, ConfirmButton } from '../../../Buttton/BorrowConfirm/BorrowConfirm';
+import { CreateBorrow, DeleteBorrow } from '../../../../functions/borrow';
 import { AmountIn } from '../../../../hooks/useAmountInStore';
 import { Wallet } from '../../../../hooks/useWallet';
 import { Client } from '../../../../hooks/useClient';
-import { WithdrawalModalInfo } from './WithdrawalModalInfo';
-import { WithdrawalLend } from '../../../../functions/lend';
+import { QUBE_TESTNET_INFO } from '../../../../constants';
+import { Asset, useAssetStore } from '../../../../hooks/useAssetStore';
+import { LoadingModalComponent } from '../../helpers/LoadingModalComponent';
+import { RejectedModalComponent } from '../../helpers/RejectedModalComponent';
+import { SucceedModalComponent } from '../../helpers/SucceedModalComponent';
+import { FailedModalComponent } from '../../helpers/FailedModalComponent';
+import { useShowTransactionModalBorrow, useShowTransactionModalRepay } from '../../../../hooks/useShowModal';
+import { useParams } from 'react-router';
+import { myFixed } from '../../../Page/MyPage/MyPageDeposit/TokenFieldDeposit/TokenFieldDeposit';
 
 const ModalDialogOverlay = animated(DialogOverlay);
 const StyledDialogOvelay = styled(ModalDialogOverlay)`
@@ -49,7 +57,7 @@ const CloseButton = styled.button <{ TextColor: string }>`
 `
 
 const OpenButton = styled.button`
-    width: 100%;
+    width: 90%;
     height: 50px;
     font-size: 19px;
     font-weight: 700;
@@ -166,6 +174,7 @@ const LogoBlock = styled.div`
 const TokenLogo = styled.img`
     width: 40px;
     height: 40px;
+    border-radius: 50px;
 `
 
 const TokenName = styled.a <{ TextColor: string }>`
@@ -195,7 +204,40 @@ const GradientBlock = styled.div`
     margin-top: 10px;
 `
 
-export function WithdrawalModal(
+const InfoBlock = styled.div`
+    width: 100%;
+    margin-top: 20px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    flex-direction: column;
+`
+
+const InfoText = styled.h1`
+    font-size: 16px;
+    color: #BABABA;
+    margin: 0;
+`
+
+
+const LTVInfo = styled.h1 <{ TextColor: string }>`
+    font-size: 16px;
+    color: ${props => props.TextColor};
+`
+
+const BlockInfo = styled.div`
+    width: 90%;
+    display: flex;
+    justify-content: space-between;
+    color: #BABABA;
+    align-items: center;
+`
+
+const LoadingCircleBlock = styled.div`
+    margin: 50px auto 50px auto
+`
+
+export function RepayModal(
     TextColor: string,
     Logo: string,
     Name: string,
@@ -205,20 +247,14 @@ export function WithdrawalModal(
     client: Client,
     onCLose: () => void,
 ) {
-    const Content = <>
-        <CloseDiv>
-            <HeaderBlock>
-                <HeaderText TextColor={TextColor}>Confirm Withdrawal</HeaderText>
-            </HeaderBlock>
-            <CloseButton TextColor={TextColor}>
-                <a style={{ cursor: "pointer" }} onClick={onCLose} aria-hidden>×</a>
-            </CloseButton>
-        </CloseDiv>
+    const [ShowTransactionModalRepay, setShowTransactionModalRepay] = useShowTransactionModalRepay();
+
+    let ContentModalNotPending = <>
         <ContentDiv>
             <Container>
                 <Block>
                     <TextBlock>
-                        <Text TextColor={TextColor}>You'll get</Text>
+                        <Text TextColor={TextColor}>You'll repay</Text>
                     </TextBlock>
                     <Field>
                         <LogoBlock>
@@ -230,14 +266,61 @@ export function WithdrawalModal(
                         </AmountBlock>
                     </Field>
                     <GradientBlock />
-                    <WithdrawalModalInfo />
+                    <InfoBlock>
+                        <BlockInfo>
+                            <InfoText>Network cost</InfoText>
+                            <LTVInfo TextColor="#44A884">{QUBE_TESTNET_INFO.feeCurrencies[0].gasPriceStep.average} {QUBE_TESTNET_INFO.feeCurrencies[0].coinDenom}</LTVInfo>
+                        </BlockInfo>
+                    </InfoBlock>
                 </Block>
             </Container>
             <ButtonBlock>
-                <ConfirmButton onClick={() => { onCLose(); WithdrawalLend(amtIn, wallet, client); }}>Confirm</ConfirmButton>
+                <ConfirmButton onClick={() => { 
+                    setShowTransactionModalRepay({ b: true, isPending: true, status: "" })
+                    DeleteBorrow(amtIn, wallet, client).then((
+                        status
+                    ) => {
+                        setShowTransactionModalRepay({ b: ShowTransactionModalRepay.b, isPending: true, status: status })
+                    }) 
+                
+                }}>Confirm</ConfirmButton>
             </ButtonBlock>
         </ContentDiv>
     </>
 
-    return Content
+    let PendingTxComponent;
+    switch (ShowTransactionModalRepay.status) {
+        case "":
+            PendingTxComponent = LoadingModalComponent
+            break;
+        
+        case "Succeed":
+            PendingTxComponent = SucceedModalComponent(
+                "borrow"
+            )
+            break;
+        
+        case "Failed":
+            PendingTxComponent = FailedModalComponent(
+                "borrow"
+            )
+            break;
+
+        case "Error":
+            PendingTxComponent = RejectedModalComponent
+            break;
+    
+    }
+
+    return <>
+        <CloseDiv>
+            <HeaderBlock>
+                <HeaderText TextColor={TextColor}>Confirm repay</HeaderText>
+            </HeaderBlock>
+            <CloseButton TextColor={TextColor}>
+                <a style={{ cursor: "pointer" }} onClick={onCLose} aria-hidden>×</a>
+            </CloseButton>
+        </CloseDiv>
+        {ShowTransactionModalRepay.isPending? PendingTxComponent : ContentModalNotPending}
+    </>
 }

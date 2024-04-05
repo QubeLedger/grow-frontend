@@ -6,9 +6,9 @@ import { useWallet } from "../../../hooks/useWallet";
 import { useShowTransactionModalBorrow, useShowWalletModal } from "../../../hooks/useShowModal";
 import { CreateBorrow } from "../../../functions/borrow";
 import { useClient } from "../../../hooks/useClient";
-import { useAssetStore } from "../../../hooks/useAssetStore";
+import { useAssetStore, Asset } from "../../../hooks/useAssetStore";
 import { Modal } from "../../Modal/Modal";
-import { BorrowModal } from "../../Modal/BorrowPageModal/ConfirmModal/ModalTransaction";
+import { BorrowModal } from "../../Modal/BorrowPageModal/BorrowConfirmModal";
 import { useToggleTheme } from "../../../hooks/useToggleTheme";
 
 const Button = styled.button`
@@ -87,17 +87,15 @@ export const BorrowConfirm = () => {
     const [ShowTransactionModalBorrow, setShowTransactionModalBorrow] = useShowTransactionModalBorrow();
     const [theme, setTheme] = useToggleTheme();
 
-    const open = () => { setShowTransactionModalBorrow({ b: true }) };
-    const close = () => { setShowTransactionModalBorrow({ b: false }) };
-
     let Button;
     let temp_asset = assets.find((asset) => asset.Display == borrow_info.base)
-    let denom = TOKEN_INFO.find((token) => token.Denom == amtIn.base)
+    let token = TOKEN_INFO.find((token) => token.Denom == amtIn.base)
 
     const ModalComponent = Modal(
         ShowTransactionModalBorrow.b,
-        close,
+        () => { setShowTransactionModalBorrow({ b: false, isPending: false, status: "" })},
         BorrowModal(
+            ShowTransactionModalBorrow.isPending,
             theme.TextColor,
             borrow_info.logo,
             borrow_info.base,
@@ -105,7 +103,8 @@ export const BorrowConfirm = () => {
             amtIn,
             wallet,
             client,
-            close,
+            () => { setShowTransactionModalBorrow({ b: false, isPending: false, status: "" }) },
+            temp_asset,
         ),
         theme.modalBgColor,
         theme.modalBorder
@@ -128,14 +127,14 @@ export const BorrowConfirm = () => {
             Button = <ButtonBlock1>
                 <InsufficientConfirmButton>Big risk rate</InsufficientConfirmButton>
             </ButtonBlock1>
-        } else if (Number(temp_asset?.provide_value) < (Number(amtIn.amt) * 10 ** Number(denom?.Decimals))) {
+        } else if (Number(temp_asset?.provide_value) < (Number(amtIn.amt) * 10 ** Number(token?.Decimals))) {
             Button = <ButtonBlock1>
                 <InsufficientConfirmButton>Not enough liquidity</InsufficientConfirmButton>
             </ButtonBlock1>
         } else {
             Button = <>
                 <ButtonBlock1>
-                    <ConfirmButton onClick={open}>Confirm</ConfirmButton>
+                    <ConfirmButton onClick={() => { setShowTransactionModalBorrow({ b: true, isPending: ShowTransactionModalBorrow.isPending, status: "" })}}>Confirm</ConfirmButton>
                 </ButtonBlock1>
                 {ModalComponent}
             </>

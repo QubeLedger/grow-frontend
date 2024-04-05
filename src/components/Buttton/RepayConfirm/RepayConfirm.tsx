@@ -9,7 +9,7 @@ import { DeleteBorrow } from "../../../functions/borrow";
 import { useClient } from "../../../hooks/useClient";
 import { useBalancesStore } from "../../../hooks/useBalanceStore";
 import { getBalance } from "../../Page/Earn/EarnDeposit/DepositConfirm/EarnDepositConfirm";
-import { RepayModal } from "../../Modal/RepayPageModal/ConfirmModal/ModalTransaction";
+import { RepayModal } from "../../Modal/RepayPageModal/ConfirmModal";
 import { useToggleTheme } from "../../../hooks/useToggleTheme";
 import { Modal } from "../../Modal/Modal";
 
@@ -90,8 +90,8 @@ export const RepayConfirm = () => {
     const [ ShowTransactionModalRepay, setShowTransactionModalRepay] = useShowTransactionModalRepay();
     const [ theme, setTheme] = useToggleTheme();
 
-    const open = () => { setShowTransactionModalRepay({ b: true }) };
-    const close = () => { setShowTransactionModalRepay({ b: false }) };
+    const open = () => { setShowTransactionModalRepay({ b: true, isPending: ShowTransactionModalRepay.isPending, status: "" }) };
+    const close = () => { setShowTransactionModalRepay({ b: false, isPending: false, status: "" }) };
 
     let Button: any;
     let temp_token = TOKEN_INFO.find((token) => token.Denom == amtIn.base )

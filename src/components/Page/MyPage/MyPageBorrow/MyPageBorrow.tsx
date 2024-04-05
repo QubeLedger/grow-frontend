@@ -75,7 +75,7 @@ export const MyPageBorrow = () => {
     const [ position, setPosition ] = usePositionStore();
     const [ wallet, setWallet ] = useWallet();
 
-    useEffect(() => {
+    /*useEffect(() => {
         async function update() {
             if (wallet.init == true) {
                 let temp_loans = await Promise.all(position.loan_id.map(async(loan_id) => {
@@ -86,7 +86,7 @@ export const MyPageBorrow = () => {
 			}	
 		}
 		update()
-    }, [wallet])
+    }, [wallet])*/
 
     let BorrowComponent
 

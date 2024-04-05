@@ -2,11 +2,19 @@ import { DialogContent, DialogOverlay } from '@reach/dialog';
 import styled from 'styled-components';
 import { animated } from '@react-spring/web';
 import { ButtonBlock, ConfirmButton } from '../../../Buttton/BorrowConfirm/BorrowConfirm';
-import { BorrowModalInfo } from './BorrowModalInfo';
 import { CreateBorrow } from '../../../../functions/borrow';
 import { AmountIn } from '../../../../hooks/useAmountInStore';
 import { Wallet } from '../../../../hooks/useWallet';
 import { Client } from '../../../../hooks/useClient';
+import { QUBE_TESTNET_INFO } from '../../../../constants';
+import { Asset, useAssetStore } from '../../../../hooks/useAssetStore';
+import { LoadingModalComponent } from '../../helpers/LoadingModalComponent';
+import { RejectedModalComponent } from '../../helpers/RejectedModalComponent';
+import { SucceedModalComponent } from '../../helpers/SucceedModalComponent';
+import { FailedModalComponent } from '../../helpers/FailedModalComponent';
+import { useShowTransactionModalBorrow } from '../../../../hooks/useShowModal';
+import { useParams } from 'react-router';
+import { myFixed } from '../../../Page/MyPage/MyPageDeposit/TokenFieldDeposit/TokenFieldDeposit';
 
 const ModalDialogOverlay = animated(DialogOverlay);
 const StyledDialogOvelay = styled(ModalDialogOverlay)`
@@ -166,6 +174,7 @@ const LogoBlock = styled.div`
 const TokenLogo = styled.img`
     width: 40px;
     height: 40px;
+    border-radius: 50px;
 `
 
 const TokenName = styled.a <{ TextColor: string }>`
@@ -195,7 +204,41 @@ const GradientBlock = styled.div`
     margin-top: 10px;
 `
 
+const InfoBlock = styled.div`
+    width: 100%;
+    margin-top: 20px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    flex-direction: column;
+`
+
+const InfoText = styled.h1`
+    font-size: 16px;
+    color: #BABABA;
+    margin: 0;
+`
+
+
+const LTVInfo = styled.h1 <{ TextColor: string }>`
+    font-size: 16px;
+    color: ${props => props.TextColor};
+`
+
+const BlockInfo = styled.div`
+    width: 90%;
+    display: flex;
+    justify-content: space-between;
+    color: #BABABA;
+    align-items: center;
+`
+
+const LoadingCircleBlock = styled.div`
+    margin: 50px auto 50px auto
+`
+
 export function BorrowModal(
+    isPending: boolean,
     TextColor: string,
     Logo: string,
     Name: string,
@@ -204,16 +247,13 @@ export function BorrowModal(
     wallet: Wallet,
     client: Client,
     onCLose: () => void,
+    asset: Asset | undefined,
 ) {
-    const Content = <>
-        <CloseDiv>
-            <HeaderBlock>
-                <HeaderText TextColor={TextColor}>Confirm borrow</HeaderText>
-            </HeaderBlock>
-            <CloseButton TextColor={TextColor}>
-                <a style={{ cursor: "pointer" }} onClick={onCLose} aria-hidden>×</a>
-            </CloseButton>
-        </CloseDiv>
+    const [ShowTransactionModalBorrow, setShowTransactionModalBorrow] = useShowTransactionModalBorrow();
+    const [ assets, setAssets ] = useAssetStore();
+    let temp_asset = assets.find((t_asset) => t_asset.Display == asset?.Display)
+
+    let ContentModalNotPending = <>
         <ContentDiv>
             <Container>
                 <Block>
@@ -230,14 +270,65 @@ export function BorrowModal(
                         </AmountBlock>
                     </Field>
                     <GradientBlock />
-                    <BorrowModalInfo />
+                    <InfoBlock>
+                        <BlockInfo>
+                            <InfoText>Borrow Interest Rate</InfoText>
+                            <LTVInfo TextColor="#44A884">{isNaN(Number(temp_asset?.bir)) ? "0.0" : myFixed(Number(temp_asset?.bir), 4)}%</LTVInfo>
+                        </BlockInfo>
+                        <BlockInfo>
+                            <InfoText>Network cost</InfoText>
+                            <LTVInfo TextColor="#44A884">{QUBE_TESTNET_INFO.feeCurrencies[0].gasPriceStep.average} {QUBE_TESTNET_INFO.feeCurrencies[0].coinDenom}</LTVInfo>
+                        </BlockInfo>
+                    </InfoBlock>
                 </Block>
             </Container>
             <ButtonBlock>
-                <ConfirmButton onClick={() => {  onCLose(); CreateBorrow(amtIn, wallet, client); }}>Confirm</ConfirmButton>
+                <ConfirmButton onClick={() => { 
+                    setShowTransactionModalBorrow({ b: true, isPending: true, status: "" })
+                    CreateBorrow(amtIn, wallet, client).then((
+                        status
+                    ) => {
+                        setShowTransactionModalBorrow({ b: ShowTransactionModalBorrow.b, isPending: true, status: status })
+                    }) 
+                
+                }}>Confirm</ConfirmButton>
             </ButtonBlock>
         </ContentDiv>
     </>
 
-    return Content
+    let PendingTxComponent;
+    switch (ShowTransactionModalBorrow.status) {
+        case "":
+            PendingTxComponent = LoadingModalComponent
+            break;
+        
+        case "Succeed":
+            PendingTxComponent = SucceedModalComponent(
+                "borrow"
+            )
+            break;
+        
+        case "Failed":
+            PendingTxComponent = FailedModalComponent(
+                "borrow"
+            )
+            break;
+
+        case "Error":
+            PendingTxComponent = RejectedModalComponent
+            break;
+    
+    }
+
+    return <>
+        <CloseDiv>
+            <HeaderBlock>
+                <HeaderText TextColor={TextColor}>Confirm borrow</HeaderText>
+            </HeaderBlock>
+            <CloseButton TextColor={TextColor}>
+                <a style={{ cursor: "pointer" }} onClick={onCLose} aria-hidden>×</a>
+            </CloseButton>
+        </CloseDiv>
+        {ShowTransactionModalBorrow.isPending? PendingTxComponent : ContentModalNotPending}
+    </>
 }

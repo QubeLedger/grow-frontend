@@ -24,8 +24,6 @@ export function MakeCreateBorrowMsg(amtIn: AmountIn, wallet: Wallet): Msg {
                 desiredAmount: (Number(amtIn.amt) * 10 ** Number(denom?.Decimals)).toFixed(0) + String(denom?.Denom),
         };
 
-        console.log(Msg)
-
         let msg: Msg = {
             typeUrl:typeUrlMsgCreateBorrow,
             value: Msg,

@@ -8,7 +8,7 @@ import { useShowModalTo } from "../../../../hooks/useShowModal";
 import { useToggleTheme } from "../../../../hooks/useToggleTheme";
 import { useLendStore } from "../../../../hooks/usePositionStore";
 import { useAssetStore } from "../../../../hooks/useAssetStore";
-import { BorrowCollateralTokenInfo } from "../ModalWant/ModalWant";
+import { BorrowCollateralTokenInfo } from "../ModalWant";
 import { TOKEN_INFO } from "../../../../constants";
 import { useAmountCollateralInfoStore } from "../../../../hooks/useAmountInStore";
 

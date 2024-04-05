@@ -92,40 +92,6 @@ export const MyPageBalance = () => {
     const [ connectWallet, setConnectWallet ] = useConnectKeplrWalletStore();
     const [ wallet, setWallet ] = useWallet();
 
-    useEffect(() => {
-        async function update() {
-            if (wallet.init == true) {
-                let blns = await UpdateBalances(wallet, balances);
-                setBalances(blns)
-
-                let temp_tokenBalances = await Promise.all(balances.map(async(balance_token) => {
-                    let token = GetInfoFromTokenInfo(balance_token.denom)
-                    
-                    let temp_price = 0
-                    if (token.Base != ""){
-                        temp_price = await GetPriceByDenom(token.Base)
-                    }
-                    let temp_tokenBalance: TokenBalance = {
-                        Display: token.Base,
-                        Amount: (Number(balance_token.amt) / 10 ** Number(token.Decimals)),
-                        Logo: token.Logo,
-                        Price: isNaN(temp_price) ? 1 : temp_price
-                    }
-                    return temp_tokenBalance
-                }))
-
-                temp_tokenBalances = temp_tokenBalances.filter((e) => e.Display != "")
-
-                temp_tokenBalances.sort(function(a, b) {
-                    return (b.Amount * b.Price) - (a.Amount * a.Price)
-                });
-            
-                setTokenBalanceStore(temp_tokenBalances)
-			}	
-		}
-		update()
-    }, [wallet])
-
     let BalancesComponent
 
     if(!connectWallet.connected || tokenBalances.length == 0) {

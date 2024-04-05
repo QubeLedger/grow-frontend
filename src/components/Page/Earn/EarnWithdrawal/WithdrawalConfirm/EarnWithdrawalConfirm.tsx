@@ -7,7 +7,7 @@ import { useClient } from "../../../../../hooks/useClient";
 import { useLendStore } from "../../../../../hooks/usePositionStore";
 import { useToggleTheme } from "../../../../../hooks/useToggleTheme";
 import { Modal } from "../../../../Modal/Modal";
-import { WithdrawalModal } from "../../../../Modal/WithdrawalPageModal/ConfirmModal/ModalTransaction";
+import { WithdrawalModal } from "../../../../Modal/WithdrawalPageModal/ConfirmModal";
 
 const ConfirmButton = styled.button`
     width: 100%;
@@ -60,8 +60,8 @@ export const EarnWithdrawalConfirm = () => {
     const [ShowTransactionModalWithdrawal, setShowTransactionModalWithdrawal] = useShowTransactionModalWithdrawal();
     const [theme, setTheme] = useToggleTheme();
 
-    const open = () => { setShowTransactionModalWithdrawal({ b: true }) };
-    const close = () => { setShowTransactionModalWithdrawal({ b: false }) };
+    const open = () => { setShowTransactionModalWithdrawal({ b: true, isPending: ShowTransactionModalWithdrawal.isPending, status: "" }) };
+    const close = () => { setShowTransactionModalWithdrawal({ b: false, isPending: false, status: "" }) };
 
     let temp_token = TOKEN_INFO.find((token) => token.Base == amtIn.base)
     let temp_lend = lends.find((lend) => lend.amountIn_denom == temp_token?.Denom)
