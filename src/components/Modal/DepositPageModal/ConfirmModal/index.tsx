@@ -343,6 +343,6 @@ export function DepositModal(
                 <a style={{ cursor: "pointer" }} onClick={onCLose} aria-hidden>×</a>
             </CloseButton>
         </CloseDiv>
-        {ShowTransactionModalDeposit.isPending ? SucceedModalComponent("deposit", theme) : ContentModalNotPending}
+        {ShowTransactionModalDeposit.isPending ? PendingTxComponent : ContentModalNotPending}
     </>
 }
