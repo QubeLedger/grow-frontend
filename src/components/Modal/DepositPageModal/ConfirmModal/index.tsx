@@ -15,6 +15,7 @@ import { SucceedModalComponent } from '../../helpers/SucceedModalComponent';
 import { FailedModalComponent } from '../../helpers/FailedModalComponent';
 import { RejectedModalComponent } from '../../helpers/RejectedModalComponent';
 import { useToggleTheme } from '../../../../hooks/useToggleTheme';
+import { useState } from 'react';
 
 const ModalDialogOverlay = animated(DialogOverlay);
 const StyledDialogOvelay = styled(ModalDialogOverlay)`
@@ -258,6 +259,7 @@ export function DepositModal(
     const [theme, setTheme] = useToggleTheme();
     let { denom } = useParams()
     let temp_asset = assets.find((asset) => asset.Display == denom)
+    const [tx, setTx] = useState('')
 
     let ContentModalNotPending = <>
         <ContentDiv>
@@ -292,9 +294,10 @@ export function DepositModal(
                 <ConfirmButton onClick={() => {
                     setShowTransactionModalDeposit({ b: true, isPending: true, status: "" });
                     CreateLend(amtIn, wallet, client).then((
-                        status
+                        res
                     ) => {
-                        setShowTransactionModalDeposit({ b: ShowTransactionModalDeposit.b, isPending: true, status: status })
+                        setShowTransactionModalDeposit({ b: ShowTransactionModalDeposit.b, isPending: true, status: res[0] })
+                        setTx(res[1])
                     })
 
                 }}>Confirm</ConfirmButton>
@@ -314,7 +317,8 @@ export function DepositModal(
         case "Succeed":
             PendingTxComponent = SucceedModalComponent(
                 "deposit",
-                theme
+                theme,
+                tx
             )
             break;
 

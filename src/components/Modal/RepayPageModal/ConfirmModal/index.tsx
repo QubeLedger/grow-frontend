@@ -16,6 +16,7 @@ import { useShowTransactionModalBorrow, useShowTransactionModalRepay } from '../
 import { useParams } from 'react-router';
 import { myFixed } from '../../../Page/MyPage/MyPageDeposit/TokenFieldDeposit/TokenFieldDeposit';
 import { useToggleTheme } from '../../../../hooks/useToggleTheme';
+import { useState } from 'react';
 
 const ModalDialogOverlay = animated(DialogOverlay);
 const StyledDialogOvelay = styled(ModalDialogOverlay)`
@@ -250,6 +251,7 @@ export function RepayModal(
 ) {
     const [ShowTransactionModalRepay, setShowTransactionModalRepay] = useShowTransactionModalRepay();
     const [theme, setTheme] = useToggleTheme();
+    const [tx, setTx] = useState('')
 
     let ContentModalNotPending = <>
         <ContentDiv>
@@ -280,9 +282,10 @@ export function RepayModal(
                 <ConfirmButton onClick={() => { 
                     setShowTransactionModalRepay({ b: true, isPending: true, status: "" })
                     DeleteBorrow(amtIn, wallet, client).then((
-                        status
+                        res
                     ) => {
-                        setShowTransactionModalRepay({ b: ShowTransactionModalRepay.b, isPending: true, status: status })
+                        setShowTransactionModalRepay({ b: ShowTransactionModalRepay.b, isPending: true, status: res[0] })
+                        setTx(res[1])
                     }) 
                 
                 }}>Confirm</ConfirmButton>
@@ -302,7 +305,8 @@ export function RepayModal(
         case "Succeed":
             PendingTxComponent = SucceedModalComponent(
                 "repay",
-                theme
+                theme,
+                tx
             )
             break;
         

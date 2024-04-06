@@ -4,7 +4,7 @@ import { AmountIn } from "../hooks/useAmountInStore";
 import { MakeCreateBorrowMsg, MakeDeleteBorrowMsg } from "./msg/grow/borrow";
 
 
-export async function CreateBorrow(amtIn: AmountIn, wallet: Wallet, client: Client): Promise<string> {
+export async function CreateBorrow(amtIn: AmountIn, wallet: Wallet, client: Client): Promise<[string, string]> {
         try {
                 let msg = await MakeCreateBorrowMsg(amtIn, wallet)
 
@@ -16,20 +16,20 @@ export async function CreateBorrow(amtIn: AmountIn, wallet: Wallet, client: Clie
                         );
                         if (result.code !== undefined && result.code !== 0) {
                                 console.log("Failed to send tx: " + result.log || result.rawLog);
-                                return "Failed"
+                                return ["Failed", ""]
                         } else {
                                 console.log("Succeed to send tx:" + result.transactionHash);
-                                return "Succeed"
+                                return ["Succeed", result.transactionHash]
                         }
                 }
         } catch(e) {
                 console.log(e)
-                return "Error"
+                return ["Error", ""]
         }
-        return "Error"
+        return ["Error", ""]
 }
 
-export async function DeleteBorrow(amtIn: AmountIn, wallet: Wallet, client: Client): Promise<string>  {
+export async function DeleteBorrow(amtIn: AmountIn, wallet: Wallet, client: Client): Promise<[string, string]> {
         try {
                 let msg = await MakeDeleteBorrowMsg(amtIn, wallet)
 
@@ -41,15 +41,15 @@ export async function DeleteBorrow(amtIn: AmountIn, wallet: Wallet, client: Clie
                         );
                         if (result.code !== undefined && result.code !== 0) {
                                 console.log("Failed to send tx: " + result.log || result.rawLog);
-                                return "Failed"
+                                return ["Failed", ""]
                         } else {
                                 console.log("Succeed to send tx:" + result.transactionHash);
-                                return "Succeed"
+                                return ["Succeed", result.transactionHash]
                         }
                 }
         } catch(e) {
                 console.log(e)
-                return "Error"
+                return ["Error", ""]
         }
-        return "Error"
+        return ["Error", ""]
 }

@@ -16,6 +16,7 @@ import { useShowTransactionModalBorrow } from '../../../../hooks/useShowModal';
 import { useParams } from 'react-router';
 import { myFixed } from '../../../Page/MyPage/MyPageDeposit/TokenFieldDeposit/TokenFieldDeposit';
 import { useToggleTheme } from '../../../../hooks/useToggleTheme';
+import { useState } from 'react';
 
 const ModalDialogOverlay = animated(DialogOverlay);
 const StyledDialogOvelay = styled(ModalDialogOverlay)`
@@ -254,6 +255,7 @@ export function BorrowModal(
     const [ assets, setAssets ] = useAssetStore();
     const [theme, setTheme] = useToggleTheme();
     let temp_asset = assets.find((t_asset) => t_asset.Display == asset?.Display)
+    const [tx, setTx] = useState('')
 
     let ContentModalNotPending = <>
         <ContentDiv>
@@ -288,9 +290,10 @@ export function BorrowModal(
                 <ConfirmButton onClick={() => { 
                     setShowTransactionModalBorrow({ b: true, isPending: true, status: "" })
                     CreateBorrow(amtIn, wallet, client).then((
-                        status
+                        res
                     ) => {
-                        setShowTransactionModalBorrow({ b: ShowTransactionModalBorrow.b, isPending: true, status: status })
+                        setShowTransactionModalBorrow({ b: ShowTransactionModalBorrow.b, isPending: true, status: res[0] })
+                        setTx(res[1])
                     }) 
                 
                 }}>Confirm</ConfirmButton>
@@ -310,7 +313,8 @@ export function BorrowModal(
         case "Succeed":
             PendingTxComponent = SucceedModalComponent(
                 "borrow",
-                theme
+                theme,
+                tx,
             )
             break;
         

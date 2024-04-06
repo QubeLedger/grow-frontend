@@ -15,6 +15,7 @@ import { SucceedModalComponent } from '../../helpers/SucceedModalComponent';
 import { FailedModalComponent } from '../../helpers/FailedModalComponent';
 import { RejectedModalComponent } from '../../helpers/RejectedModalComponent';
 import { useToggleTheme } from '../../../../hooks/useToggleTheme';
+import { useState } from 'react';
 
 const ModalDialogOverlay = animated(DialogOverlay);
 const StyledDialogOvelay = styled(ModalDialogOverlay)`
@@ -258,6 +259,7 @@ export function WithdrawalModal(
     const [theme, setTheme] = useToggleTheme();
     let { denom } = useParams()
     let temp_asset = assets.find((asset) => asset.Display == denom)
+    const [tx, setTx] = useState('')
 
     let ContentModalNotPending = <>
         <ContentDiv>
@@ -288,9 +290,10 @@ export function WithdrawalModal(
                 <ConfirmButton onClick={() => {
                     setShowTransactionModalWithdrawal({ b: true, isPending: true, status: "" });
                     WithdrawalLend(amtIn, wallet, client).then((
-                        status
+                        res
                     ) => {
-                        setShowTransactionModalWithdrawal({ b: ShowTransactionModalWithdrawal.b, isPending: true, status: status })
+                        setShowTransactionModalWithdrawal({ b: ShowTransactionModalWithdrawal.b, isPending: true, status: res[0] })
+                        setTx(res[1])
                     })
 
                 }}>Confirm</ConfirmButton>
@@ -310,7 +313,8 @@ export function WithdrawalModal(
         case "Succeed":
             PendingTxComponent = SucceedModalComponent(
                 "withdrawal",
-                theme
+                theme,
+                tx,
             )
             break;
 

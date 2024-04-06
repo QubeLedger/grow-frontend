@@ -46,7 +46,9 @@ const Description = styled.a `
 
 
 export function SucceedModalComponent(
-	actiom: string, theme: any
+	actiom: string, 
+    theme: any,
+    tx: string,
 ) {
 	return <>
 		<ContentDiv>
@@ -54,7 +56,7 @@ export function SucceedModalComponent(
 				<Block>
 					<Img src={SuccedImg}></Img>
 					<Text TextColor={theme.TextColor}>Succees {actiom}</Text>
-                    <Description href="https://explorer.qubedao.com/qube/tx/">View in explorer</Description>
+                    <Description href={`https://explorer.qubedao.com/qube/tx/${tx}`}>View in explorer</Description>
 				</Block>
 			</Container>
 		</ContentDiv>
