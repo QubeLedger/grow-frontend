@@ -14,6 +14,7 @@ import { LoadingModalComponent } from '../../helpers/LoadingModalComponent';
 import { SucceedModalComponent } from '../../helpers/SucceedModalComponent';
 import { FailedModalComponent } from '../../helpers/FailedModalComponent';
 import { RejectedModalComponent } from '../../helpers/RejectedModalComponent';
+import { useToggleTheme } from '../../../../hooks/useToggleTheme';
 
 const ModalDialogOverlay = animated(DialogOverlay);
 const StyledDialogOvelay = styled(ModalDialogOverlay)`
@@ -254,6 +255,7 @@ export function DepositModal(
 ) {
     const [ShowTransactionModalDeposit, setShowTransactionModalDeposit] = useShowTransactionModalDeposit();
     const [ assets, setAssets ] = useAssetStore();
+    const [theme, setTheme] = useToggleTheme();
     let { denom } = useParams()
     let temp_asset = assets.find((asset) => asset.Display == denom)
 
@@ -303,23 +305,31 @@ export function DepositModal(
     let PendingTxComponent;
     switch (ShowTransactionModalDeposit.status) {
         case "":
-            PendingTxComponent = LoadingModalComponent
+            PendingTxComponent = LoadingModalComponent(
+                "deposit",
+                theme
+            )
             break;
 
         case "Succeed":
             PendingTxComponent = SucceedModalComponent(
-                "deposit"
+                "deposit",
+                theme
             )
             break;
 
         case "Failed":
             PendingTxComponent = FailedModalComponent(
-                "deposit"
+                "deposit",
+                theme
             )
             break;
 
         case "Error":
-            PendingTxComponent = RejectedModalComponent
+            PendingTxComponent = FailedModalComponent(
+                "deposit",
+                theme
+            )
             break;
 
     }
@@ -333,6 +343,6 @@ export function DepositModal(
                 <a style={{ cursor: "pointer" }} onClick={onCLose} aria-hidden>×</a>
             </CloseButton>
         </CloseDiv>
-        {ShowTransactionModalDeposit.isPending ? PendingTxComponent : ContentModalNotPending}
+        {ShowTransactionModalDeposit.isPending ? SucceedModalComponent("deposit", theme) : ContentModalNotPending}
     </>
 }

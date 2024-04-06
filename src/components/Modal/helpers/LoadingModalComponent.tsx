@@ -26,22 +26,39 @@ const Block = styled.div`
 `
 
 const LoadingCircleBlock = styled.div`
-    margin: 50px auto 50px auto
+    margin: 50px auto 20px auto;
 `
 
-export const LoadingModalComponent = <>
+const Text = styled.a <{ TextColor: string }>`
+	font-size: 15px;
+	font-weight: 500;
+	color: ${props => props.TextColor};
+    margin-bottom: 25px;
+`
+
+const Description = styled.h3 `
+	font-size: 15px;
+	font-weight: 500;
+	color: #888;
+    margin-bottom: 13px;
+`
+
+
+export function LoadingModalComponent(
+    actiom: string, theme: any
+) {
+    return <>
         <ContentDiv>
             <Container>
                 <Block>
                     <LoadingCircleBlock>
                         <CircularProgress disableShrink size={80} />
                     </LoadingCircleBlock>
-                    {/*<InfoBlock>
-                        <BlockInfo>
-                            <InfoText>Proceed in your wallet</InfoText>
-                        </BlockInfo>
-                    </InfoBlock>*/}
+                    <Text TextColor={theme.TextColor}>Confirm {actiom}</Text>
+                    <Description>Proceed in your wallet</Description>
                 </Block>
             </Container>
         </ContentDiv>
     </>
+}
+

@@ -1,5 +1,6 @@
 import styled from 'styled-components';
-import FailedImg from '../../../assets/icons/Failed.png'
+import FailedImg from '../../../assets/icons/Failed.svg'
+import { useToggleTheme } from '../../../hooks/useToggleTheme';
 
 const ContentDiv = styled.div`
     width: 100%;
@@ -25,26 +26,67 @@ const Block = styled.div`
 `
 
 const Img = styled.img`
-    width: 100px;
-    height: 100px;
-    margin: 150px auto;
+    width: 60px;
+    height: 60px;
+    margin: 30px auto;
 `
+
+const Button = styled.button`
+    width: 90%;
+    height: 50px;
+    background: linear-gradient(to right, rgb(119, 191, 249), rgb(45, 150, 255));
+    border-radius: 15px;
+    border: none;
+    font-size: 15px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-weight: 700;
+    color: #fff;
+    display: flex;
+    transition: all .15s ease-in-out;
+    margin: 10px 0px 20px 0px;
+    &:active {
+         transform: scale(0.95);
+    } 
+`
+
+const Text = styled.a <{TextColor: string}>`
+	font-size: 15px;
+	font-weight: 500;
+	color: ${props => props.TextColor};
+`
+
+const Description = styled.h3 <{TextColor: string}>`
+	font-size: 15px;
+	font-weight: 500;
+	color: ${props => props.TextColor};
+`
+
+
 export function FailedModalComponent(
-        actiom: string,
+	actiom: string, theme: any
 ) {
-        return <>
-                <ContentDiv>
-                        <Container>
-                                <Block>
-                                        <Img src={FailedImg}></Img>
-                                        Failed {actiom}
-                                        {/*<InfoBlock>
-                                        <BlockInfo>
-                                        <InfoText>Proceed in your wallet</InfoText>
-                                        </BlockInfo>
-                                </InfoBlock>*/}
-                                </Block>
-                        </Container>
-                </ContentDiv>
-        </>
+	return <>
+		<ContentDiv>
+			<Container>
+				<Block>
+					<Img src={FailedImg}></Img>
+					<Text TextColor={theme.TextColor}>Failed {actiom}</Text>
+					<div style={{width: "85%"}}>
+						<Description TextColor={theme.TextColor}>
+							Try using higher than normal slippage and gas to ensure your transaction is complited.
+						</Description>
+					</div>
+					<Button>Try Again</Button>
+				</Block>
+			</Container>
+		</ContentDiv>
+	</>
 }
+
+{/*<InfoBlock>
+		<BlockInfo>
+		<InfoText>Proceed in your wallet</InfoText>
+		</BlockInfo>
+</InfoBlock>*/}

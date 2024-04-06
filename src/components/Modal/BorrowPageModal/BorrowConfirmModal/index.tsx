@@ -15,6 +15,7 @@ import { FailedModalComponent } from '../../helpers/FailedModalComponent';
 import { useShowTransactionModalBorrow } from '../../../../hooks/useShowModal';
 import { useParams } from 'react-router';
 import { myFixed } from '../../../Page/MyPage/MyPageDeposit/TokenFieldDeposit/TokenFieldDeposit';
+import { useToggleTheme } from '../../../../hooks/useToggleTheme';
 
 const ModalDialogOverlay = animated(DialogOverlay);
 const StyledDialogOvelay = styled(ModalDialogOverlay)`
@@ -234,7 +235,7 @@ const BlockInfo = styled.div`
 `
 
 const LoadingCircleBlock = styled.div`
-    margin: 50px auto 50px auto
+    margin: 50px auto 50px auto;
 `
 
 export function BorrowModal(
@@ -251,6 +252,7 @@ export function BorrowModal(
 ) {
     const [ShowTransactionModalBorrow, setShowTransactionModalBorrow] = useShowTransactionModalBorrow();
     const [ assets, setAssets ] = useAssetStore();
+    const [theme, setTheme] = useToggleTheme();
     let temp_asset = assets.find((t_asset) => t_asset.Display == asset?.Display)
 
     let ContentModalNotPending = <>
@@ -299,23 +301,31 @@ export function BorrowModal(
     let PendingTxComponent;
     switch (ShowTransactionModalBorrow.status) {
         case "":
-            PendingTxComponent = LoadingModalComponent
+            PendingTxComponent = LoadingModalComponent(
+                "borrow",
+                theme
+            )
             break;
         
         case "Succeed":
             PendingTxComponent = SucceedModalComponent(
-                "borrow"
+                "borrow",
+                theme
             )
             break;
         
         case "Failed":
             PendingTxComponent = FailedModalComponent(
-                "borrow"
+                "borrow",
+                theme
             )
             break;
 
         case "Error":
-            PendingTxComponent = RejectedModalComponent
+            PendingTxComponent = FailedModalComponent(
+                "borrow",
+                theme
+            )
             break;
     
     }

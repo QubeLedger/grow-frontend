@@ -1,5 +1,5 @@
 import styled from 'styled-components';
-import SuccedImg from '../../../assets/icons/Succed.png'
+import SuccedImg from '../../../assets/icons/Succed.svg'
 
 const ContentDiv = styled.div`
     width: 100%;
@@ -25,26 +25,38 @@ const Block = styled.div`
 `
 
 const Img = styled.img`
-    width: 100px;
-    height: 100px;
-    margin: 150px auto;
+    width: 75px;
+    height: 75px;
+    margin: 30px auto 20px auto;
 `
+
+const Text = styled.a <{ TextColor: string }>`
+	font-size: 15px;
+	font-weight: 500;
+	color: ${props => props.TextColor};
+    margin-bottom: 40px;
+`
+
+const Description = styled.a `
+	font-size: 13px;
+	font-weight: 500;
+	color: #888;
+    margin-bottom: 15px;
+`
+
+
 export function SucceedModalComponent(
-        actiom: string,
+	actiom: string, theme: any
 ) {
-        return <>
-                <ContentDiv>
-                        <Container>
-                                <Block>
-                                        <Img src={SuccedImg}></Img>
-                                        Succeed {actiom}
-                                        {/*<InfoBlock>
-                                        <BlockInfo>
-                                        <InfoText>Proceed in your wallet</InfoText>
-                                        </BlockInfo>
-                                </InfoBlock>*/}
-                                </Block>
-                        </Container>
-                </ContentDiv>
-        </>
+	return <>
+		<ContentDiv>
+			<Container>
+				<Block>
+					<Img src={SuccedImg}></Img>
+					<Text TextColor={theme.TextColor}>Succees {actiom}</Text>
+                    <Description href="https://explorer.qubedao.com/qube/tx/">View in explorer</Description>
+				</Block>
+			</Container>
+		</ContentDiv>
+	</>
 }
