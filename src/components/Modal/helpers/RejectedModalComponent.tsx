@@ -1,5 +1,5 @@
 import styled from 'styled-components';
-import RejectedImg from '../../../assets/icons/Rejected.svg'
+import RejectedImg from '../../../assets/icons/Something.webp'
 
 const ContentDiv = styled.div`
     width: 100%;

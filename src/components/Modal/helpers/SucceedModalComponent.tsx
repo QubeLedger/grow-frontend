@@ -1,5 +1,5 @@
 import styled from 'styled-components';
-import SuccedImg from '../../../assets/icons/Succed.svg'
+import SuccedImg from '../../../assets/icons/Succed.webp'
 
 const ContentDiv = styled.div`
     width: 100%;
@@ -25,8 +25,8 @@ const Block = styled.div`
 `
 
 const Img = styled.img`
-    width: 75px;
-    height: 75px;
+    width: 100px;
+    height: 100px;
     margin: 30px auto 20px auto;
 `
 

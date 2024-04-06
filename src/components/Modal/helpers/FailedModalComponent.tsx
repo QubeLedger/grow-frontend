@@ -1,5 +1,5 @@
 import styled from 'styled-components';
-import FailedImg from '../../../assets/icons/Failed.svg'
+import FailedImg from '../../../assets/icons/Failed.webp'
 import { useToggleTheme } from '../../../hooks/useToggleTheme';
 
 const ContentDiv = styled.div`
@@ -26,9 +26,9 @@ const Block = styled.div`
 `
 
 const Img = styled.img`
-    width: 60px;
-    height: 60px;
-    margin: 30px auto;
+    width: 100px;
+    height: 100px;
+    margin: 30px auto 20px auto;
 `
 
 const Button = styled.button`
