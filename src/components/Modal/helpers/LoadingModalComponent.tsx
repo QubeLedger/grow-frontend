@@ -26,7 +26,7 @@ const Block = styled.div`
 `
 
 const LoadingCircleBlock = styled.div`
-    margin: 50px auto 20px auto;
+    margin: 30px auto 20px auto;
 `
 
 const Text = styled.a <{ TextColor: string }>`
