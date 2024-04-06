@@ -56,7 +56,7 @@ export function SucceedModalComponent(
 				<Block>
 					<Img src={SuccedImg}></Img>
 					<Text TextColor={theme.TextColor}>Succees {actiom}</Text>
-                    <Description href={`https://explorer.qubedao.com/qube/tx/${tx}`}>View in explorer</Description>
+                    <Description href={`https://explorer.qubedao.com/qube/tx/${tx}`} target="_blank">View in explorer</Description>
 				</Block>
 			</Container>
 		</ContentDiv>
