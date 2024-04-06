@@ -75,7 +75,7 @@ export function FailedModalComponent(
 					<Text TextColor={theme.TextColor}>Failed {actiom}</Text>
 					<div style={{width: "85%"}}>
 						<Description TextColor={theme.TextColor}>
-							Try using higher than normal slippage and gas to ensure your transaction is complited.
+                            It looks like you canceled the transaction or used insufficient gas to complete it.
 						</Description>
 					</div>
 					<Button>Try Again</Button>
