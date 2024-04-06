@@ -15,6 +15,7 @@ import { FailedModalComponent } from '../../helpers/FailedModalComponent';
 import { useShowTransactionModalBorrow, useShowTransactionModalRepay } from '../../../../hooks/useShowModal';
 import { useParams } from 'react-router';
 import { myFixed } from '../../../Page/MyPage/MyPageDeposit/TokenFieldDeposit/TokenFieldDeposit';
+import { useToggleTheme } from '../../../../hooks/useToggleTheme';
 
 const ModalDialogOverlay = animated(DialogOverlay);
 const StyledDialogOvelay = styled(ModalDialogOverlay)`
@@ -234,7 +235,7 @@ const BlockInfo = styled.div`
 `
 
 const LoadingCircleBlock = styled.div`
-    margin: 50px auto 50px auto
+    margin: 50px auto 50px auto;
 `
 
 export function RepayModal(
@@ -248,6 +249,7 @@ export function RepayModal(
     onCLose: () => void,
 ) {
     const [ShowTransactionModalRepay, setShowTransactionModalRepay] = useShowTransactionModalRepay();
+    const [theme, setTheme] = useToggleTheme();
 
     let ContentModalNotPending = <>
         <ContentDiv>
@@ -291,23 +293,31 @@ export function RepayModal(
     let PendingTxComponent;
     switch (ShowTransactionModalRepay.status) {
         case "":
-            PendingTxComponent = LoadingModalComponent
+            PendingTxComponent = LoadingModalComponent(
+                "repay",
+                theme
+            )
             break;
         
         case "Succeed":
             PendingTxComponent = SucceedModalComponent(
-                "borrow"
+                "repay",
+                theme
             )
             break;
         
         case "Failed":
             PendingTxComponent = FailedModalComponent(
-                "borrow"
+                "repay",
+                theme
             )
             break;
 
         case "Error":
-            PendingTxComponent = RejectedModalComponent
+            PendingTxComponent = FailedModalComponent(
+                "repay",
+                theme
+            )
             break;
     
     }

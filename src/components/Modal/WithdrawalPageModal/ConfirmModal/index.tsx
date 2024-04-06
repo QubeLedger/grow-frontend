@@ -14,6 +14,7 @@ import { LoadingModalComponent } from '../../helpers/LoadingModalComponent';
 import { SucceedModalComponent } from '../../helpers/SucceedModalComponent';
 import { FailedModalComponent } from '../../helpers/FailedModalComponent';
 import { RejectedModalComponent } from '../../helpers/RejectedModalComponent';
+import { useToggleTheme } from '../../../../hooks/useToggleTheme';
 
 const ModalDialogOverlay = animated(DialogOverlay);
 const StyledDialogOvelay = styled(ModalDialogOverlay)`
@@ -254,6 +255,7 @@ export function WithdrawalModal(
 ) {
     const [ShowTransactionModalWithdrawal, setShowTransactionModalWithdrawal] = useShowTransactionModalWithdrawal();
     const [ assets, setAssets ] = useAssetStore();
+    const [theme, setTheme] = useToggleTheme();
     let { denom } = useParams()
     let temp_asset = assets.find((asset) => asset.Display == denom)
 
@@ -299,23 +301,31 @@ export function WithdrawalModal(
     let PendingTxComponent;
     switch (ShowTransactionModalWithdrawal.status) {
         case "":
-            PendingTxComponent = LoadingModalComponent
+            PendingTxComponent = LoadingModalComponent(
+                "withdrawal",
+                theme
+            )
             break;
 
         case "Succeed":
             PendingTxComponent = SucceedModalComponent(
-                "deposit"
+                "withdrawal",
+                theme
             )
             break;
 
         case "Failed":
             PendingTxComponent = FailedModalComponent(
-                "deposit"
+                "withdrawal",
+                theme
             )
             break;
 
         case "Error":
-            PendingTxComponent = RejectedModalComponent
+            PendingTxComponent = FailedModalComponent(
+                "withdrawal",
+                theme
+            )
             break;
 
     }

@@ -1,5 +1,5 @@
 import styled from 'styled-components';
-import RejectedImg from '../../../assets/icons/Rejected Error.png'
+import RejectedImg from '../../../assets/icons/Rejected.svg'
 
 const ContentDiv = styled.div`
     width: 100%;
@@ -39,6 +39,7 @@ export const RejectedModalComponent = <>
                                         <InfoText>Proceed in your wallet</InfoText>
                                         </BlockInfo>
                                 </InfoBlock>*/}
+                                
                         </Block>
                 </Container>
         </ContentDiv>
