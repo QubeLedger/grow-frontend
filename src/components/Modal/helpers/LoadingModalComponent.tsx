@@ -37,10 +37,10 @@ const Text = styled.a <{ TextColor: string }>`
 `
 
 const Description = styled.h3 `
-	font-size: 15px;
+	font-size: 13px;
 	font-weight: 500;
 	color: #888;
-    margin-bottom: 13px;
+    margin-bottom: 15px;
 `
 
 
