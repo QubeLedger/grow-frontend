@@ -112,7 +112,6 @@ export const MyPage = () => {
 
     useEffect(() => {
         async function update() {
-            console.log("DEBUG")
             if (wallet.init == true && tokenBalances.length == 0) {
                 let blns = await UpdateBalances(wallet, balances);
                 setBalances(blns)
@@ -180,8 +179,8 @@ export const MyPage = () => {
 
     return (
         <Block
-            MyPageHeightDes={balances.length >= 7 || lend.length >= 7 || loan.length >= 7 ? '100%;' : 'calc(100vh - 65px);'}
-            MyPageHeightMob={balances.length >= 4 || loan.length >= 4 || loan.length >= 4 ? '100%;' : 'calc(100vh - 65px);'}
+            MyPageHeightDes={(tokenBalances.length >= 7 || lend.length >= 7 || loan.length >= 7) ? '100%;' : 'calc(100vh - 65px);'}
+            MyPageHeightMob={(tokenBalances.length >= 4 || lend.length >= 4 || loan.length >= 4 )? '100%;' : 'calc(100vh - 65px);'}
             backgroundColor={theme.backgroundColor}>
             <MyPageBlock>
                 <MyPageContainer>
