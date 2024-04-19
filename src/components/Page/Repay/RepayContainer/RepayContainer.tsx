@@ -5,8 +5,7 @@ import { RepayInfo } from "../RepayInfo/RepayInfo";
 import { RepayConfirm } from "../../../Buttton/RepayConfirm/RepayConfirm";
 
 const Contrainer = styled.div`
-    width: 400px;
-    height: 500px;
+    
 `
 
 export const RepayContainer = () => {

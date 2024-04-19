@@ -14,6 +14,7 @@ const Button = styled.button`
     display: flex;
     transition: 0.2s all;
     transition: all .15s ease-in-out;
+    font-family: 'Inter', sans-serif;
     &:active {
          transform: scale(0.95);
     } 

@@ -34,6 +34,7 @@ export const ConfirmButton = styled.button`
     color: #fff;
     margin-top: 20px;
     transition: all .15s ease-in-out;
+    font-family: 'Inter', sans-serif;
     &:active {
          transform: scale(0.95);
     }
@@ -65,6 +66,7 @@ const InsufficientConfirmButton = styled.button`
     color: #fff;
     margin-top: 20px;
     transition: all .15s ease-in-out;
+    font-family: 'Inter', sans-serif;
     &:active {
      transform: scale(0.95);
   }
