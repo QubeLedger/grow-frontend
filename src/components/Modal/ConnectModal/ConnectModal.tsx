@@ -41,7 +41,7 @@ const CloseButton = styled.button <{TextColor: string}>`
     outline: none;
 `
 
-const OpenButton = styled.button <{color: string, border: string, margin: string}>`
+const OpenButton = styled.button <{color: string, border: string, margin: string, padding: string}>`
     max-width:100%;
     background: ${props => props.color};
     border: ${props => props.border};
@@ -51,7 +51,7 @@ const OpenButton = styled.button <{color: string, border: string, margin: string
     font-family: 'Metropolis', sans-serif;
     font-size: 15px;
     font-weight: 600;
-    padding: 10px 20px;
+    padding: ${props => props.padding};
     white-space: nowrap;
     margin-top: ${props => props.margin};
     color: #fff;
@@ -86,8 +86,8 @@ const WalletList = styled.div`
 `
 
 const LogoKeplr = styled.img`
-    width: 20px;
-    height: 20px;
+    width: 16px;
+    height: 16px;
     margin-top: -2px;
     margin-right: 5px;
 `
@@ -186,7 +186,8 @@ export const ConnectModal = () => {
         <OpenButton onClick={wallet.init == false? open : disconnect} 
         color={connectWallet.connected == true ? 'transparent' : BackgroundConnectButton} 
         border={connectWallet.connected == true ? '2px solid #6CBBFF' : 'none' }
-        margin={connectWallet.connected == true ? '-5px' : '-4px' }>
+        margin={connectWallet.connected == true ? '-5px' : '-4px' }
+        padding={connectWallet.connected == true ? '9px 17px' : '10px 20px'}>
             {walletAddr == "" || undefined ? isDes ? "Connect Wallet" : "Connect" : <ConnectBlock TextColor={theme.TextColor}>  <LogoKeplr src={KeplrLogo}/>  {walletAddr} </ConnectBlock>}
         </OpenButton>
         <StyledDialogOvelay isOpen={walletModalStatus.b && !connectWallet.connected} onDismiss={close}>
